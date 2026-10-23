@@ -133,6 +133,71 @@ export function assessReadability(text: string, originalFileSize: number): Extra
 }
 
 /**
+ * Multimodal document extraction using Google AI Studio Gemini API as an intelligent OCR fallback.
+ */
+async function extractTextWithGemini(
+  buffer: Buffer,
+  mimeType: string
+): Promise<string | null> {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return null;
+
+  const models = [
+    process.env.GEMINI_MODEL || "gemini-3.5-flash-lite",
+    "gemini-3.5-flash-lite",
+    "gemini-3.8-flash",
+    "gemini-1.5-flash",
+  ];
+  const uniqueModels = Array.from(new Set(models));
+
+  const base64Data = buffer.toString("base64");
+  const requestBody = {
+    contents: [
+      {
+        parts: [
+          {
+            inlineData: {
+              mimeType: mimeType || "application/pdf",
+              data: base64Data,
+            },
+          },
+          {
+            text: "Extract all plain text from this technical resume document verbatim. Preserve all sections, work history, projects, metrics, tech stacks, bullet points, and education exactly as written in the resume. Output the full plain text only without markdown backticks or commentary.",
+          },
+        ],
+      },
+    ],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 8192,
+    },
+  };
+
+  for (const m of uniqueModels) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text && text.trim().length >= 30) {
+          return text.trim();
+        }
+      }
+    } catch {
+      // Loop to try next model in fallback list
+    }
+  }
+
+  return null;
+}
+
+/**
  * Extracts text from memory buffer without writing to disk (RES-T2, Invariant I-06).
  */
 export async function extractResumeText(
@@ -169,8 +234,9 @@ export async function extractResumeText(
         const parser = new PDFParse({ data: buffer });
         const parsed = await parser.getText();
         await parser.destroy();
-        if (parsed?.text && parsed.text.trim().length > 20) {
-          return assessReadability(parsed.text, buffer.length);
+        if (parsed?.text && parsed.text.trim().length > 30) {
+          const res = assessReadability(parsed.text, buffer.length);
+          if (res.status === "extracted") return res;
         }
       } catch {
         // Fall back to stream regex extraction
@@ -193,7 +259,24 @@ export async function extractResumeText(
       }
 
       const extracted = textBlocks.join(" ").trim();
-      return assessReadability(extracted, buffer.length);
+      const localResult = assessReadability(extracted, buffer.length);
+      if (localResult.status === "extracted") {
+        return localResult;
+      }
+
+      // If local extraction couldn't extract sufficient text (e.g. scanned image, custom font encoding, complex layout)
+      // and Gemini API is available, use multimodal Gemini AI document intelligence
+      if (process.env.GEMINI_API_KEY) {
+        const geminiText = await extractTextWithGemini(buffer, "application/pdf");
+        if (geminiText) {
+          return {
+            status: "extracted",
+            rawText: geminiText,
+          };
+        }
+      }
+
+      return localResult;
     }
 
     // DOCX extraction
@@ -205,7 +288,22 @@ export async function extractResumeText(
       const raw = buffer.toString("binary");
       const xmlMatch = raw.match(/<w:t[^>]*>(.*?)<\/w:t>/g) || [];
       const text = xmlMatch.map((t) => t.replace(/<[^>]+>/g, "")).join(" ");
-      return assessReadability(text, buffer.length);
+      const localResult = assessReadability(text, buffer.length);
+      if (localResult.status === "extracted") {
+        return localResult;
+      }
+
+      if (process.env.GEMINI_API_KEY) {
+        const geminiText = await extractTextWithGemini(buffer, mimeType);
+        if (geminiText) {
+          return {
+            status: "extracted",
+            rawText: geminiText,
+          };
+        }
+      }
+
+      return localResult;
     }
 
     return {
