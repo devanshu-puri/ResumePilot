@@ -2,9 +2,9 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (Gate G3 complete: INT-T1..T11 DONE, EVD-T1 integrated)
-**Current focus:** LIB-T1
-**Repo state:** Gates G1, G2, and G3 complete (69/69 tests pass, Next.js build passes 15/15 routes)
+**Last updated:** 2026-10-23 (Gate G4 complete: LIB-T1..T9 DONE)
+**Current focus:** EVD-T2
+**Repo state:** Gates G1, G2, G3, and G4 complete (76/76 tests pass, Next.js build passes 16/16 routes)
 
 ## Phase gates
 | Gate | Condition | Status |
@@ -12,7 +12,7 @@
 | G1 Foundation | FND-T1…T9 DONE | DONE |
 | G2 Resume | RES-T1…T8 DONE | DONE |
 | G3 Interview | INT-T1…T11 DONE | DONE |
-| G4 Library | LIB-T1…T9 DONE | TODO |
+| G4 Library | LIB-T1…T9 DONE | DONE |
 | G5 Loop | EVD-T1…T8 DONE | TODO |
 | G6 Hardening | Module 05 checklists ticked, AC-1…AC-14 linked | TODO |
 
@@ -49,16 +49,16 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | INT-T9 | 02 | Follow-ups | INT-T7 | DONE | `tests/interview-service.test.ts` (follow-up links to triggering response, max 2 per question) |
 | INT-T10 | 02 | Interview UI | INT-T4–T9 | DONE | `/interview` workspace (mode picker, framed prompt, answer editor, breakdown, session report) |
 | INT-T11 | 02 | Authz tests | INT-T1 | DONE | `tests/interview-service.test.ts` (cross-user session access blocked with 404) |
-| LIB-T1 | 03 | Library schema | FND-T4 | TODO | |
-| LIB-T2 | 03 | Content seed + validation | LIB-T1 | TODO | |
-| LIB-T3 | 03 | Filters/search | LIB-T2 | TODO | |
-| LIB-T4 | 03 | Status/attempt/completion pure fns | FND-T1 | TODO | |
-| LIB-T5 | 03 | knowledge_check evaluator | LIB-T4 | TODO | |
-| LIB-T6 | 03 | short_answer evaluator | INT-T7 | TODO | |
-| LIB-T7 | 03 | Submit txn | LIB-T4, EVD-T1 | TODO | |
-| LIB-T8 | 03 | Library UI | LIB-T3, LIB-T7 | TODO | |
-| LIB-T9 | 03 | Authz tests | LIB-T1 | TODO | |
-| EVD-T1 | 04 | TopicEvidence + writer | FND-T4 | TODO | |
+| LIB-T1 | 03 | Library schema | FND-T4 | DONE | Included in Prisma schema, unique progress and saved per user+resource |
+| LIB-T2 | 03 | Content seed + validation | LIB-T1 | DONE | `tests/library.test.ts` (schema validation passes on curated seed, fails on missing attribution) |
+| LIB-T3 | 03 | Filters/search | LIB-T2 | DONE | `tests/library.test.ts` (filtering by topic, type, difficulty, populated facets) |
+| LIB-T4 | 03 | Status/attempt/completion pure fns | FND-T1 | DONE | `tests/library.test.ts` (nextAttemptNumber strictly positive, computeResourceProgress policy check) |
+| LIB-T5 | 03 | knowledge_check evaluator | LIB-T4 | DONE | `tests/library.test.ts` (deterministic MCQ evaluation in code) |
+| LIB-T6 | 03 | short_answer evaluator | INT-T7 | DONE | Reuses LLM rubric evaluation contract |
+| LIB-T7 | 03 | Submit txn | LIB-T4, EVD-T1 | DONE | `tests/library.test.ts` (attempt + progress + TopicEvidence appended together) |
+| LIB-T8 | 03 | Library UI | LIB-T3, LIB-T7 | DONE | `/library` workspace, populated filter facets, interactive activity studio, attempt grading |
+| LIB-T9 | 03 | Authz tests | LIB-T1 | DONE | `tests/library.test.ts` (user attempts and saved bookmarks isolated) |
+| EVD-T1 | 04 | TopicEvidence + writer | FND-T4 | DONE | Implemented in `src/modules/evidence/services/evidence-service.ts`, tested via INT-T8 & LIB-T7 |
 | EVD-T2 | 04 | Gap rule v1 | EVD-T1 | TODO | |
 | EVD-T3 | 04 | Resource matching | EVD-T2, LIB-T2 | TODO | |
 | EVD-T4 | 04 | Handoff DTO | EVD-T3 | TODO | |
@@ -86,6 +86,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | LIB-T1..T9 | DONE | Completed Gate G4 Tech Library: schema (LIB-T1), curated seed content & Zod validation (LIB-T2), filtering/search with populated facets (LIB-T3), attempt numbering & progress pure functions (LIB-T4), deterministic knowledge_check evaluator (LIB-T5), short_answer rubric evaluator (LIB-T6), atomic attempt+progress+TopicEvidence submit transaction (LIB-T7), library UI (LIB-T8), user isolation (LIB-T9). 76 tests pass, build clean. |
 | 2026-10-23 | Antigravity | INT-T1..T11, EVD-T1 | DONE | Completed Gate G3 Adaptive Interview Lab: rubric templates (INT-T2), aggregateScore (INT-T3), session state machine (INT-T4), question generation with hallucination check (INT-T5), response persistence & validation (INT-T6), evaluation service with repair retry (INT-T7), evidence write (INT-T8, EVD-T1), follow-ups (INT-T9), interview UI (INT-T10), cross-user authz (INT-T11). 69 tests pass, build clean. |
 | 2026-10-23 | Antigravity | RES-T1..T8 | DONE | Completed Gate G2 Resume Intelligence: file validation/extraction (RES-T2), exact quote locating (RES-T3), LLM structuring & prompt-injection defense (RES-T4), topic/alias mapping (RES-T5), review workspace UI (RES-T6), ephemeral retention & cascade deletion (RES-T7), cross-user authz (RES-T8). 52 tests pass, build clean. |
 | 2026-10-23 | Antigravity | FND-T5..T9 | DONE | Completed Gate G1 Foundation: ownership assertions (FND-T5), error model & redacting logger (FND-T6), LlmGateway with open-weight & fake adapters (FND-T7), rate limiter (FND-T8), and CI/README/LICENSE (FND-T9). 29/29 tests pass. |
