@@ -2,8 +2,8 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (FND-T1 complete)
-**Current focus:** FND-T2
+**Last updated:** 2026-10-23 (FND-T2 complete)
+**Current focus:** FND-T3
 **Repo state:** scaffolded (Next.js 14, Tailwind, TypeScript strict, Vitest, ESLint)
 
 ## Phase gates
@@ -22,7 +22,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | ID | Module | Task (short) | Depends | Status | Evidence |
 |---|---|---|---|---|---|
 | FND-T1 | 00 | Scaffold, lint, typecheck | — | DONE | `npm run typecheck` (clean), `npm run lint` (0 warnings/errors), `vitest run` (1 passed) |
-| FND-T2 | 00 | Tokens + base components | T1 | TODO | |
+| FND-T2 | 00 | Tokens + base components | T1 | DONE | `npm run test` (10 tests pass, tests/components.test.tsx), `/dev/ui` workbench with light/dark toggle |
 | FND-T3 | 00 | App shell + public pages | T2 | TODO | |
 | FND-T4 | 00 | Prisma: Topic, User, auth | T1 | TODO | |
 | FND-T5 | 00 | Auth + ownership helper | T4 | TODO | |
@@ -86,5 +86,6 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | FND-T2 | DONE | Created DESIGN.md components (Button, Badge, ScoreBar, CriterionRow, EvidenceChip, GapMarker, Eyebrow, SourceHighlight, SegmentedControl, FramedPanel, CodeBox, EmptyState), dev workbench `/dev/ui` with theme toggle, and 9 component tests in `tests/components.test.tsx`. |
 | 2026-10-23 | Antigravity | FND-T1 | DONE | Scaffolded Next.js 14, strict TS, Tailwind tokens, ESLint import restrictions, Vitest. Typecheck, lint, and test pass clean. |
 | 2026-10-23 | Claude (docs) | — | Docs authored | Nothing implemented |
