@@ -50,6 +50,9 @@ export const ResumeExtractionSchema = z.object({
             title: val.title ?? val.name ?? "Untitled Project",
             role: val.role ?? undefined,
             description: val.description ?? val.details ?? val.summary ?? "",
+            techStack: val.techStack ?? val.technologies ?? [],
+            metrics: val.metrics ?? [],
+            responsibilities: val.responsibilities ?? [],
           };
         }
         return val;
@@ -58,6 +61,9 @@ export const ResumeExtractionSchema = z.object({
         title: z.string(),
         role: z.string().optional(),
         description: z.string().default(""),
+        techStack: z.array(z.string()).optional(),
+        metrics: z.array(z.string()).optional(),
+        responsibilities: z.array(z.string()).optional(),
       })
     )
   ).default([]),
@@ -117,7 +123,14 @@ export interface VerifiedClaim {
 
 export interface StructuringResult {
   sections: { sectionType: string; title: string }[];
-  projects: { title: string; role?: string; description: string }[];
+  projects: {
+    title: string;
+    role?: string;
+    description: string;
+    techStack?: string[];
+    metrics?: string[];
+    responsibilities?: string[];
+  }[];
   topics: ResolvedTopic[];
   claims: VerifiedClaim[];
   discardedClaimsCount: number;
@@ -235,6 +248,9 @@ export async function structureResumeText(
       title: p.title,
       role: p.role,
       description: p.description || "",
+      techStack: p.techStack || [],
+      metrics: p.metrics || [],
+      responsibilities: p.responsibilities || [],
     })),
     topics: Array.from(topicMap.values()),
     claims: verifiedClaims,

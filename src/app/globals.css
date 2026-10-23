@@ -1,65 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   /* Fonts */
-  --sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --display: "Space Grotesk", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --book: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Inter", "Oracle Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --display: "Inter", "Oracle Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  --book: Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
 
-  /* Surfaces */
-  --paper: #FCFCFC;
-  --paper-2: #F4F4F4;
-  --card: #FFFFFF;
-  --wash: #F1F1F1;
-  --wash-2: #E3E3E3;
+  /* Oracle Six-Rung Warm Neutral Ladder */
+  --canvas: #FFFFFF;
+  --canvas-soft: #FBF9F8;
+  --canvas-tint: #F5F4F2;
+  --canvas-warm: #F1EFED;
+  --hairline: #E4E1DD;
+  --divider: #E9E7E4;
+  --field-border: #D4CFCA;
+  --ink: #161513;
+  --ink-deep: #211E1C;
+  --ink-2: #635F5B;
+  --ink-4: #8F8A84;
+  --disabled-ink: #AEA8A2;
 
-  /* Ink */
-  --ink: #191919;
-  --ink-2: #636363;
-  --ink-4: #8A8A8A;
-  --muted: #636363;
+  /* Action Charcoal & On Primary */
+  --primary: #312D2A;
+  --primary-pressed: #47423E;
+  --on-primary: #FFFFFF;
+
+  /* Brand Mark & Accents */
+  --brand-mark: #C74634;
+  --accent-gold: #F0CC71;
+  --accent-gold-soft: #F7E0A1;
+  --band-teal: #D6E5E5;
+  --band-forest: #33553C;
+  --link: #006B8F;
+  --focus: #227E9E;
+  --error: #D63B25;
+
+  /* Compatibility Aliases */
+  --paper: var(--canvas);
+  --paper-2: var(--canvas-soft);
+  --card: var(--canvas);
+  --wash: var(--canvas-tint);
+  --wash-2: var(--canvas-warm);
+  --muted: var(--ink-2);
   --on-ink: #FFFFFF;
+  --line: var(--hairline);
+  --line-3: var(--divider);
+  --faint: var(--divider);
+  --hatch: #D4CFCA;
+  --separator: var(--divider);
+  --dot: #E4E1DD;
 
-  /* Lines */
-  --line: #E2E2E2;
-  --line-3: #DCDCDC;
-  --faint: #EFEFEF;
-  --hatch: #CCCCCC;
-  --separator: #DEDEDE;
-  --dot: #ECECEC;
-
-  /* Module hues */
+  /* Domain Evidence & Outcomes */
   --resume: #A24826;
   --resume-mark: #D97757;
-  --resume-wash: #FBEDE7;
-
+  --resume-wash: #FBF4F1;
   --interview: #2F54D6;
-  --interview-wash: #EBEFFD;
-
+  --interview-wash: #F1F4FD;
   --library: #0E7490;
-  --library-wash: #E5F4F8;
+  --library-wash: #EBF5F8;
 
-  /* Outcome hues */
-  --strong: #2F6B3F;
-  --strong-wash: #E6F3E8;
+  --strong: #33553C;
+  --strong-wash: #EEF4F0;
   --partial: #8A5A00;
-  --partial-wash: #FFF4DB;
-  --weak: #B3342E;
-  --weak-mark: #C2413B;
-  --weak-wash: #FDECEA;
+  --partial-wash: #FCF7EE;
+  --weak: #D63B25;
+  --weak-mark: #D63B25;
+  --weak-wash: #FDF1EF;
 
-  /* Elevation */
-  --lift-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --lift-lg: 0 0 0 1px rgba(0, 0, 0, 0.015), 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 24px -8px rgba(0, 0, 0, 0.09), 0 32px 72px -24px rgba(0, 0, 0, 0.16);
+  /* Flat Elevation: zero shadows; depth via neutral ladder and hairlines */
+  --lift-sm: none;
+  --lift-lg: 0 0 0 1px var(--hairline);
 
-  --radius-sm: 2px;
-  --radius: 4px;
-  --radius-lg: 8px;
-  --max: 1120px;
-  --hairline: 1px;
+  /* Radius Scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 15px;
+  --radius-full: 9999px;
+  --hairline-w: 1px;
 
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.76, 0, 0.24, 1);
@@ -69,67 +95,136 @@
 
 @media (min-resolution: 1.5dppx) {
   :root {
-    --hairline: 0.5px;
+    --hairline-w: 0.5px;
   }
 }
 
 :root[data-theme="dark"],
 .dark {
-  --paper: #101010;
-  --paper-2: #1A1A1A;
-  --card: #181818;
-  --wash: #242424;
-  --wash-2: #333333;
-  --ink: #E8E8E8;
-  --ink-2: #A3A3A3;
-  --ink-4: #7D7D7D;
-  --muted: #A3A3A3;
-  --on-ink: #101010;
-  --line: #2C2C2C;
-  --line-3: #3C3C3C;
-  --faint: #232323;
-  --hatch: #4D4D4D;
-  --separator: #333333;
-  --dot: #232323;
+  --canvas: #161513;
+  --canvas-soft: #1E1B19;
+  --canvas-tint: #24211F;
+  --canvas-warm: #2A2724;
+  --hairline: #383431;
+  --divider: #322E2B;
+  --field-border: #4A4541;
+  --ink: #F1EFED;
+  --ink-deep: #FFFFFF;
+  --ink-2: #B8B2AC;
+  --ink-4: #8F8A84;
+  --disabled-ink: #6E6862;
+
+  --primary: #F1EFED;
+  --primary-pressed: #E4E1DD;
+  --on-primary: #161513;
+
+  --brand-mark: #E05846;
+  --accent-gold: #F0CC71;
+  --accent-gold-soft: #F7E0A1;
+  --band-teal: #1C3333;
+  --band-forest: #1E3827;
+  --link: #4EB7DE;
+  --focus: #4EB7DE;
+  --error: #F05846;
+
+  --paper: var(--canvas);
+  --paper-2: var(--canvas-soft);
+  --card: var(--canvas-soft);
+  --wash: var(--canvas-tint);
+  --wash-2: var(--canvas-warm);
+  --muted: var(--ink-2);
+  --on-ink: #161513;
+  --line: var(--hairline);
+  --line-3: var(--divider);
+  --faint: var(--divider);
+  --hatch: #4A4541;
+  --separator: var(--divider);
+  --dot: #383431;
 
   --resume: #E8896A;
   --resume-mark: #E8896A;
-  --resume-wash: #33201A;
-
+  --resume-wash: #2D1E18;
   --interview: #8EA6FF;
-  --interview-wash: #1B2240;
-
+  --interview-wash: #1C233D;
   --library: #67D4EC;
-  --library-wash: #12303A;
+  --library-wash: #142830;
 
   --strong: #86C998;
   --strong-wash: #1B3122;
-
   --partial: #E8B65A;
   --partial-wash: #2E2412;
-
   --weak: #F0867F;
   --weak-mark: #F0867F;
   --weak-wash: #35191A;
 
-  --lift-lg: 0 1px 3px rgba(0, 0, 0, 0.3), 0 10px 24px -8px rgba(0, 0, 0, 0.45), 0 32px 72px -24px rgba(0, 0, 0, 0.6);
+  --lift-sm: none;
+  --lift-lg: 0 0 0 1px var(--hairline);
 }
 
 body {
-  background-color: var(--paper);
+  background-color: var(--canvas);
   color: var(--ink);
   font-family: var(--sans);
+  letter-spacing: 0;
+  line-height: 1.4;
   min-height: 100vh;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Framed panel (corner ticks) — one per screen */
+/* Zero letter spacing constraint */
+h1, h2, h3, h4, h5, h6, p, button, a, span, label {
+  letter-spacing: 0;
+}
+
+/* Headings run at tight 1.2 line height */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+}
+
+/* The 40 x 4px Accent Gold Rule beneath hero headlines */
+.hero-eyebrow-rule {
+  width: 40px;
+  height: 4px;
+  background-color: var(--accent-gold);
+  border-radius: 0;
+  display: inline-block;
+}
+
+/* Full-bleed Section Bands padded 48px */
+.band-white {
+  background-color: var(--canvas);
+  padding: 48px 0;
+}
+.band-soft {
+  background-color: var(--canvas-soft);
+  padding: 48px 0;
+}
+.band-tint {
+  background-color: var(--canvas-tint);
+  padding: 48px 0;
+}
+.band-warm {
+  background-color: var(--canvas-warm);
+  padding: 48px 0;
+}
+.band-teal {
+  background-color: var(--band-teal);
+  color: var(--ink);
+  padding: 48px 0;
+}
+.band-forest {
+  background-color: var(--band-forest);
+  color: var(--on-primary);
+  padding: 48px 0;
+}
+
+/* Framed panel (corner ticks) */
 .framed {
   position: relative;
-  border: 1px solid var(--faint);
-  background: var(--paper);
+  border: 1px solid var(--hairline);
+  background: var(--canvas);
 }
 
 .framed::before,
@@ -177,20 +272,22 @@ body {
 
 /* Eyebrow with module dash */
 .eyebrow {
-  font: 500 10.5px / 1.2 var(--mono);
-  letter-spacing: 0.12em;
+  font: 500 11px / 1.2 var(--mono);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-2);
   display: inline-flex;
   gap: 10px;
   align-items: center;
-  padding: 6px 11px 5px;
-  border: 1px solid var(--line-3);
+  padding: 5px 10px;
+  border: 1px solid var(--hairline);
+  background-color: var(--canvas-soft);
+  border-radius: var(--radius-xs);
 }
 
 .eyebrow::before {
   content: "";
-  width: 14px;
+  width: 12px;
   height: 2px;
   background: var(--module, var(--hatch));
 }
@@ -207,42 +304,42 @@ body {
   --module: var(--library);
 }
 
-/* Button with rolling sweep */
+/* Button with rolling sweep (retained for backward compatibility) */
 .button-rp {
   position: relative;
-  min-height: 44px;
-  padding: 0 22px;
+  min-height: 40px;
+  padding: 10px 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   isolation: isolate;
-  border: 1px solid var(--ink);
-  border-radius: var(--radius);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-xs);
   background: transparent;
   color: var(--ink);
-  font: 400 15px / 1 var(--display);
-  letter-spacing: -0.04em;
+  font: 500 14px / 1.2 var(--sans);
+  letter-spacing: 0;
   cursor: pointer;
-  transition: border-color 0.42s var(--ease-smooth);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .button-rp-dark {
-  background: var(--ink);
-  color: var(--on-ink);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .button-rp-sweep {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: var(--paper);
+  background: var(--canvas-soft);
   transform: translateX(-101%);
-  transition: transform 0.42s var(--ease-smooth);
+  transition: transform 0.3s ease;
 }
 
 .button-rp-dark .button-rp-sweep {
-  background: var(--paper-2);
+  background: var(--primary-pressed);
 }
 
 .button-rp-label {
@@ -260,7 +357,7 @@ body {
   justify-content: center;
   gap: 7px;
   white-space: nowrap;
-  transition: transform 0.42s var(--ease-smooth);
+  transition: transform 0.3s ease;
 }
 
 .button-rp-label-line:last-child {
@@ -272,11 +369,11 @@ body {
 }
 
 .button-rp-dark .button-rp-label-line:first-child {
-  color: var(--on-ink);
+  color: var(--on-primary);
 }
 
 .button-rp-dark .button-rp-label-line:last-child {
-  color: var(--ink);
+  color: var(--on-primary);
 }
 
 .button-rp:hover .button-rp-sweep,
@@ -290,31 +387,31 @@ body {
 }
 
 .button-rp:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 .button-rp[disabled] {
-  opacity: 0.45;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* Evidence thread */
 .thread-path {
-  stroke: var(--line-3);
+  stroke: var(--hairline);
   stroke-width: 1;
   stroke-dasharray: 3 4;
   fill: none;
 }
 
 .pulse {
-  stroke: #21C16B;
+  stroke: var(--accent-gold);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 12 100;
   stroke-dashoffset: 12;
   opacity: 0;
-  filter: drop-shadow(0 0 2px rgba(33, 193, 107, 0.5));
+  filter: drop-shadow(0 0 2px rgba(240, 204, 113, 0.6));
   animation: bead 4.8s cubic-bezier(0.45, 0, 0.4, 1) infinite;
 }
 

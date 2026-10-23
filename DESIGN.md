@@ -1,290 +1,439 @@
+---
+version: 1.0-blended
+name: ResumePilot Enterprise Design System (Oracle Minimalist Blend)
+description: An enterprise developer-editorial design system built on Oracle's warm neutral ladder combined with ResumePilot's closed-loop evidence architecture. Six numbered greys carry almost every surface, a single dark charcoal (#312d2a) carries every primary action at 4px radius, and the iconic brand red (#c74634) is reserved for the wordmark alone. Two display registers coexist, being a Georgia serif across product/interview pages and original resume quotes, contrasting with a clean humanist sans with an extreme 400-to-800 weight jump for section headings. Zero drop shadows; depth is conveyed solely through tonal ladder steps and 1px hairline rules, with a single 40x4px gold bar (#f0cc71) under hero headlines as the whole ornament budget.
+colors:
+  primary: "#312d2a"
+  primary-pressed: "#47423e"
+  on-primary: "#ffffff"
+  brand-mark: "#c74634"
+  ink: "#161513"
+  ink-deep: "#211e1c"
+  canvas: "#ffffff"
+  canvas-soft: "#fbf9f8"
+  canvas-tint: "#f5f4f2"
+  canvas-warm: "#f1efed"
+  hairline: "#e4e1dd"
+  divider: "#e9e7e4"
+  field-border: "#d4cfca"
+  link: "#006b8f"
+  accent-gold: "#f0cc71"
+  accent-gold-soft: "#f7e0a1"
+  band-teal: "#d6e5e5"
+  band-forest: "#33553c"
+  focus: "#227e9e"
+  error: "#d63b25"
+  disabled-ink: "#aea8a2"
+  # Domain Evidence & Outcome Hues
+  resume: "#a24826"
+  resume-mark: "#d97757"
+  resume-wash: "#fbf4f1"
+  interview: "#2f54d6"
+  interview-wash: "#f1f4fd"
+  library: "#0e7490"
+  library-wash: "#ebf5f8"
+  strong: "#33553c"
+  strong-wash: "#eef4f0"
+  partial: "#8a5a00"
+  partial-wash: "#fcf7ee"
+  weak: "#d63b25"
+  weak-mark: "#d63b25"
+  weak-wash: "#fdf1ef"
+typography:
+  display-serif-xl:
+    fontFamily: Georgia, serif
+    fontSize: 56px
+    fontWeight: 400
+    lineHeight: 67.2px
+    letterSpacing: 0
+  display-serif-lg:
+    fontFamily: Georgia, serif
+    fontSize: 40px
+    fontWeight: 400
+    lineHeight: 48px
+    letterSpacing: 0
+  display-serif-md:
+    fontFamily: Georgia, serif
+    fontSize: 36px
+    fontWeight: 400
+    lineHeight: 43.2px
+    letterSpacing: 0
+  display-sans-lg:
+    fontFamily: Inter, sans-serif
+    fontSize: 40px
+    fontWeight: 300
+    lineHeight: 52px
+    letterSpacing: 0
+  display-sans-md:
+    fontFamily: Inter, sans-serif
+    fontSize: 32px
+    fontWeight: 300
+    lineHeight: 44px
+    letterSpacing: 0
+  heading-xl:
+    fontFamily: Inter, sans-serif
+    fontSize: 28px
+    fontWeight: 800
+    lineHeight: 33.6px
+    letterSpacing: 0
+  heading-lg:
+    fontFamily: Inter, sans-serif
+    fontSize: 24px
+    fontWeight: 800
+    lineHeight: 28.8px
+    letterSpacing: 0
+  heading-md:
+    fontFamily: Inter, sans-serif
+    fontSize: 20px
+    fontWeight: 800
+    lineHeight: 24px
+    letterSpacing: 0
+  heading-sm:
+    fontFamily: Inter, sans-serif
+    fontSize: 18px
+    fontWeight: 800
+    lineHeight: 21.6px
+    letterSpacing: 0
+  heading-card:
+    fontFamily: Inter, sans-serif
+    fontSize: 24px
+    fontWeight: 600
+    lineHeight: 32px
+    letterSpacing: 0
+  lead:
+    fontFamily: Inter, sans-serif
+    fontSize: 24px
+    fontWeight: 400
+    lineHeight: 33.6px
+    letterSpacing: 0
+  body:
+    fontFamily: Inter, sans-serif
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 22.4px
+    letterSpacing: 0
+  body-loose:
+    fontFamily: Inter, sans-serif
+    fontSize: 16px
+    fontWeight: 350
+    lineHeight: 24px
+    letterSpacing: 0
+  body-strong:
+    fontFamily: Inter, sans-serif
+    fontSize: 16px
+    fontWeight: 700
+    lineHeight: 22.4px
+    letterSpacing: 0
+  label:
+    fontFamily: Inter, sans-serif
+    fontSize: 14px
+    fontWeight: 500
+    lineHeight: 16.8px
+    letterSpacing: 0
+  label-strong:
+    fontFamily: Inter, sans-serif
+    fontSize: 14px
+    fontWeight: 600
+    lineHeight: 20px
+    letterSpacing: 0
+  caption:
+    fontFamily: Inter, sans-serif
+    fontSize: 12px
+    fontWeight: 400
+    lineHeight: 20px
+    letterSpacing: 0
+rounded:
+  none: 0px
+  xs: 4px
+  sm: 6px
+  md: 8px
+  lg: 12px
+  xl: 15px
+  full: 9999px
+spacing:
+  xs: 10px
+  sm: 12px
+  md: 16px
+  lg: 18px
+  xl: 20px
+  xxl: 24px
+  xxxl: 32px
+  section: 48px
+  gutter: 72px
+components:
+  masthead:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    height: 64px
+  logo-wordmark:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.brand-mark}"
+    typography: "{typography.heading-lg}"
+    rounded: "{rounded.none}"
+  text-input:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    borderColor: "{colors.field-border}"
+    rounded: "{rounded.sm}"
+    padding: "12px 18px"
+  product-subnav:
+    backgroundColor: "{colors.ink-deep}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    height: 56px
+  product-subnav-light:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    height: 56px
+  subnav-active-bar:
+    backgroundColor: "{colors.accent-gold-soft}"
+    rounded: "{rounded.none}"
+    height: 4px
+    width: 60px
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.label}"
+    rounded: "{rounded.xs}"
+    padding: "10px 16px"
+  button-primary-pressed:
+    backgroundColor: "{colors.primary-pressed}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.label}"
+    rounded: "{rounded.xs}"
+    padding: "10px 16px"
+  button-primary-disabled:
+    backgroundColor: "{colors.canvas-soft}"
+    textColor: "{colors.disabled-ink}"
+    typography: "{typography.label}"
+    borderColor: "{colors.hairline}"
+    rounded: "{rounded.xs}"
+    padding: "10px 16px"
+  button-secondary:
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    borderColor: "{colors.ink}"
+    rounded: "{rounded.xs}"
+    padding: "10px 16px"
+  button-tertiary:
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.xs}"
+    padding: "10px 16px"
+  hero-band:
+    backgroundColor: "{colors.canvas-warm}"
+    textColor: "{colors.ink}"
+    typography: "{typography.display-serif-md}"
+    rounded: "{rounded.none}"
+    padding: "48px"
+  hero-eyebrow-rule:
+    backgroundColor: "{colors.accent-gold}"
+    rounded: "{rounded.none}"
+    width: "40px"
+    height: "4px"
+  product-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    borderColor: "{colors.hairline}"
+    rounded: "{rounded.md}"
+    padding: "{spacing.xxl}"
+---
+
 # ResumePilot Design System (`DESIGN.md`)
 
-> Adapted from the uploaded StashBase spec: a **blueprint / developer-editorial** language — monochrome foundation, hairlines, corner ticks — with **selective, meaningful colour added**. Colour here always *encodes something* (which module, how well an answer scored, whether evidence exists). If a colour doesn't carry meaning, it isn't used.
+> **Minimalist Enterprise Blend**: ResumePilot blends **Oracle's warm neutral ladder and corporate typography registers** with an **evidence-backed developer-editorial design language**. Six numbered warm neutrals carry nearly every surface, action charcoal (`#312D2A`) powers every action at a crisp 4px radius, and brand red (`#C74634`) is reserved exclusively for the wordmark anchor. Shadows are eliminated entirely: depth is conveyed through tonal shifts on the neutral ladder and 1px hairline rules.
 
 ---
 
-## 1. Philosophy
+## 1. Core Philosophy & Design Principles
 
-1. **Monochrome foundation, selective hue.** Paper, ink, hairlines carry ~90% of every screen. Hue appears only as small marks (ticks, dots, badges, thin bars) and pale washes — never as large fills.
-2. **Colour is never the only signal.** Every colour is paired with a word or icon ("Strong 3/4", "Not scored").
-3. **Blueprint framing.** Hairline borders, 10 px corner ticks on one hero panel per screen, diagonal hatch separators, dot-grid backdrops on empty states.
-4. **Original vs interpretation is visible.** Text from the user's resume is set in the editorial serif; app/AI interpretation is set in the sans. Always.
-5. **Honest empty states.** No decorative charts; "no data" uses hatch/dot-grid, not zeros.
-6. **Mechanical, quick motion.** 120–420 ms, spring only on small icons; everything off under `prefers-reduced-motion`.
+1. **A Six-Rung Warm Neutral Ladder**: The ground of the application is built on six numbered warm neutrals (`canvas` `#ffffff` → `canvas-soft` `#fbf9f8` → `canvas-tint` `#f5f4f2` → `canvas-warm` `#f1efed` → `hairline` `#e4e1dd` → `ink-deep` `#211e1c`). Transitions between sections or container surfaces read as gentle shifts in ambient light rather than harsh borders or noisy shadows.
+2. **Action Charcoal Restraint**: Every interactive primary action runs through `{colors.primary}` (`#312D2A`, active `#47423E`) at a 4px corner radius (`rounded.xs`) with `10px 16px` padding. No coloured primary CTAs, no gradients, and no noisy hover blooms.
+3. **The Iconic Brand Mark**: Oracle Red (`#C74634`) appears strictly on the wordmark/logo mark and nowhere else in the interface chrome. Its extreme scarcity gives the brand instant executive authority.
+4. **The Gold Eyebrow Ornament**: A single `40 × 4px` horizontal bar in `{colors.accent-gold}` (`#F0CC71`) sits beneath major hero headlines. It is the system's whole decorative ornament budget, giving warmth and gravitas against the neutral ground.
+5. **Two Distinct Display Registers**:
+   - **Georgia Display Serif**: Carries major hero titles, section headlines, original user resume quotes, and interview question stems. Its bracketed serifs and ball terminals provide authoritative editorial poise.
+   - **Inter / Oracle Sans**: The UI workhorse. Running copy is set at weight 350/400, while section headings jump straight to 800 (`heading-sm` to `heading-xl`). This extreme weight jump carries structure without requiring oversized font dimensions.
+6. **Zero Elevation Shadows**: No drop shadows on cards, modals, nav bars, or dropdowns. Elevation is achieved solely by stepping up or down the neutral ladder (e.g., pure white `canvas` on a `canvas-warm` band), bounded by 1px `hairline` rules where surfaces share the same rung.
+7. **Original Text vs Interpretation Integrity**: User resume text and interviewer question stems are set in Georgia Serif; app analysis, rubrics, and feedback are set in the Sans.
+8. **Chromatic Colour at Band Scale Only**: Aside from small semantic status markers on score bars, chromatic color enters the UI only at full band scale (`band-teal` `#D6E5E5` or `band-forest` `#33553C`).
 
 ---
 
-## 2. Colour system
+## 2. Color System
 
-### 2.1 Roles at a glance
-| Role | Light | Dark | Used for |
+### 2.1 The Warm Neutral Ladder
+| Token | Light Hex | Dark Hex | Role & Purpose |
 |---|---|---|---|
-| **Ink** (primary action) | `#191919` | `#E8E8E8` | Primary buttons, headings, focus ring |
-| **Resume** — terracotta | text `#A24826` · mark `#D97757` · wash `#FBEDE7` | `#E8896A` · wash `#33201A` | Resume module, source-text highlights, original-quote marker |
-| **Interview** — cobalt | `#2F54D6` · wash `#EBEFFD` | `#8EA6FF` · wash `#1B2240` | Interview module, active question, follow-up links |
-| **Library** — teal | `#0E7490` · wash `#E5F4F8` | `#67D4EC` · wash `#12303A` | Library module, resources, objectives |
-| **Strong** — forest | `#2F6B3F` · wash `#E6F3E8` | `#86C998` · wash `#1B3122` | Score ≥ 75 %, passed, confirmed |
-| **Partial** — amber | `#8A5A00` · wash `#FFF4DB` | `#E8B65A` · wash `#2E2412` | Score 40–74 %, needs review, candidate topic |
-| **Weak** — crimson | text `#B3342E` · mark `#C2413B` · wash `#FDECEA` | `#F0867F` · wash `#35191A` | Score < 40 %, open gap, failed |
-| **Not scored** | gray + hatch | gray + hatch | Inconclusive / pending / no evidence |
+| `canvas` (`--paper`) | `#FFFFFF` | `#161513` | Masthead, pure white cards, bright section bands, dialog background |
+| `canvas-soft` (`--paper-2`) | `#FBF9F8` | `#1E1B19` | Standard section fill, subtle card wells, empty-state containers |
+| `canvas-tint` (`--wash`) | `#F5F4F2` | `#24211F` | Table headers, secondary toolbars, filter panels, segmented control tracks |
+| `canvas-warm` (`--wash-2`) | `#F1EFED` | `#2A2724` | Hero bands, stat panels, highlighted question callouts |
+| `hairline` (`--line`) | `#E4E1DD` | `#383431` | 1px card borders, table row dividers, disabled button borders |
+| `divider` (`--line-3`) | `#E9E7E4` | `#322E2B` | Vertical column rules, panel separators |
+| `field-border` | `#D4CFCA` | `#4A4541` | Form inputs, search fields (1 step darker than hairline) |
+| `ink` (`--ink`) | `#161513` | `#F1EFED` | Primary headings, body copy, default typography |
+| `ink-deep` | `#211E1C` | `#FFFFFF` | Dark navigation bands, inverted section headers |
+| `disabled-ink` | `#AEA8A2` | `#6E6862` | Disabled controls, placeholder copy |
 
-Module hues identify *where you are*; Strong/Partial/Weak identify *how it went*. They are different hue families on purpose (terracotta/cobalt/teal vs green/amber/red) so a teal Library badge is never mistaken for a "passed" green one.
+### 2.2 Action & Accent Palette
+| Role | Token | Light Hex | Dark Hex | Usage |
+|---|---|---|---|---|
+| **Action Primary** | `primary` | `#312D2A` | `#F1EFED` | Primary filled action buttons, active states |
+| **Action Pressed** | `primary-pressed` | `#47423E` | `#E4E1DD` | Active / pressed button state |
+| **On Primary** | `on-primary` | `#FFFFFF` | `#161513` | Text on action buttons, inverted bands |
+| **Brand Mark** | `brand-mark` | `#C74634` | `#E05846` | **Strictly reserved** for the logo wordmark / badge mark |
+| **Gold Rule** | `accent-gold` | `#F0CC71` | `#F0CC71` | 40 × 4px rule below hero headlines |
+| **Gold Tab** | `accent-gold-soft` | `#F7E0A1` | `#F7E0A1` | Active navigation indicator bar |
+| **Inline Link** | `link` | `#006B8F` | `#4EB7DE` | Deep teal-blue inline links (ununderlined) |
+| **Focus Ring** | `focus` | `#227E9E` | `#4EB7DE` | 2px accessible focus ring |
+| **Band Teal** | `band-teal` | `#D6E5E5` | `#1C3333` | Pale teal full-width transition band |
+| **Band Forest** | `band-forest` | `#33553C` | `#1E3827` | Deep green enterprise banner with white text |
 
-Score bands (`strong ≥ 0.75`, `partial 0.40–0.74`, `weak < 0.40`) are **display thresholds only**, kept in one constants file. They are separate from the gap rule in `blueprint.md §4` (which uses 0.6 / 0.7) — don't merge them.
-
-### 2.2 Contrast (verified by calculation, WCAG 2.x)
-On `--paper #FCFCFC`: resume text 5.9, interview 6.1, library 5.2, strong 6.2, partial 5.8, weak text 5.9, ink-2 5.9 — all ≥ 4.5:1. On their own washes: all ≥ 4.5:1 (lowest 4.75). Dark theme on `#101010`: all ≥ 7:1. `--resume-mark` (#D97757) and `--weak-mark` are **non-text** only (≥ 3:1 is required and they are used for dots/ticks/borders). Re-verify with axe in CI when tokens change.
-
-### 2.3 Usage rules
-- **One module hue per screen region.** The Resume screen uses terracotta; don't also paint cobalt on it except the "Create question set" link target.
-- **Hue as mark, not fill:** 2 px left tick on the active nav item; 6 px dot before eyebrow; 1 px top rule on a panel header; badge outline + wash. Never fill a whole card or button with a module hue.
-- **Primary buttons stay ink.** Hue never changes primary-button colour.
-- **Score colours only on score UI** (ScoreBar, criterion rows, badges). Not on headings or decoration.
-- **Max 3 hues visible in one viewport** (excluding the nav's four small ticks).
-- Charts: not used in v1. If added, series use ink-tone + module hue only.
+### 2.3 Evidence & Evaluation Taxonomy
+To preserve ResumePilot's closed-loop interview scoring:
+| Role | Base Token | Wash Token | Purpose |
+|---|---|---|---|
+| **Resume Claims** | `#A24826` (`--resume`) | `#FBF4F1` | Resume module, extracted claim spans |
+| **Interview Defense** | `#2F54D6` (`--interview`) | `#F1F4FD` | Live defense questions, interactive drill steps |
+| **Tech Bites / Library** | `#0E7490` (`--library`) | `#EBF5F8` | Learning resources, architectural mental models |
+| **Strong (≥ 75%)** | `#33553C` (`--strong`) | `#EEF4F0` | Confirmed mastery, passing rubrics |
+| **Partial (40–74%)** | `#8A5A00` (`--partial`) | `#FCF7EE` | Candidate gap, partial rubric credit |
+| **Weak (< 40%)** | `#D63B25` (`--weak`) | `#FDF1EF` | Open gap, unevidenced claim, validation error |
 
 ---
 
-## 3. Typography
+## 3. Typography Scale & Registers
 
 ```css
 :root {
-  --sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --display: "Space Grotesk", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --book: "Newsreader", Georgia, "Times New Roman", serif;   /* ORIGINAL resume text & interview question prompts */
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: "Inter", "Oracle Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
 }
 ```
-| Role | Font | Size | Weight | Line | Tracking |
-|---|---|---|---|---|---|
-| Landing hero | display | `clamp(36px, 6vw, 62px)` | 400 | 1.0 | −0.045em |
-| Page title (H1) | display | 28px | 400 | 1.15 | −0.035em |
-| Section (H2) | display | 20px | 500 | 1.3 | −0.02em |
-| Question prompt | **book** | 20–22px | 400 | 1.5 (max 68ch) | −0.01em |
-| Resume original text / quotes | **book** | 15–16px | 400 | 1.6 | 0 |
-| Body / interpretation | sans | 15px (16 mobile) | 400 | 1.55 | −0.02em |
-| UI label | sans | 13–14px | 500 | 1.4 | −0.01em |
-| Eyebrow | mono | 10.5–12px | 500 | 1.2 | +0.12em, uppercase |
-| Code, offsets, IDs, scores | mono | 12–13px | 400/500 | 1.5 | 0 |
 
-Rule: **serif = the user's own words (or the question being asked); sans = what the app says about them.**
+### 3.1 Typographic Hierarchy
+| Token | Font Family | Size | Weight | Line Height | Letter Spacing | Purpose |
+|---|---|---|---|---|---|---|
+| `display-serif-xl` | Georgia | 56px | 400 | 67.2px (1.2) | 0 | Landing & Hero headline |
+| `display-serif-lg` | Georgia | 40px | 400 | 48.0px (1.2) | 0 | Major page titles |
+| `display-serif-md` | Georgia | 36px | 400 | 43.2px (1.2) | 0 | Product page & interview titles |
+| `display-sans-lg` | Inter | 40px | 300 | 52.0px (1.3) | 0 | Light corporate headings |
+| `heading-xl` | Inter | 28px | 800 | 33.6px (1.2) | 0 | Section headings (high weight contrast) |
+| `heading-lg` | Inter | 24px | 800 | 28.8px (1.2) | 0 | Panel headings |
+| `heading-md` | Inter | 20px | 800 | 24.0px (1.2) | 0 | Sub-section headings |
+| `heading-sm` | Inter | 18px | 800 | 21.6px (1.2) | 0 | Card headings |
+| `lead` | Inter | 24px | 400 | 33.6px (1.4) | 0 | Standfirst intro paragraph |
+| `body` | Inter | 16px | 400 | 22.4px (1.4) | 0 | Product page running copy |
+| `body-loose` | Inter | 16px | 350 | 24.0px (1.5) | 0 | Index page body copy |
+| `body-strong` | Inter | 16px | 700 | 22.4px (1.4) | 0 | Emphasized items & bold copy |
+| `label` | Inter | 14px | 500 | 16.8px (1.2) | 0 | Button labels, tabs, controls |
+| `label-strong` | Inter | 14px | 600 | 20.0px (1.43)| 0 | Tile labels & badges |
+| `caption` | Inter | 12px | 400 | 20.0px (1.67)| 0 | Footer links, fine print |
+| `code` / `mono` | Mono | 12–13px | 400/500 | 1.5 | 0 | CodeBox, offsets, evidence chips |
 
----
-
-## 4. Tokens
-
-```css
-:root {
-  /* Surfaces */
-  --paper:#FCFCFC; --paper-2:#F4F4F4; --card:#FFFFFF; --wash:#F1F1F1; --wash-2:#E3E3E3;
-  /* Ink */
-  --ink:#191919; --ink-2:#636363; --ink-4:#8A8A8A; --muted:#636363; --on-ink:#FFFFFF;
-  /* Lines */
-  --line:#E2E2E2; --line-3:#DCDCDC; --faint:#EFEFEF; --hatch:#CCCCCC; --separator:#DEDEDE; --dot:#ECECEC;
-
-  /* Module hues */
-  --resume:#A24826;     --resume-mark:#D97757;  --resume-wash:#FBEDE7;
-  --interview:#2F54D6;  --interview-wash:#EBEFFD;
-  --library:#0E7490;    --library-wash:#E5F4F8;
-
-  /* Outcome hues */
-  --strong:#2F6B3F;  --strong-wash:#E6F3E8;
-  --partial:#8A5A00; --partial-wash:#FFF4DB;
-  --weak:#B3342E;    --weak-mark:#C2413B; --weak-wash:#FDECEA;
-
-  /* Elevation: popovers & dialogs only; panels use hairlines */
-  --lift-sm:0 1px 2px rgba(0,0,0,.05);
-  --lift-lg:0 0 0 1px rgba(0,0,0,.015),0 1px 3px rgba(0,0,0,.05),0 10px 24px -8px rgba(0,0,0,.09),0 32px 72px -24px rgba(0,0,0,.16);
-
-  --radius-sm:2px; --radius:4px; --radius-lg:8px;
-  --max:1120px; --hairline:1px;
-  --ease-spring:cubic-bezier(.34,1.56,.64,1);
-  --ease-smooth:cubic-bezier(.76,0,.24,1);
-  --ease-mechanical:cubic-bezier(.42,0,.58,1);
-  --ease-entrance:cubic-bezier(.2,.7,.3,1);
-}
-@media (min-resolution:1.5dppx){ :root{ --hairline:.5px; } }
-
-:root[data-theme="dark"] {
-  --paper:#101010; --paper-2:#1A1A1A; --card:#181818; --wash:#242424; --wash-2:#333333;
-  --ink:#E8E8E8; --ink-2:#A3A3A3; --ink-4:#7D7D7D; --muted:#A3A3A3; --on-ink:#101010;
-  --line:#2C2C2C; --line-3:#3C3C3C; --faint:#232323; --hatch:#4D4D4D; --separator:#333; --dot:#232323;
-
-  --resume:#E8896A; --resume-mark:#E8896A; --resume-wash:#33201A;
-  --interview:#8EA6FF; --interview-wash:#1B2240;
-  --library:#67D4EC; --library-wash:#12303A;
-  --strong:#86C998; --strong-wash:#1B3122;
-  --partial:#E8B65A; --partial-wash:#2E2412;
-  --weak:#F0867F; --weak-mark:#F0867F; --weak-wash:#35191A;
-  --lift-lg:0 1px 3px rgba(0,0,0,.3),0 10px 24px -8px rgba(0,0,0,.45),0 32px 72px -24px rgba(0,0,0,.6);
-}
-/* Respect system preference when the user hasn't chosen */
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){ /* mirror the dark block above (generate from one token source, don't hand-duplicate) */ }
-}
-```
-Implementation note: keep tokens in one source file and generate both blocks; expose them to Tailwind via `theme.extend.colors` so utilities (`text-resume`, `bg-strong-wash`) use the same variables.
-
-Module → token map (single place in code): `resume → --resume`, `interview → --interview`, `library → --library`. Home and History are neutral ink.
+### 3.2 Typographic Principles
+- **Zero Tracking**: Letter-spacing is explicitly `0` across every single role. No tracked-out eyebrows or artificially squeezed display titles.
+- **Strict Line-Height Registers**: Headings and display titles maintain a tight `1.2` ratio; body copy maintains an open `1.4`–`1.5` ratio.
+- **The 400 → 800 Weight Jump**: Hierarchy is communicated by weight jumps rather than oversized text. A 20px or 24px 800-weight heading above a 16px 400-weight body creates clean, unmistakable structure.
 
 ---
 
-## 5. Layout
-- **Desktop ≥1024:** 220 px left rail (Home · Resume · Interview · Library; History & Settings at the foot). Active item = ink text + **2 px left tick in its module hue**. Content max 1120 px; detail screens may use 2 columns.
-- **Tablet 640–1023:** icon rail 56 px; two columns only if each ≥ 320 px.
-- **Mobile <640:** compact top bar + bottom tab bar (4 items; active = ink icon + 2 px top tick in module hue). Single column; full-width primary action; sticky submit bar only with equal bottom padding on the editor.
-- Dot-grid backdrop (`.dotgrid`) only on empty states and the landing page. Hatch separator (`.separator`) between major page sections, max 2 per page.
+## 4. Spacing, Geometry & Radii
+
+### 4.1 Spacing Scale
+- `xs`: `10px`
+- `sm`: `12px`
+- `md`: `16px`
+- `lg`: `18px`
+- `xl`: `20px`
+- `xxl`: `24px`
+- `xxxl`: `32px`
+- `section`: `48px` (The universal rhythm constant: full-width bands are padded `48px 0`)
+- `gutter`: `72px` (Outer horizontal margins on desktop containers)
+
+### 4.2 Border Radius Scale
+- `rounded.none` (`0px`): Full-width bands, sections, masthead, product sub-nav, footer, gold eyebrow rule.
+- `rounded.xs` (`4px`): All action buttons, chips, and small controls.
+- `rounded.sm` (`6px`): Text inputs, search fields, textareas.
+- `rounded.md` (`8px`): Product cards, dialog surfaces, media frames.
+- `rounded.lg` (`12px`): Navigation tiles, filter trays.
+- `rounded.xl` (`15px`): Content cards and stat panels.
+- `rounded.full` (`9999px`): Circular play controls, evidence indicator dots.
 
 ---
 
-## 6. Components
+## 5. Elevation & Depth (Zero Shadows)
 
-### 6.1 Core (build once in `components/ui/`)
-Button · Input/Textarea · **CodeBox** (mono, internal horizontal scroll only) · Select · Tabs · Dialog · Toast · InlineAlert · Skeleton · EmptyState · Stepper · Table (stacks on mobile).
-
-### 6.2 Badge variants (text + icon always)
-| Variant | Style | Example label |
+| Level | Treatment | Application |
 |---|---|---|
-| neutral | `--wash` bg, `--ink-2` | Informational |
-| strong | `--strong-wash` / `--strong`, ✓ | Passed · Strong 3/4 |
-| partial | `--partial-wash` / `--partial`, ◐ | Needs review · Partial 2/4 |
-| weak | `--weak-wash` / `--weak`, ! | Open gap · Weak 1/4 |
-| notscored | transparent, hatch border, `--ink-2`, ○ | Not scored · Pending |
-| module | wash of that module + 1 px hue border | Resume · Interview · Library |
+| **0** | Flat fill on the neutral ladder | Every band, section ground, header, footer (`box-shadow: none`) |
+| **1** | One rung shift on ladder | White card on a `canvas-soft` or `canvas-warm` band |
+| **2** | 1px `hairline` border (`#E4E1DD`) | Bounding cards, modals, table cells, or tiles on the same rung |
 
-### 6.3 ScoreBar
-Text first (`3 / 4`, mono), then a 4 px bar: track `--wash-2`, fill in the band colour. When not scored: no fill, diagonal hatch track and the words "Not scored".
-
-### 6.4 CriterionRow (evaluation breakdown)
-`[module-neutral name] [ScoreBar] [one-line feedback]` and a disclosure with the quoted evidence (serif, left rule in `--interview`). Rows never reorder by score.
-
-### 6.5 SourceHighlight (resume ↔ claim)
-Selected claim's source span: `--resume-wash` background + 2 px `--resume-mark` underline, serif text. Unconfirmed claims: dashed underline; excluded: strikethrough in `--ink-4`. Interpretation panel is sans with a "From your resume" eyebrow above the serif quote.
-
-### 6.6 EvidenceChip
-Mono, 11 px, hairline border, leading 6 px dot in the evidence's band colour; text like `Interview · Redis caching · 0.40`. Always links to the underlying record. This is the visual proof behind every "because…" line.
-
-### 6.7 GapMarker
-Weak-coloured 6 px dot + "Open gap" + `gapRuleVersion` in mono tooltip. Never appears for single observations.
-
-### 6.8 Eyebrow with module dash
-```css
-.eyebrow{font:500 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);
-  display:inline-flex;gap:10px;align-items:center;padding:6px 11px 5px;border:1px solid var(--line-3)}
-.eyebrow::before{content:"";width:14px;height:2px;background:var(--module,var(--hatch))}
-.module-resume{--module:var(--resume-mark)} .module-interview{--module:var(--interview)} .module-library{--module:var(--library)}
-```
-
-### 6.9 Framed panel (corner ticks) — one per screen
-```css
-.framed{position:relative;border:1px solid var(--faint);background:var(--paper)}
-.framed::before,.framed::after{content:"";position:absolute;z-index:4;left:-1px;right:-1px;height:10px;pointer-events:none}
-.framed::before{top:-1px;background:
-  linear-gradient(var(--ink),var(--ink)) left top/10px 1.5px no-repeat,linear-gradient(var(--ink),var(--ink)) left top/1.5px 10px no-repeat,
-  linear-gradient(var(--ink),var(--ink)) right top/10px 1.5px no-repeat,linear-gradient(var(--ink),var(--ink)) right top/1.5px 10px no-repeat}
-.framed::after{bottom:-1px;background:
-  linear-gradient(var(--ink),var(--ink)) left bottom/10px 1.5px no-repeat,linear-gradient(var(--ink),var(--ink)) left bottom/1.5px 10px no-repeat,
-  linear-gradient(var(--ink),var(--ink)) right bottom/10px 1.5px no-repeat,linear-gradient(var(--ink),var(--ink)) right bottom/1.5px 10px no-repeat}
-```
-Use for: Home Next-Best-Action, active question workspace, resume review canvas. Not on lists.
-
-### 6.10 Separator and dot grid
-```css
-.separator{height:40px;background:repeating-linear-gradient(135deg,transparent 0 3.5px,var(--separator) 4px 4.5px,transparent 5px)}
-.dotgrid{background:radial-gradient(var(--dot) 1.3px,transparent 1.4px);background-size:24px 24px}
-.hatch{background:repeating-linear-gradient(135deg,transparent 0 3px,var(--hatch) 3.5px 4px,transparent 4.5px)} /* "not scored" tracks */
-```
-
-### 6.11 Buttons (rolling sweep, kept from StashBase)
-```css
-.button{position:relative;min-height:44px;padding:0 22px;display:inline-flex;align-items:center;justify-content:center;
-  overflow:hidden;isolation:isolate;border:1px solid var(--ink);border-radius:var(--radius);background:transparent;color:var(--ink);
-  font:400 15px/1 var(--display);letter-spacing:-.04em;cursor:pointer;transition:border-color .42s var(--ease-smooth)}
-.button-dark{background:var(--ink);color:var(--on-ink)}
-.button-sweep{position:absolute;inset:0;z-index:0;background:var(--paper);transform:translateX(-101%);transition:transform .42s var(--ease-smooth)}
-.button-label{position:relative;z-index:2;display:block;height:1.15em;overflow:hidden;line-height:1.15}
-.button-label-line{display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:transform .42s var(--ease-smooth)}
-.button-label-line:last-child{position:absolute;top:100%;left:0;right:0;color:var(--ink)}
-.button:hover .button-sweep,.button:focus-visible .button-sweep{transform:none}
-.button:hover .button-label-line,.button:focus-visible .button-label-line{transform:translateY(-100%)}
-.button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.button[disabled]{opacity:.45;cursor:not-allowed} /* always show the reason in adjacent text */
-```
-Variants: `dark` (primary), default (secondary outline), ghost, danger (outline `--weak`, sweep fills `--weak-wash`). Max one `dark` per screen.
-
-### 6.12 Segmented control (sliding pill, kept)
-```css
-.seg{position:relative;display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;padding:3px;border-radius:10px;background:var(--wash)}
-.seg::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px - (var(--n) - 1)*2px)/var(--n));
-  border-radius:7px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.08);transform:translateX(calc(var(--i)*(100% + 2px)));transition:transform .35s var(--ease-mechanical)}
-.seg>button{position:relative;padding:5px 10px;border:0;border-radius:7px;background:none;color:var(--ink-2);font:500 13px var(--sans);cursor:pointer}
-.seg [aria-selected="true"]{color:var(--ink)}
-```
-Use for: Resume review "Text | Claims", Library "All | Saved", theme toggle. (Set `--n`/`--i` from state.)
-
-### 6.13 Evidence thread (signature visual, landing + Home only)
-A dashed hairline path connects three small nodes — Resume (terracotta) → Interview (cobalt) → Library (teal) — with one mint bead travelling along it. It illustrates the product loop; it is never used as a fake activity indicator inside real data views.
-```css
-.thread-path{stroke:var(--line-3);stroke-width:1;stroke-dasharray:3 4;fill:none}
-.pulse{stroke:#21C16B;stroke-width:2;stroke-linecap:round;stroke-dasharray:12 100;stroke-dashoffset:12;opacity:0;
-  filter:drop-shadow(0 0 2px rgba(33,193,107,.5));animation:bead 4.8s cubic-bezier(.45,0,.4,1) infinite}
-@keyframes bead{0%{stroke-dashoffset:12;opacity:0}4%,25%{opacity:1}30%,100%{stroke-dashoffset:-100;opacity:0}}
-```
-(Mint `#21C16B` is decorative-only, not a status colour.)
-
-### 6.14 Optional entrance (landing only)
-Staggered word blur-in from StashBase (`hero-title-in`, 0.7 s, 0.1 s per word). Not used inside the app.
+There are **no drop shadows in the application chrome**. Depth is produced entirely by position on the neutral ladder and 1px hairline rules.
 
 ---
 
-## 7. Screen colour specs
-| Screen | Colour behaviour |
-|---|---|
-| **Landing** | Ink/paper, dot grid, evidence thread; hero stays monochrome |
-| **Home** | One framed Next-Best-Action panel; its eyebrow takes the target module's hue; EvidenceChips carry band colours; lists below neutral |
-| **Resume review** | Terracotta source highlights; Strong badge on confirmed; Partial on candidate topics; weak only for failed extraction |
-| **Interview workspace** | Cobalt eyebrow + 2 px cobalt rule beside the question; evaluation rows use band colours; "Not scored" = hatch |
-| **Session report** | Per-criterion table with ScoreBars; "Topics to revisit" use GapMarker + EvidenceChips |
-| **Library** | Teal eyebrow/ticks; status badges (Passed = strong, Needs review = partial, Evaluation failed = weak); "Informational only" = neutral |
-| **Settings** | Fully neutral; danger actions outlined in `--weak` |
+## 6. Components Specification
+
+### 6.1 Action Buttons
+- **Button Primary**: Background `{colors.primary}` (`#312D2A`), hover `{colors.primary-pressed}` (`#47423E`), text `#FFFFFF`, radius `4px` (`rounded.xs`), padding `10px 16px`, typography `label` (14px, 500 weight).
+- **Button Secondary**: Transparent background, text `{colors.ink}`, 1px border `{colors.ink}`, radius `4px`, padding `10px 16px`.
+- **Button Tertiary (Ghost)**: Transparent background, text `{colors.ink}`, hover background with 8% wash of ink.
+- **Button Disabled**: Background `{colors.canvas-soft}`, text `{colors.disabled-ink}` (`#AEA8A2`), 1px border `{colors.hairline}`, cursor `not-allowed`.
+
+### 6.2 The Hero Eyebrow Rule
+- Component: `.hero-eyebrow-rule`
+- Dimensions: `width: 40px`, `height: 4px`, `border-radius: 0`.
+- Background: `{colors.accent-gold}` (`#F0CC71`).
+- Placement: Positioned directly beneath major hero titles.
+
+### 6.3 Text Inputs & Form Controls
+- Background: `{colors.canvas}` (`#FFFFFF`).
+- Text: `{colors.ink}` (`#161513`).
+- Border: 1px `{colors.field-border}` (`#D4CFCA`). Focus ring: 2px `{colors.focus}` (`#227E9E`).
+- Radius: `6px` (`rounded.sm`). Padding: `12px 18px`.
+
+### 6.4 Product Cards & Panels
+- Background: `{colors.canvas}` or `{colors.canvas-warm}`.
+- Border: 1px `{colors.hairline}` (`#E4E1DD`).
+- Radius: `8px` (`rounded.md`).
+- Padding: `24px` (`spacing.xxl`).
+- Shadow: `none`.
+
+### 6.5 Evaluation & Rubric Chrome
+- **ScoreBar**: Text ratio in mono (`3 / 4`), accompanied by a 4px bar with track in `canvas-tint` and fill in outcome color (`strong` green, `partial` amber, `weak` red). Unscored state uses diagonal hatch.
+- **CriterionRow**: Question breakdown with evidence disclosure button. Quoted text set in Georgia serif with a 2px left border.
+- **EvidenceChip**: 11px mono chip, hairline border, leading 6px colored indicator dot.
 
 ---
 
-## 8. Motion
-| Interaction | Spec |
-|---|---|
-| Button sweep | 420 ms `--ease-smooth` |
-| Segmented pill | 350 ms `--ease-mechanical` |
-| Nav tick / tab change | 120 ms opacity + 160 ms translate |
-| Evaluation arrival | Rows fade in 120 ms each, stagger 40 ms; live-region announces completion |
-| Spring | Icons only (`--ease-spring`, e.g. save-bookmark scale 1.15) |
-| Pending evaluation | Hatch track shimmers 1.2 s linear loop |
+## 7. Do's and Don'ts
 
-```css
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .pulse{animation:none!important;opacity:0}
-}
-```
+### Do
+- Build page structure and hierarchy from the six-rung warm neutral ladder.
+- Reserve `{colors.brand-mark}` (`#C74634`) exclusively for the wordmark / logo mark.
+- Use Georgia serif for display titles, hero headlines, and original resume quotes.
+- Use Inter / Oracle Sans with an extreme 400 → 800 weight jump for section headings and UI chrome.
+- Maintain a single 40 × 4px `{colors.accent-gold}` rule below hero headlines.
+- Maintain 48px section padding (`{spacing.section}`) across major page bands.
+- Keep letter-spacing at `0` across every role.
+- Rely on 1px hairline rules and tone steps for depth—never drop shadows.
 
----
-
-## 9. Accessibility & performance
-1. Focus: 2 px ink outline, 3 px offset, on every interactive element (never colour-only).
-2. Colour is never the sole carrier of meaning (see §1.2); verified with a grayscale screenshot test on the session report and Library list.
-3. 44 px min touch targets; no horizontal overflow at 320 px; code scrolls inside its own box.
-4. Live region (`aria-live="polite"`) for evaluation completion and save confirmations.
-5. Hairline 0.5 px on ≥1.5 dppx screens.
-6. Fonts: self-host Space Grotesk, JetBrains Mono, Newsreader with `font-display: swap`; fall back to the stacks above. Load Newsreader only on screens that show original text/questions.
-7. CI: axe (no serious/critical), Playwright screenshots at 390×844 and 1280×800 in light and dark.
-
-## 10. Don'ts
-No module-hue fills on large areas · no red/green as sole signal · no gradients or glow outside the evidence thread bead · no emoji as UI icons (the uploaded demo used emoji; replace with a single consistent icon set) · no ratings, streaks, confetti · no fake chart in empty states · no sample resume text in production builds.
-
-## 11. Changes from the uploaded StashBase spec
-- Removed StashBase-specific product pieces (JobFit demo window, star button, Claude persona, "Claude terracotta" as a brand colour). Terracotta is retained but re-purposed as the **Resume** hue.
-- Added module hues, outcome (score) hues, washes, and verified contrast pairs.
-- Added the serif-for-original-text rule, ScoreBar, EvidenceChip, GapMarker, SourceHighlight, badges, module-tinted eyebrow and nav ticks.
-- Kept: Space Grotesk / JetBrains Mono / Newsreader, hairlines, corner ticks, hatch separator, dot grid, rolling button, sliding segmented control, bead pulse (limited), reduced-motion handling.
-- Reduced: shadows (popovers/dialogs only), radius (2–8 px), motion on in-app screens.
+### Don't
+- Don't add drop shadows to cards, modals, or buttons.
+- Don't use pure `#000000`; use warm near-black `{colors.ink}` (`#161513`).
+- Don't paint colored primary CTA buttons (no blue, green, or red buttons for primary actions).
+- Don't use brand red anywhere except the logo wordmark.
+- Don't round full-width sections or bands (`rounded.none` is mandatory).
+- Don't underline inline links; the deep teal `#006B8F` color alone carries affordance.
+- Don't add arbitrary shadows, glows, or multi-stop gradients.

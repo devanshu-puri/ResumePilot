@@ -60,33 +60,57 @@ export class GeminiLlmGateway implements LlmGateway {
         };
       }
 
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal,
-      });
+      const modelCandidates = [
+        this.model,
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-1.5-flash",
+      ];
+      const uniqueModels = Array.from(new Set(modelCandidates));
+
+      let lastError = "";
+      let responseData: any = null;
+
+      for (const m of uniqueModels) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`;
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+          signal: controller.signal,
+        });
+
+        if (res.ok) {
+          responseData = await res.json();
+          this.model = m;
+          break;
+        } else {
+          const errText = await res.text().catch(() => "");
+          lastError = `Gemini API HTTP ${res.status}: ${errText.slice(0, 150)}`;
+          if (res.status !== 404) {
+            break;
+          }
+        }
+      }
 
       clearTimeout(timer);
       const latencyMs = Date.now() - startTime;
 
-      if (!res.ok) {
-        const errorText = await res.text().catch(() => "");
+      if (!responseData) {
         logger.error("Gemini API error", {
           taskId: req.task,
-          statusCode: res.status,
+          lastError,
           latencyMs,
         });
         return {
           ok: false,
-          reason: `Gemini API HTTP ${res.status}: ${errorText.slice(0, 150)}`,
-          retryable: res.status === 429 || res.status >= 500,
+          reason: lastError || "Failed to receive response from Gemini API",
+          retryable: true,
           latencyMs,
         };
       }
 
-      const data = await res.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const rawText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (!rawText) {
         return {

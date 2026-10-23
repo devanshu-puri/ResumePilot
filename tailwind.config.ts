@@ -10,14 +10,48 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Oracle Warm Neutral Ladder
+        canvas: {
+          DEFAULT: "var(--canvas)",
+          soft: "var(--canvas-soft)",
+          tint: "var(--canvas-tint)",
+          warm: "var(--canvas-warm)",
+        },
+        hairline: "var(--hairline)",
+        divider: "var(--divider)",
+        "field-border": "var(--field-border)",
+        ink: {
+          DEFAULT: "var(--ink)",
+          deep: "var(--ink-deep)",
+          2: "var(--ink-2)",
+          4: "var(--ink-4)",
+        },
+        "disabled-ink": "var(--disabled-ink)",
+
+        // Action Charcoal & On Primary
+        primary: {
+          DEFAULT: "var(--primary)",
+          pressed: "var(--primary-pressed)",
+        },
+        "on-primary": "var(--on-primary)",
+
+        // Brand & Accents
+        "brand-mark": "var(--brand-mark)",
+        "accent-gold": {
+          DEFAULT: "var(--accent-gold)",
+          soft: "var(--accent-gold-soft)",
+        },
+        "band-teal": "var(--band-teal)",
+        "band-forest": "var(--band-forest)",
+        link: "var(--link)",
+        "focus-ring": "var(--focus)",
+
+        // Compatibility Aliases with Project Baseline
         paper: "var(--paper)",
         "paper-2": "var(--paper-2)",
         card: "var(--card)",
         wash: "var(--wash)",
         "wash-2": "var(--wash-2)",
-        ink: "var(--ink)",
-        "ink-2": "var(--ink-2)",
-        "ink-4": "var(--ink-4)",
         muted: "var(--muted)",
         "on-ink": "var(--on-ink)",
         line: "var(--line)",
@@ -27,6 +61,7 @@ const config: Config = {
         separator: "var(--separator)",
         dot: "var(--dot)",
 
+        // Domain Module & Evidence Outcomes
         resume: {
           DEFAULT: "var(--resume)",
           mark: "var(--resume-mark)",
@@ -55,15 +90,30 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--sans)", "sans-serif"],
-        display: ["var(--display)", "sans-serif"],
+        sans: ["var(--sans)", "Inter", "Oracle Sans", "sans-serif"],
+        display: ["var(--display)", "Inter", "sans-serif"],
+        serif: ["var(--serif)", "Georgia", "serif"],
+        "display-serif": ["var(--serif)", "Georgia", "serif"],
         mono: ["var(--mono)", "monospace"],
-        book: ["var(--book)", "serif"],
+        book: ["var(--book)", "Georgia", "serif"],
       },
       borderRadius: {
-        sm: "var(--radius-sm)",
-        DEFAULT: "var(--radius)",
-        lg: "var(--radius-lg)",
+        none: "0px",
+        xs: "var(--radius-xs, 4px)",
+        sm: "var(--radius-sm, 6px)",
+        DEFAULT: "var(--radius, 8px)",
+        md: "var(--radius-md, 8px)",
+        lg: "var(--radius-lg, 12px)",
+        xl: "var(--radius-xl, 15px)",
+        full: "9999px",
+      },
+      spacing: {
+        section: "48px",
+        gutter: "72px",
+      },
+      boxShadow: {
+        none: "none",
+        flat: "none",
       },
     },
   },

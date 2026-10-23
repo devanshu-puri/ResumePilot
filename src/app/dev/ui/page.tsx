@@ -7,7 +7,7 @@ import { ScoreBar } from "@/components/ui/score-bar";
 import { CriterionRow } from "@/components/ui/criterion-row";
 import { EvidenceChip } from "@/components/ui/evidence-chip";
 import { GapMarker } from "@/components/ui/gap-marker";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { SourceHighlight } from "@/components/ui/source-highlight";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { FramedPanel } from "@/components/ui/framed-panel";
@@ -28,16 +28,17 @@ export default function DevUiPage() {
   }, [theme]);
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-12">
+    <div className="p-8 max-w-4xl mx-auto space-y-12 bg-canvas min-h-screen text-ink">
       {/* Header and Theme Switcher */}
-      <div className="flex items-center justify-between border-b border-line pb-6">
+      <div className="flex items-center justify-between border-b border-hairline pb-6">
         <div>
-          <Eyebrow module="neutral">DESIGN SYSTEM PRIMITIVES</Eyebrow>
-          <h1 className="text-3xl font-display font-medium text-ink mt-2">
+          <Eyebrow module="neutral">ENTERPRISE DESIGN SYSTEM PRIMITIVES</Eyebrow>
+          <h1 className="text-3xl font-serif font-normal text-ink mt-2">
             ResumePilot UI Workbench
           </h1>
+          <HeroEyebrowRule className="my-3" />
           <p className="text-sm text-ink-2 font-sans mt-1">
-            Component variants, tokens, and contrast validation (Light & Dark)
+            Oracle Warm Neutral Ladder, Dual Display Registers, and Zero-Shadow Elevation
           </p>
         </div>
 
@@ -53,20 +54,44 @@ export default function DevUiPage() {
         </div>
       </div>
 
-      {/* Eyebrows */}
+      {/* Oracle Warm Neutral Ladder */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">1. Eyebrows</h2>
-        <div className="flex flex-wrap gap-4 items-center">
-          <Eyebrow module="resume">RESUME INTELLIGENCE</Eyebrow>
-          <Eyebrow module="interview">INTERVIEW LAB</Eyebrow>
-          <Eyebrow module="library">TECH LIBRARY</Eyebrow>
-          <Eyebrow module="neutral">GENERAL OVERVIEW</Eyebrow>
+        <h2 className="text-xl font-sans font-extrabold text-ink">
+          1. Six-Rung Warm Neutral Ladder
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          <div className="border border-hairline p-3 rounded-xs bg-canvas">
+            <div className="text-xs font-mono font-medium">canvas</div>
+            <div className="text-[11px] text-ink-4">#FFFFFF</div>
+          </div>
+          <div className="border border-hairline p-3 rounded-xs bg-canvas-soft">
+            <div className="text-xs font-mono font-medium">canvas-soft</div>
+            <div className="text-[11px] text-ink-4">#FBF9F8</div>
+          </div>
+          <div className="border border-hairline p-3 rounded-xs bg-canvas-tint">
+            <div className="text-xs font-mono font-medium">canvas-tint</div>
+            <div className="text-[11px] text-ink-4">#F5F4F2</div>
+          </div>
+          <div className="border border-hairline p-3 rounded-xs bg-canvas-warm">
+            <div className="text-xs font-mono font-medium">canvas-warm</div>
+            <div className="text-[11px] text-ink-4">#F1EFED</div>
+          </div>
+          <div className="border border-hairline p-3 rounded-xs bg-hairline text-ink">
+            <div className="text-xs font-mono font-medium">hairline</div>
+            <div className="text-[11px] text-ink-4">#E4E1DD</div>
+          </div>
+          <div className="border border-hairline p-3 rounded-xs bg-ink-deep text-on-primary">
+            <div className="text-xs font-mono font-medium">ink-deep</div>
+            <div className="text-[11px] opacity-70">#211E1C</div>
+          </div>
         </div>
       </section>
 
       {/* Buttons */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">2. Buttons</h2>
+        <h2 className="text-xl font-sans font-extrabold text-ink">
+          2. Action Buttons (Charcoal #312D2A, 4px Radius)
+        </h2>
         <div className="flex flex-wrap gap-4 items-center">
           <Button variant="primary">Primary Action</Button>
           <Button variant="secondary">Secondary Action</Button>
@@ -80,7 +105,7 @@ export default function DevUiPage() {
 
       {/* Badges */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">3. Badges</h2>
+        <h2 className="text-xl font-sans font-extrabold text-ink">3. Badges</h2>
         <div className="flex flex-wrap gap-3 items-center">
           <Badge variant="strong">Passed · Strong 3/4</Badge>
           <Badge variant="partial">Needs review · Partial 2/4</Badge>
@@ -95,7 +120,7 @@ export default function DevUiPage() {
 
       {/* Score Bars */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">4. ScoreBars</h2>
+        <h2 className="text-xl font-sans font-extrabold text-ink">4. ScoreBars</h2>
         <div className="space-y-3 max-w-md">
           <ScoreBar score={4} maxScore={4} />
           <ScoreBar score={3} maxScore={4} />
@@ -107,8 +132,8 @@ export default function DevUiPage() {
 
       {/* Criterion Rows */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">5. Criterion Rows</h2>
-        <div className="border border-line rounded p-4 bg-paper">
+        <h2 className="text-xl font-sans font-extrabold text-ink">5. Criterion Rows</h2>
+        <div className="border border-hairline rounded-md p-4 bg-canvas">
           <CriterionRow
             criterionName="Technical Accuracy"
             score={3}
@@ -134,7 +159,7 @@ export default function DevUiPage() {
 
       {/* Evidence Chips & Gap Markers */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">
+        <h2 className="text-xl font-sans font-extrabold text-ink">
           6. Evidence Chips & Gap Markers
         </h2>
         <div className="flex flex-wrap gap-4 items-center">
@@ -162,10 +187,10 @@ export default function DevUiPage() {
 
       {/* Source Highlights */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">
-          7. Source Highlight (Resume ↔ Claim)
+        <h2 className="text-xl font-sans font-extrabold text-ink">
+          7. Source Highlight (Resume ↔ Claim in Georgia Serif)
         </h2>
-        <div className="p-4 border border-line rounded bg-paper space-y-2 text-sm leading-relaxed">
+        <div className="p-4 border border-hairline rounded-md bg-canvas space-y-2 text-sm leading-relaxed">
           <p>
             Architected and deployed a{" "}
             <SourceHighlight status="selected">
@@ -198,7 +223,7 @@ export default function DevUiPage() {
 
       {/* Segmented Control */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">
+        <h2 className="text-xl font-sans font-extrabold text-ink">
           8. Segmented Control
         </h2>
         <div>
@@ -215,15 +240,15 @@ export default function DevUiPage() {
 
       {/* Framed Panel */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">
+        <h2 className="text-xl font-sans font-extrabold text-ink">
           9. Framed Panel (Corner Ticks)
         </h2>
         <FramedPanel className="space-y-2">
           <Eyebrow module="interview">NEXT-BEST-ACTION</Eyebrow>
-          <h3 className="text-xl font-display font-medium text-ink mt-2">
+          <h3 className="text-xl font-serif font-normal text-ink mt-2">
             Retest Redis Caching Defense
           </h3>
-          <p className="text-xs text-ink-2">
+          <p className="text-xs text-ink-2 font-sans">
             Recommended because your last interview defense scored 0.40, and you
             subsequently passed the Redis Caching Practice Activity with 0.85.
           </p>
@@ -233,9 +258,30 @@ export default function DevUiPage() {
         </FramedPanel>
       </section>
 
+      {/* Chromatic Bands (Oracle Whole-Band Scale) */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-sans font-extrabold text-ink">
+          10. Chromatic Bands (Band Scale Only)
+        </h2>
+        <div className="space-y-3">
+          <div className="p-6 bg-band-teal text-ink rounded-none border border-hairline">
+            <div className="font-serif font-normal text-lg">Band Teal (#D6E5E5)</div>
+            <div className="text-xs font-sans text-ink-2 mt-1">
+              Pale strip used to separate neutral section runs without card chrome.
+            </div>
+          </div>
+          <div className="p-6 bg-band-forest text-on-primary rounded-none">
+            <div className="font-serif font-normal text-lg text-white">Band Forest (#33553C)</div>
+            <div className="text-xs font-sans opacity-80 mt-1">
+              Deep enterprise band carrying white text and corporate link columns.
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Code Box */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">10. Code Box</h2>
+        <h2 className="text-xl font-sans font-extrabold text-ink">11. Code Box</h2>
         <CodeBox
           language="typescript"
           code={`async function getCache(key: string): Promise<string | null> {\n  const cached = await redis.get(key);\n  if (cached) return JSON.parse(cached);\n  return null;\n}`}
@@ -244,7 +290,7 @@ export default function DevUiPage() {
 
       {/* Empty State */}
       <section className="space-y-4">
-        <h2 className="text-lg font-display font-medium text-ink">11. Empty State</h2>
+        <h2 className="text-xl font-sans font-extrabold text-ink">12. Empty State</h2>
         <EmptyState
           title="No resume uploaded yet"
           description="Upload your resume in PDF, DOCX, or paste text to extract claims and generate interview questions."

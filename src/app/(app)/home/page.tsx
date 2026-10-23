@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { FramedPanel } from "@/components/ui/framed-panel";
 import { Button } from "@/components/ui/button";
 import { EvidenceChip } from "@/components/ui/evidence-chip";
@@ -54,9 +54,10 @@ export default function AppHomePage() {
       {/* Page Header */}
       <div>
         <Eyebrow module="neutral">WORKSPACE</Eyebrow>
-        <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+        <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
           Your Preparation Hub
         </h1>
+        <HeroEyebrowRule className="my-3" />
         <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
           Deterministic guidance grounded in your verifiable performance records.
         </p>
@@ -72,7 +73,7 @@ export default function AppHomePage() {
         </div>
 
         <div>
-          <h2 className="text-xl sm:text-2xl font-display font-medium text-ink">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-ink">
             {nba.title}
           </h2>
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-1 leading-relaxed">

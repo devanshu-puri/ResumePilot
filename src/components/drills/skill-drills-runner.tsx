@@ -8,7 +8,7 @@ import {
   QuestionDifficulty,
 } from "@/content/drills/drill-schema";
 import { VERIFIED_DRILL_QUESTIONS } from "@/content/drills/drill-data";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBox } from "@/components/ui/code-box";
@@ -220,9 +220,10 @@ export function SkillDrillsRunner({
       <div className="space-y-6">
         <div className="border-b border-line pb-4">
           <Eyebrow module="interview">MODULE II · SKILL DRILLS</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
             Targeted Technical Drills
           </h1>
+          <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
             Rapid, adaptive interview questions tailored directly to your resume&apos;s verified tech stack.
           </p>
@@ -338,9 +339,10 @@ export function SkillDrillsRunner({
       <div className="space-y-6 max-w-3xl">
         <div className="border-b border-line pb-4">
           <Eyebrow module="interview">DRILL COMPLETED</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
             Skill Drill Summary
           </h1>
+          <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
             Diagnostic performance metrics and metacognitive calibration results.
           </p>

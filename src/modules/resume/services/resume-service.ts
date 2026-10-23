@@ -13,7 +13,15 @@ export interface StoredResumeRecord {
   rawText: string;
   status: "review_pending" | "confirmed";
   sections: { id: string; sectionType: string; title: string }[];
-  projects: { id: string; title: string; role?: string; description: string }[];
+  projects: {
+    id: string;
+    title: string;
+    role?: string;
+    description: string;
+    techStack?: string[];
+    metrics?: string[];
+    responsibilities?: string[];
+  }[];
   claims: (VerifiedClaim & { id: string; userConfirmed: boolean; excluded: boolean })[];
   topics: ResolvedTopic[];
   discardedClaimsCount: number;

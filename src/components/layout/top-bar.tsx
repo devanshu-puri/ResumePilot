@@ -20,31 +20,33 @@ export function TopBar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-4 sm:px-6 border-b border-line bg-paper/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-4 sm:px-6 border-b border-hairline bg-canvas/95 backdrop-blur-sm">
       <div className="flex items-center gap-3">
         <Link
           href="/"
-          className="sm:hidden flex items-center gap-2 text-ink no-underline font-display font-medium text-sm"
+          className="sm:hidden flex items-center gap-2 text-ink no-underline font-serif font-normal text-sm"
         >
-          <div className="w-5 h-5 rounded bg-ink text-on-ink flex items-center justify-center font-display font-bold text-[10px]">
+          <div className="w-5 h-5 rounded-xs bg-brand-mark text-white flex items-center justify-center font-serif font-bold text-[10px]">
             RP
           </div>
-          <span>ResumePilot</span>
+          <span className="font-serif font-semibold text-sm tracking-normal text-brand-mark">
+            ResumePilot
+          </span>
         </Link>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={toggleTheme}
           aria-label="Toggle dark mode"
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded text-ink-2 hover:text-ink hover:bg-wash transition-colors"
+          className="min-w-[38px] min-h-[38px] flex items-center justify-center rounded-xs text-ink-2 hover:text-ink hover:bg-canvas-tint transition-colors"
         >
           {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
 
         <Link
           href="/auth/signin"
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded text-ink-2 hover:text-ink hover:bg-wash transition-colors"
+          className="min-w-[38px] min-h-[38px] flex items-center justify-center rounded-xs text-ink-2 hover:text-ink hover:bg-canvas-tint transition-colors"
           aria-label="User account or sign in"
         >
           <UserIcon className="w-4 h-4" />

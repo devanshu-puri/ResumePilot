@@ -5,7 +5,7 @@ export interface LlmCompletionRequest<T = unknown> {
   task: string;
   systemPrompt?: string;
   input: string | Record<string, unknown>;
-  schema?: z.ZodType<T>;
+  schema?: z.ZodType<T, any, any>;
   maxTokens?: number;
   timeoutMs?: number;
 }

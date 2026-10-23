@@ -36,6 +36,7 @@ Read before every session. Append, don't rewrite history (strike through superse
 | D-012 | 2026-10-23 | Google Gemini API integration with Gemini 3.5 Flash Lite | Accepted | Real-time live AI evaluation with sub-2s latency, high JSON fidelity, structured outputs, kerning tolerance for PDF text extraction |
 | D-013 | 2026-10-23 | Module II Skill Drills & Project Interview Panel built offline-first with deterministic generator & confidence calibration | Accepted | Zero LLM latency, deterministic scoring, offline playability |
 | D-014 | 2026-10-23 | Mobile BottomNav retains 5 primary anchors while desktop NavRail displays full suite (/drills, /projects) | Accepted | Responsive ergonomics without crowding touch screens |
+| D-015 | 2026-10-23 | Blend Oracle minimalist warm-neutral design system into DESIGN.md & UI chrome | Accepted | Six-rung neutral ladder, zero shadows, action charcoal (#312d2a) at 4px radius, brand red (#c74634) on wordmark, Georgia serif display, and 40x4px gold rule ornament |
 
 ## 3. Open questions
 - OQ-1 Which LLM provider/model for structuring, generation, evaluation? (Gateway keeps it swappable.)

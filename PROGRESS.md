@@ -2,9 +2,9 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (Track 1 Compliance + Animated README + Quizzes & Drills COMPLETE)
+**Last updated:** 2026-10-23 (Oracle Design Blend + Gemini OCR Fallback + Project STAR Integration COMPLETE)
 **Current focus:** Production verification on `main`
-**Repo state:** Gates G1-G6 + Module II + Track 1 complete (25/25 test suites, 114/114 tests pass, 0 typecheck errors, 0 lint warnings)
+**Repo state:** Gates G1-G6 + Module II + Track 1 complete (25/25 test suites, 115/115 tests pass, 0 typecheck errors, 0 lint warnings)
 
 ## Phase gates
 | Gate | Condition | Status |
@@ -102,6 +102,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | ORACLE-DESIGN-OCR | DONE | Integrated Oracle minimalist warm-neutral design system (6-rung ladder, action charcoal #312D2A, brand red #C74634, Georgia serif titles, HeroEyebrowRule 40x4px gold ornament), Gemini multimodal PDF OCR fallback for unreadable/scanned documents, user resume STAR project questions integration, and unified 7-item navigation. 25 test suites (115 tests) pass, typecheck clean. |
 | 2026-10-23 | Antigravity | TRACK-1-README | DONE | Overhauled README.md with animated typing SVG hero, Track 1 criteria implementation matrix covering all 11 evaluation dimensions, official links (MLH, AgentSkills, Ollama, Gemma, HF, OSI), closed-loop Mermaid diagram, and architecture overview. Merged origin/new-module (Drills & Project Interview Panel). 25 test suites (114 tests) pass, typecheck clean, pushed to origin/main. |
 | 2026-10-23 | Antigravity | LIB-MCQ-QUIZZES | DONE | Implemented Resume-Based MCQ Quizzes & Revision Flashcards in Library. Categorized across 8 spec domains, grounded in user resume projects (CasePilot, AQI Data Visualization). Built single-question MCQ player with progress tracking, hint toggle, server-side grading, and deep results review. Bidirectional integration between quizzes and flashcards (Test Your Knowledge -> Revise This Topic). 24 test suites (104 tests) pass, typecheck clean. |
 | 2026-10-23 | Antigravity | RES-T2..T4, INT-T5..T7 | DONE | Integrated live Google Gemini AI (`gemini-3.5-flash-lite`) via `GeminiLlmGateway`. Verified end-to-end PDF parsing on user resume (`Devisha_Resume.pdf`) extracting 5 verified claims (CasePilot, AQI Data Visualization) with exact offsets via kerning-tolerant `locateQuote`. Differentiated concept sets in `question-generator` to eliminate duplicate question validation errors. Tested live interview session and answer evaluation with Gemini scoring rubric criteria with authentic feedback and verbatim quotes. 22 test suites (96 tests) pass, typecheck clean. |
