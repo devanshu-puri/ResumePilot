@@ -74,6 +74,7 @@ export default function InterviewLabPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [answerText, setAnswerText] = useState("");
+  const [followUpAnswerText, setFollowUpAnswerText] = useState("");
   const [currentEvaluation, setCurrentEvaluation] = useState<Evaluation | null>(null);
   const [currentFollowUp, setCurrentFollowUp] = useState<FollowUp | null>(null);
   const [sessionType, setSessionType] = useState<"defense" | "challenge" | "mock">("challenge");
@@ -176,6 +177,35 @@ export default function InterviewLabPage() {
             }
           }
         }
+      }
+    } catch {
+      // Ignored
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Submit Answer to Adaptive Follow-Up Question
+  const handleSubmitFollowUp = async () => {
+    if (!session || !currentQuestion || !followUpAnswerText.trim()) return;
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/interview-sessions/${session.id}/responses`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          questionId: currentQuestion.id,
+          responseText: followUpAnswerText,
+          answerFormat: "text",
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setCurrentEvaluation(data.evaluation);
+        setFollowUpAnswerText("");
+        setCurrentFollowUp(null);
       }
     } catch {
       // Ignored
@@ -475,21 +505,42 @@ export default function InterviewLabPage() {
                 </div>
               </div>
 
-              {/* Follow-up Question Prompt */}
+              {/* Follow-up Question Prompt & Adaptive Reply */}
               {currentFollowUp && (
-                <div className="p-4 border border-interview/40 rounded bg-interview-wash/20 space-y-2">
+                <div className="p-4 border border-interview/40 rounded bg-interview-wash/20 space-y-3">
                   <div className="flex items-center gap-2">
                     <CornerDownRight className="w-4 h-4 text-interview" />
                     <span className="text-xs font-mono uppercase tracking-wider text-interview font-medium">
-                      Follow-Up Question ({currentFollowUp.followUpType.replace(/_/g, " ")})
+                      Adaptive Follow-Up ({currentFollowUp.followUpType.replace(/_/g, " ")})
                     </span>
                   </div>
                   <p className="font-book text-base text-ink leading-relaxed">
                     {currentFollowUp.prompt}
                   </p>
-                  <p className="text-xs text-ink-2 italic font-sans pt-1">
+                  <p className="text-xs text-ink-2 italic font-sans">
                     Rationale: {currentFollowUp.rationale}
                   </p>
+
+                  <div className="pt-2 space-y-2">
+                    <textarea
+                      rows={3}
+                      value={followUpAnswerText}
+                      onChange={(e) => setFollowUpAnswerText(e.target.value)}
+                      placeholder="Explain your approach to this follow-up inquiry..."
+                      className="w-full p-3 font-sans text-xs sm:text-sm border border-line rounded bg-paper text-ink focus:outline-none focus:border-ink leading-relaxed"
+                    />
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        disabled={loading || followUpAnswerText.trim().length === 0}
+                        onClick={handleSubmitFollowUp}
+                      >
+                        <span>{loading ? "Evaluating..." : "Submit Follow-Up Response"}</span>
+                        <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
 

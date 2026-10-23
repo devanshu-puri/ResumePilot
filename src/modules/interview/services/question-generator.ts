@@ -63,6 +63,24 @@ const KNOWN_TECHNOLOGIES = [
   "angular", "node", "python", "golang", "rust", "c++", "java", "typescript"
 ];
 
+const TECH_SYNONYMS: Record<string, string[]> = {
+  supabase: ["postgresql", "postgres", "sql", "database", "auth", "rest", "graphql"],
+  postgres: ["postgresql", "sql", "supabase", "database", "relational"],
+  postgresql: ["postgres", "sql", "supabase", "database", "relational"],
+  mysql: ["sql", "database", "relational"],
+  mongodb: ["nosql", "database", "document"],
+  vercel: ["next", "react", "node", "serverless", "deployment", "rest", "frontend"],
+  v0: ["vercel", "react", "frontend", "ui", "tailwind"],
+  next: ["react", "node", "javascript", "typescript", "vercel", "frontend"],
+  react: ["javascript", "typescript", "html", "css", "web", "frontend"],
+  pandas: ["python", "dataframe", "numpy", "data"],
+  matplotlib: ["python", "visualization", "plotting", "data"],
+  grok: ["ai", "llm", "api", "rest", "python", "model", "token", "prompt"],
+  c: ["c++", "memory", "pointers", "dsa", "algorithms"],
+  "c++": ["c", "memory", "pointers", "dsa", "algorithms", "stl"],
+  python: ["pandas", "matplotlib", "numpy", "backend", "scripting"],
+};
+
 /**
  * Post-check: rejects questions naming technologies completely outside the claim and topic (INT-T5).
  */
@@ -70,7 +88,14 @@ export function validateNoHallucinatedTech(
   prompt: string,
   allowedContext: string
 ): void {
-  const lowerContext = allowedContext.toLowerCase();
+  let lowerContext = allowedContext.toLowerCase();
+
+  // Expand allowed context with known ecosystem relationships (e.g. Supabase -> PostgreSQL)
+  for (const [key, synonyms] of Object.entries(TECH_SYNONYMS)) {
+    if (lowerContext.includes(key)) {
+      lowerContext += " " + synonyms.join(" ");
+    }
+  }
 
   for (const tech of KNOWN_TECHNOLOGIES) {
     const regex = new RegExp(`\\b${tech.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
@@ -165,7 +190,35 @@ export async function generateQuestion(
   const estimatedDurationSeconds = generated.estimatedDurationSeconds ?? 300;
 
   // Post-check 1: Hallucinated technology
-  validateNoHallucinatedTech(generated.prompt, allowedContext);
+  try {
+    validateNoHallucinatedTech(generated.prompt, allowedContext);
+  } catch (err) {
+    console.warn("Hallucination check warning, repairing question:", (err as Error).message);
+    // If it threw, attempt repair with strict instruction
+    const repair = await gateway.complete<GeneratedQuestionOutput>({
+      task: "question_generation_repair",
+      systemPrompt: `${QUESTION_GENERATION_PROMPT}\n\nSTRICT CONSTRAINT: Do NOT name any outside technologies or frameworks. Base the question directly on: "${input.claimText || input.topicName}".`,
+      input: {
+        topic: input.topicName,
+        claim: input.claimText ?? "No specific claim, conceptual inquiry.",
+        targetRole: input.targetRole,
+        difficulty: input.difficulty ?? "intermediate",
+      },
+      schema: QuestionGenerationOutputSchema as z.ZodType<GeneratedQuestionOutput>,
+    });
+
+    if (repair.ok && repair.data?.prompt) {
+      generated.prompt = repair.data.prompt;
+      if (repair.data.expectedConcepts) {
+        generated.expectedConcepts = repair.data.expectedConcepts;
+      }
+    } else {
+      // Graceful fallback to authentic question grounded in the claim
+      generated.prompt = input.claimText
+        ? `In your project, you stated: "${input.claimText}". Can you walk me through your technical design choices, internal architecture, and trade-offs when implementing this?`
+        : `Can you explain the internal mechanics, architecture, and common trade-offs when working with ${input.topicName}?`;
+    }
+  }
 
   // Post-check 2: Duplicate concept set resolution (INT-T5)
   if (input.existingQuestionsInSession) {

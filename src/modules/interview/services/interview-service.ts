@@ -62,23 +62,39 @@ export class InterviewService {
 
     // If defense session, generate questions grounded in provided claims
     if (params.sessionType === "defense" && params.claims && params.claims.length > 0) {
-      for (const claim of params.claims) {
-        const q = await generateQuestion(
-          {
-            topicSlug: claim.topicSlug,
-            topicName: claim.topicName,
-            claimText: claim.claimText,
-            targetRole: params.targetRole,
-            difficulty: params.difficulty ?? "intermediate",
-            existingQuestionsInSession: questions.map((item) => ({
-              topicSlug: item.topicId,
-              expectedConcepts: item.expectedConcepts,
-            })),
-          },
-          this.gateway
-        );
-        questions.push(q);
-      }
+      const claimsToUse = params.claims.slice(0, 3);
+      const generatedQuestions = await Promise.all(
+        claimsToUse.map(async (claim) => {
+          try {
+            return await generateQuestion(
+              {
+                topicSlug: claim.topicSlug,
+                topicName: claim.topicName,
+                claimText: claim.claimText,
+                targetRole: params.targetRole,
+                difficulty: params.difficulty ?? "intermediate",
+              },
+              this.gateway
+            );
+          } catch (err) {
+            console.warn("Failed generating question for claim, fallback used:", err);
+            return {
+              id: `q_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+              topicId: claim.topicSlug,
+              questionType: "resume_defense" as const,
+              prompt: `In your resume, you stated: "${claim.claimText}". Can you walk me through your technical design choices, internal architecture, and trade-offs when implementing this?`,
+              expectedConcepts: ["Internal architecture", "Technical trade-offs", "Failure handling"],
+              rubricId: "resume_defense_v1",
+              rubricVersion: "v1",
+              comparabilityKey: `${claim.topicSlug}:resume_defense_v1:${params.difficulty ?? "intermediate"}`,
+              claimTextSnapshot: claim.claimText,
+              difficulty: params.difficulty ?? "intermediate",
+              estimatedDurationSeconds: 300,
+            };
+          }
+        })
+      );
+      questions.push(...generatedQuestions);
     } else {
       // Challenge or mock mode: generate conceptual / architectural questions
       const topics = params.topicSlugs ?? ["redis-caching", "sql-fundamentals"];
