@@ -72,10 +72,11 @@ interface Session {
 export default function InterviewLabPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [answerText, setAnswerText] = useState("");
   const [currentEvaluation, setCurrentEvaluation] = useState<Evaluation | null>(null);
   const [currentFollowUp, setCurrentFollowUp] = useState<FollowUp | null>(null);
-  const [sessionType, setSessionType] = useState<"defense" | "challenge" | "mock">("defense");
+  const [sessionType, setSessionType] = useState<"defense" | "challenge" | "mock">("challenge");
   const [targetRole, setTargetRole] = useState("Full-Stack Software Engineer");
   const [activeResumeClaims, setActiveResumeClaims] = useState<any[]>([]);
 
@@ -87,6 +88,9 @@ export default function InterviewLabPage() {
         if (data?.resume?.claims) {
           const confirmed = data.resume.claims.filter((c: any) => c.userConfirmed && !c.excluded);
           setActiveResumeClaims(confirmed);
+          if (confirmed.length > 0) {
+            setSessionType("defense");
+          }
         }
       })
       .catch(() => {});
@@ -95,6 +99,7 @@ export default function InterviewLabPage() {
   // Start new practice session
   const handleStartSession = async () => {
     setLoading(true);
+    setError(null);
     setCurrentEvaluation(null);
     setCurrentFollowUp(null);
     setAnswerText("");
@@ -124,9 +129,12 @@ export default function InterviewLabPage() {
       if (res.ok) {
         const data = await res.json();
         setSession(data.session);
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        setError(errData.message || "Failed to generate interview session. Please try again.");
       }
-    } catch {
-      // Ignored
+    } catch (err) {
+      setError((err as Error).message || "Network error while connecting to interview lab.");
     } finally {
       setLoading(false);
     }
@@ -225,6 +233,13 @@ export default function InterviewLabPage() {
         )}
       </div>
 
+      {error && (
+        <div className="p-3 border border-weak rounded bg-weak-wash text-weak text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+
       {/* Mode Picker / Start Screen */}
       {!session && (
         <FramedPanel className="space-y-6 max-w-2xl mx-auto">
@@ -292,6 +307,29 @@ export default function InterviewLabPage() {
               </span>
             </button>
           </div>
+
+          {sessionType === "defense" && activeResumeClaims.length === 0 && (
+            <div className="p-4 rounded border border-line bg-wash/60 space-y-2">
+              <div className="flex items-center gap-2 text-ink font-medium text-xs">
+                <AlertCircle className="w-4 h-4 text-warning" />
+                <span>Resume Defense requires confirmed claims from your resume</span>
+              </div>
+              <p className="text-[11px] text-ink-2 leading-relaxed">
+                You haven&apos;t confirmed any claims on your resume yet. You can upload and confirm claims on your resume, or select <strong>Topic Challenge</strong> to practice architectural questions immediately without a resume.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <a href="/resume">
+                  <Button variant="secondary" size="sm">
+                    <span>Upload / Review Resume</span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </Button>
+                </a>
+                <Button variant="secondary" size="sm" onClick={() => setSessionType("challenge")}>
+                  <span>Switch to Topic Challenge</span>
+                </Button>
+              </div>
+            </div>
+          )}
 
           <div className="pt-2">
             <Button

@@ -28,10 +28,19 @@ export interface StoredUserProgress {
   completedAt?: Date;
 }
 
-// In-memory stores for tests and offline usage
-const attemptStore: StoredAttempt[] = [];
-const progressStore = new Map<string, StoredUserProgress>(); // key: `${userId}:${slug}`
-const savedStore = new Set<string>(); // key: `${userId}:${slug}`
+// In-memory stores shared across Next.js route chunks via globalThis
+const globalForLibrary = globalThis as unknown as {
+  __ATTEMPT_STORE__?: StoredAttempt[];
+  __PROGRESS_STORE__?: Map<string, StoredUserProgress>;
+  __SAVED_STORE__?: Set<string>;
+};
+if (!globalForLibrary.__ATTEMPT_STORE__) globalForLibrary.__ATTEMPT_STORE__ = [];
+if (!globalForLibrary.__PROGRESS_STORE__) globalForLibrary.__PROGRESS_STORE__ = new Map();
+if (!globalForLibrary.__SAVED_STORE__) globalForLibrary.__SAVED_STORE__ = new Set();
+
+const attemptStore = globalForLibrary.__ATTEMPT_STORE__;
+const progressStore = globalForLibrary.__PROGRESS_STORE__;
+const savedStore = globalForLibrary.__SAVED_STORE__;
 
 export class LibraryService {
   constructor(private gateway: LlmGateway = getLlmGateway()) {}

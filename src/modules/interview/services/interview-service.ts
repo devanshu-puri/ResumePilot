@@ -30,7 +30,14 @@ export interface StoredSession {
   completedAt?: Date;
 }
 
-const sessionMemoryStore = new Map<string, StoredSession>();
+// In-memory session cache shared across Next.js route chunks via globalThis
+const globalForInterview = globalThis as unknown as {
+  __SESSION_MEMORY_STORE__?: Map<string, StoredSession>;
+};
+if (!globalForInterview.__SESSION_MEMORY_STORE__) {
+  globalForInterview.__SESSION_MEMORY_STORE__ = new Map<string, StoredSession>();
+}
+const sessionMemoryStore = globalForInterview.__SESSION_MEMORY_STORE__;
 
 export class InterviewService {
   constructor(private gateway: LlmGateway = getLlmGateway()) {}

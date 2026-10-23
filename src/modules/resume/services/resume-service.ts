@@ -19,8 +19,14 @@ export interface StoredResumeRecord {
   discardedClaimsCount: number;
 }
 
-// In-memory fallback cache for test environments without live DB
-const memoryStore = new Map<string, StoredResumeRecord>();
+// In-memory fallback cache shared across Next.js route chunks via globalThis
+const globalForResume = globalThis as unknown as {
+  __RESUME_MEMORY_STORE__?: Map<string, StoredResumeRecord>;
+};
+if (!globalForResume.__RESUME_MEMORY_STORE__) {
+  globalForResume.__RESUME_MEMORY_STORE__ = new Map<string, StoredResumeRecord>();
+}
+const memoryStore = globalForResume.__RESUME_MEMORY_STORE__;
 
 export class ResumeService {
   constructor(

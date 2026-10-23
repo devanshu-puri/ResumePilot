@@ -70,6 +70,8 @@ export default function ResumePage() {
   const [targetRole, setTargetRole] = useState("Full-Stack Software Engineer");
   const [pasteInput, setPasteInput] = useState(DEFAULT_DEMO_RESUME);
   const [showPasteModal, setShowPasteModal] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Fetch active resume
   const fetchActiveResume = async () => {
@@ -93,7 +95,41 @@ export default function ResumePage() {
     fetchActiveResume();
   }, []);
 
-  // Upload handler
+  // File Upload Handler (PDF, DOCX, TXT)
+  const handleFileUpload = async (file: File) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/resumes", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to process resume file.");
+      }
+
+      // Fetch newly created resume
+      const detailRes = await fetch(`/api/resumes/${data.resumeId}`);
+      if (detailRes.ok) {
+        const detailData = await detailRes.json();
+        setResume(detailData.resume);
+        if (detailData.resume.claims?.length > 0) {
+          setSelectedClaimId(detailData.resume.claims[0].id);
+        }
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Text Upload handler
   const handleUploadText = async (textToUpload: string) => {
     setLoading(true);
     setError(null);
@@ -121,6 +157,32 @@ export default function ResumePage() {
       setShowPasteModal(false);
     } catch (err) {
       setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Confirm All Claims
+  const handleConfirmAll = async () => {
+    if (!resume) return;
+    setLoading(true);
+    try {
+      for (const claim of resume.claims) {
+        if (!claim.userConfirmed && !claim.excluded) {
+          await fetch(`/api/resumes/${resume.id}/claims/${claim.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userConfirmed: true, excluded: false }),
+          });
+        }
+      }
+      const detailRes = await fetch(`/api/resumes/${resume.id}`);
+      if (detailRes.ok) {
+        const detailData = await detailRes.json();
+        setResume(detailData.resume);
+      }
+    } catch {
+      // Ignore
     } finally {
       setLoading(false);
     }
@@ -234,24 +296,79 @@ export default function ResumePage() {
 
       {/* No Resume State */}
       {!resume && (
-        <FramedPanel className="space-y-4">
-          <EmptyState
-            title="No active resume uploaded"
-            description="Upload your technical resume or paste plain text. All files are processed ephemeral in-memory and are never stored on disk."
-            action={
-              <div className="flex flex-wrap gap-3 justify-center">
-                <Button
-                  variant="primary"
-                  onClick={() => setShowPasteModal(true)}
-                  disabled={loading}
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  <span>{loading ? "Processing..." : "Paste & Extract Claims"}</span>
-                </Button>
-              </div>
-            }
+        <div className="space-y-6">
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            accept=".pdf,.docx,.txt"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleFileUpload(file);
+            }}
           />
-        </FramedPanel>
+
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDragging(false);
+              const file = e.dataTransfer.files?.[0];
+              if (file) handleFileUpload(file);
+            }}
+            className={`border-2 border-dashed rounded-lg p-8 sm:p-12 text-center transition-all ${
+              isDragging
+                ? "border-primary bg-primary/5 scale-[1.01]"
+                : "border-line hover:border-ink-2 bg-card"
+            }`}
+          >
+            <div className="w-14 h-14 rounded-full bg-wash flex items-center justify-center mx-auto mb-4 border border-line">
+              <Upload className={`w-7 h-7 ${loading ? "animate-bounce text-primary" : "text-ink-2"}`} />
+            </div>
+
+            <h2 className="text-xl font-display font-medium text-ink">
+              {loading ? "Extracting Verifiable Claims..." : "Upload Your Technical Resume"}
+            </h2>
+            <p className="text-xs sm:text-sm text-ink-2 max-w-md mx-auto mt-2 leading-relaxed">
+              Upload a <strong>PDF</strong>, <strong>DOCX</strong>, or <strong>TXT</strong> document (max 5 MB).
+              Your resume is processed in-memory and ephemeral—never written to disk.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+              <Button
+                variant="primary"
+                disabled={loading}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                <span>{loading ? "Analyzing Document..." : "Browse Document (PDF, DOCX, TXT)"}</span>
+              </Button>
+
+              <Button
+                variant="secondary"
+                disabled={loading}
+                onClick={() => setShowPasteModal(true)}
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                <span>Paste Plain Text</span>
+              </Button>
+
+              <Button
+                variant="secondary"
+                disabled={loading}
+                onClick={() => handleUploadText(DEFAULT_DEMO_RESUME)}
+                title="Instantly test with pre-built engineer resume"
+              >
+                <Sparkles className="w-4 h-4 mr-2 text-warning" />
+                <span>Load Sample Tech Resume</span>
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Paste Modal / Drawer */}
@@ -319,6 +436,19 @@ export default function ResumePage() {
                   </p>
                 )}
               </div>
+
+              {confirmedClaims.length < resume.claims.length && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={loading}
+                  onClick={handleConfirmAll}
+                  title="Confirm all extracted claims for defense practice"
+                >
+                  <Check className="w-3.5 h-3.5 mr-1" />
+                  <span>Confirm All</span>
+                </Button>
+              )}
 
               <Button
                 variant="primary"

@@ -21,8 +21,14 @@ export interface StoredEvidenceRecord extends AppendEvidenceInput {
   rubricVersion: string;
 }
 
-// In-memory ledger cache for tests/offline
-const evidenceMemoryStore = new Map<string, StoredEvidenceRecord>();
+// In-memory ledger cache shared across Next.js route chunks via globalThis
+const globalForEvidence = globalThis as unknown as {
+  __EVIDENCE_MEMORY_STORE__?: Map<string, StoredEvidenceRecord>;
+};
+if (!globalForEvidence.__EVIDENCE_MEMORY_STORE__) {
+  globalForEvidence.__EVIDENCE_MEMORY_STORE__ = new Map<string, StoredEvidenceRecord>();
+}
+const evidenceMemoryStore = globalForEvidence.__EVIDENCE_MEMORY_STORE__;
 
 export class EvidenceService {
   /**

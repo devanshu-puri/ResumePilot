@@ -163,6 +163,19 @@ export async function extractResumeText(
 
     // PDF extraction
     if (mimeType === "application/pdf" || lowerName.endsWith(".pdf")) {
+      // First attempt parsing with pdf-parse library
+      try {
+        const { PDFParse } = await import("pdf-parse");
+        const parser = new PDFParse({ data: buffer });
+        const parsed = await parser.getText();
+        await parser.destroy();
+        if (parsed?.text && parsed.text.trim().length > 20) {
+          return assessReadability(parsed.text, buffer.length);
+        }
+      } catch {
+        // Fall back to stream regex extraction
+      }
+
       // Basic text stream extractor from PDF buffer without native binary dependencies
       const rawString = buffer.toString("binary");
       const textBlocks: string[] = [];

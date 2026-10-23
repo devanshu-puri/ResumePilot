@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
 
     throw AppError.badRequest("Expected multipart/form-data or application/json.");
   } catch (err) {
+    console.error("POST /api/resumes ERROR:", err);
     if (err instanceof AppError) {
       return NextResponse.json(err.toSafeResponse(), { status: err.statusCode });
     }
