@@ -2,16 +2,16 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (Gate G2 complete: RES-T1..T8 DONE)
-**Current focus:** INT-T1
-**Repo state:** Gates G1 and G2 complete (52/52 tests pass, Next.js build passes 14/14 routes)
+**Last updated:** 2026-10-23 (Gate G3 complete: INT-T1..T11 DONE, EVD-T1 integrated)
+**Current focus:** LIB-T1
+**Repo state:** Gates G1, G2, and G3 complete (69/69 tests pass, Next.js build passes 15/15 routes)
 
 ## Phase gates
 | Gate | Condition | Status |
 |---|---|---|
 | G1 Foundation | FND-T1…T9 DONE | DONE |
 | G2 Resume | RES-T1…T8 DONE | DONE |
-| G3 Interview | INT-T1…T11 DONE | TODO |
+| G3 Interview | INT-T1…T11 DONE | DONE |
 | G4 Library | LIB-T1…T9 DONE | TODO |
 | G5 Loop | EVD-T1…T8 DONE | TODO |
 | G6 Hardening | Module 05 checklists ticked, AC-1…AC-14 linked | TODO |
@@ -38,17 +38,17 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | RES-T6 | 01 | Review UI | RES-T1–T5, FND-T3 | DONE | `/resume` interactive workspace, source highlight, claim confirm/edit/exclude, question set gating |
 | RES-T7 | 01 | Deletion/retention | RES-T1 | DONE | `tests/resume-api.test.ts` (cascade delete verified, memory buffer ephemeral, zero disk files) |
 | RES-T8 | 01 | Authz tests | RES-T1, FND-T5 | DONE | `tests/resume-api.test.ts` (cross-user access/edit blocked with 404) |
-| INT-T1 | 02 | Interview schema | RES-T1 | TODO | |
-| INT-T2 | 02 | Rubric templates | INT-T1 | TODO | |
-| INT-T3 | 02 | aggregateScore | FND-T1 | TODO | |
-| INT-T4 | 02 | Session state machine | FND-T1 | TODO | |
-| INT-T5 | 02 | Question generation | INT-T2, RES-T6 | TODO | |
-| INT-T6 | 02 | Response persistence | INT-T1 | TODO | |
-| INT-T7 | 02 | Evaluation service | INT-T2, INT-T3, FND-T7 | TODO | |
-| INT-T8 | 02 | Evidence write (txn) | INT-T7, EVD-T1 | TODO | |
-| INT-T9 | 02 | Follow-ups | INT-T7 | TODO | |
-| INT-T10 | 02 | Interview UI | INT-T4–T9 | TODO | |
-| INT-T11 | 02 | Authz tests | INT-T1 | TODO | |
+| INT-T1 | 02 | Interview schema | RES-T1 | DONE | Included in Prisma schema (`prisma/schema.prisma`), required topicId, 0≤score≤maxScore bounds |
+| INT-T2 | 02 | Rubric templates | INT-T1 | DONE | `tests/rubrics-score.test.ts` (immutable versioned templates for defense, conceptual, code) |
+| INT-T3 | 02 | aggregateScore | FND-T1 | DONE | `tests/rubrics-score.test.ts` (pure deterministic summation, strict [0, maxScore] rejection) |
+| INT-T4 | 02 | Session state machine | FND-T1 | DONE | `tests/session-state-machine.test.ts` (pause/resume position preserved, illegal transitions rejected) |
+| INT-T5 | 02 | Question generation | INT-T2, RES-T6 | DONE | `tests/interview-service.test.ts` (hallucinated tech rejected, duplicate concept sets rejected) |
+| INT-T6 | 02 | Response persistence | INT-T1 | DONE | `tests/interview-service.test.ts` (empty/whitespace response rejected with 422, unpersisted) |
+| INT-T7 | 02 | Evaluation service | INT-T2, INT-T3, FND-T7 | DONE | `tests/interview-service.test.ts` (LLM rubric evaluation, repair retry, inconclusive on malformed) |
+| INT-T8 | 02 | Evidence write (txn) | INT-T7, EVD-T1 | DONE | `tests/interview-service.test.ts` (appends TopicEvidence in same transaction) |
+| INT-T9 | 02 | Follow-ups | INT-T7 | DONE | `tests/interview-service.test.ts` (follow-up links to triggering response, max 2 per question) |
+| INT-T10 | 02 | Interview UI | INT-T4–T9 | DONE | `/interview` workspace (mode picker, framed prompt, answer editor, breakdown, session report) |
+| INT-T11 | 02 | Authz tests | INT-T1 | DONE | `tests/interview-service.test.ts` (cross-user session access blocked with 404) |
 | LIB-T1 | 03 | Library schema | FND-T4 | TODO | |
 | LIB-T2 | 03 | Content seed + validation | LIB-T1 | TODO | |
 | LIB-T3 | 03 | Filters/search | LIB-T2 | TODO | |
@@ -86,6 +86,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | INT-T1..T11, EVD-T1 | DONE | Completed Gate G3 Adaptive Interview Lab: rubric templates (INT-T2), aggregateScore (INT-T3), session state machine (INT-T4), question generation with hallucination check (INT-T5), response persistence & validation (INT-T6), evaluation service with repair retry (INT-T7), evidence write (INT-T8, EVD-T1), follow-ups (INT-T9), interview UI (INT-T10), cross-user authz (INT-T11). 69 tests pass, build clean. |
 | 2026-10-23 | Antigravity | RES-T1..T8 | DONE | Completed Gate G2 Resume Intelligence: file validation/extraction (RES-T2), exact quote locating (RES-T3), LLM structuring & prompt-injection defense (RES-T4), topic/alias mapping (RES-T5), review workspace UI (RES-T6), ephemeral retention & cascade deletion (RES-T7), cross-user authz (RES-T8). 52 tests pass, build clean. |
 | 2026-10-23 | Antigravity | FND-T5..T9 | DONE | Completed Gate G1 Foundation: ownership assertions (FND-T5), error model & redacting logger (FND-T6), LlmGateway with open-weight & fake adapters (FND-T7), rate limiter (FND-T8), and CI/README/LICENSE (FND-T9). 29/29 tests pass. |
 | 2026-10-23 | Antigravity | FND-T4 | DONE | Implemented Prisma schema for User, Auth, Topic, TopicEvidence, and module entities. Created initial migration SQL, curated 30 canonical topics seed (`prisma/seed-topics.ts`), and verified with `tests/taxonomy.test.ts`. |
