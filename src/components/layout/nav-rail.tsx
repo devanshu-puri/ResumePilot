@@ -9,6 +9,7 @@ import {
   FileText,
   MessageSquare,
   BookOpen,
+  Zap,
   History,
   Settings,
   Sparkles,
@@ -26,6 +27,7 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
   { name: "Resume", href: "/resume", icon: FileText, module: "resume" },
   { name: "Interview", href: "/interview", icon: MessageSquare, module: "interview" },
   { name: "Library", href: "/library", icon: BookOpen, module: "library" },
+  { name: "Tech Bites", href: "/tech-bites", icon: Zap, module: "library" },
 ];
 
 export const FOOT_NAV_ITEMS: NavItem[] = [

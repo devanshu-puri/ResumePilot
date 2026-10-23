@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +19,7 @@ import {
   Sparkles,
   ArrowRight,
   HelpCircle,
+  Zap,
 } from "lucide-react";
 
 interface Activity {
@@ -142,14 +144,44 @@ export default function LibraryPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="border-b border-line pb-4">
-        <Eyebrow module="library">MODULE 03 · TECH LIBRARY & PRACTICE STUDIO</Eyebrow>
-        <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
-          Technical Library & Practice Activities
-        </h1>
-        <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
-          Curated architectural guides with deterministic knowledge checks and rubric practice.
-        </p>
+      <div className="border-b border-line pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <Eyebrow module="library">MODULE 03 · TECH LIBRARY & PRACTICE STUDIO</Eyebrow>
+          <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+            Technical Library & Practice Activities
+          </h1>
+          <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
+            Curated architectural guides with deterministic knowledge checks and rubric practice.
+          </p>
+        </div>
+
+        <Link href="/tech-bites">
+          <Button size="sm" variant="secondary" className="border-library/40 bg-library-wash text-library hover:bg-library-wash/80">
+            <Zap className="w-4 h-4 mr-1.5 text-library" />
+            <span>Launch 15-Min Tech Bites</span>
+          </Button>
+        </Link>
+      </div>
+
+      {/* Tech Bites Spotlight Banner */}
+      <div className="p-4 sm:p-5 rounded border border-library/30 bg-library-wash/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Badge variant="library">NEW FEATURE</Badge>
+            <span className="text-xs font-mono font-medium text-ink">
+              15-Minute Architectural Mental Models
+            </span>
+          </div>
+          <p className="text-xs text-ink-2 font-sans max-w-xl">
+            Want fast, structured learning? Complete 5-stage interactive bites covering Cache-Aside, RAG pipelines, and database indexing with active recall XP rewards.
+          </p>
+        </div>
+        <Link href="/tech-bites" className="flex-shrink-0">
+          <Button size="sm" variant="primary">
+            <span>Explore Tech Bites</span>
+            <ArrowRight className="w-3.5 h-3.5 ml-1" />
+          </Button>
+        </Link>
       </div>
 
       {/* Filter & Search Bar */}
