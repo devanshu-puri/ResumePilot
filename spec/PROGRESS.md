@@ -2,9 +2,9 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (Gate G4 complete: LIB-T1..T9 DONE)
-**Current focus:** EVD-T2
-**Repo state:** Gates G1, G2, G3, and G4 complete (76/76 tests pass, Next.js build passes 16/16 routes)
+**Last updated:** 2026-10-23 (Gate G5 complete: EVD-T1..T8 DONE)
+**Current focus:** QA-T1
+**Repo state:** Gates G1, G2, G3, G4, and G5 complete (89/89 tests pass, Next.js build passes 16/16 routes)
 
 ## Phase gates
 | Gate | Condition | Status |
@@ -13,7 +13,7 @@
 | G2 Resume | RES-T1…T8 DONE | DONE |
 | G3 Interview | INT-T1…T11 DONE | DONE |
 | G4 Library | LIB-T1…T9 DONE | DONE |
-| G5 Loop | EVD-T1…T8 DONE | TODO |
+| G5 Loop | EVD-T1…T8 DONE | DONE |
 | G6 Hardening | Module 05 checklists ticked, AC-1…AC-14 linked | TODO |
 
 ## Tasks
@@ -59,13 +59,13 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | LIB-T8 | 03 | Library UI | LIB-T3, LIB-T7 | DONE | `/library` workspace, populated filter facets, interactive activity studio, attempt grading |
 | LIB-T9 | 03 | Authz tests | LIB-T1 | DONE | `tests/library.test.ts` (user attempts and saved bookmarks isolated) |
 | EVD-T1 | 04 | TopicEvidence + writer | FND-T4 | DONE | Implemented in `src/modules/evidence/services/evidence-service.ts`, tested via INT-T8 & LIB-T7 |
-| EVD-T2 | 04 | Gap rule v1 | EVD-T1 | TODO | |
-| EVD-T3 | 04 | Resource matching | EVD-T2, LIB-T2 | TODO | |
-| EVD-T4 | 04 | Handoff DTO | EVD-T3 | TODO | |
-| EVD-T5 | 04 | Retest selection | INT-T5 | TODO | |
-| EVD-T6 | 04 | Before/after | EVD-T2 | TODO | |
-| EVD-T7 | 04 | Home NBA | EVD-T2, RES-T6 | TODO | |
-| EVD-T8 | 04 | Cross-user isolation | EVD-T1 | TODO | |
+| EVD-T2 | 04 | Gap rule v1 | EVD-T1 | DONE | `tests/evidence-loop.test.ts` (table-driven tests: 1 low != gap, 2 low = gap, later pass closes it) |
+| EVD-T3 | 04 | Resource matching | EVD-T2, LIB-T2 | DONE | `tests/evidence-loop.test.ts` (exact match, has-activity first, difficulty ascending) |
+| EVD-T4 | 04 | Handoff DTO | EVD-T3 | DONE | `tests/evidence-loop.test.ts` (leak test verifies zero answer text or quote fields) |
+| EVD-T5 | 04 | Retest selection | INT-T5 | DONE | `tests/evidence-loop.test.ts` (never returns answered question, checks comparabilityKey) |
+| EVD-T6 | 04 | Before/after | EVD-T2 | DONE | `tests/evidence-loop.test.ts` (comparable only when evidence on both sides, displays raw ratios) |
+| EVD-T7 | 04 | Home NBA | EVD-T2, RES-T6 | DONE | `tests/evidence-loop.test.ts` (deterministic priority list, every action has 'because' citing records) |
+| EVD-T8 | 04 | Cross-user isolation | EVD-T1 | DONE | `tests/evidence-loop.test.ts` (evidence ledger strictly isolated per userId) |
 | QA-T1 | 05 | Golden-set eval harness (see sponsors doc) | INT-T7 | TODO | |
 | QA-T2 | 05 | Synthetic multi-user fixtures | INT-T1, LIB-T1 | TODO | |
 | QA-T3 | 05 | E2E journeys 1–5 | all UI | TODO | |
@@ -86,6 +86,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | EVD-T1..T8 | DONE | Completed Gate G5 Evidence Loop: Gap Rule v1 (EVD-T2), prerequisite-first resource matching (EVD-T3), text-free handoff DTO (EVD-T4), comparabilityKey retest selection (EVD-T5), before/after evidence comparison (EVD-T6), Home Next-Best-Action engine (EVD-T7), cross-user evidence isolation (EVD-T8). 89 tests pass, build clean. |
 | 2026-10-23 | Antigravity | LIB-T1..T9 | DONE | Completed Gate G4 Tech Library: schema (LIB-T1), curated seed content & Zod validation (LIB-T2), filtering/search with populated facets (LIB-T3), attempt numbering & progress pure functions (LIB-T4), deterministic knowledge_check evaluator (LIB-T5), short_answer rubric evaluator (LIB-T6), atomic attempt+progress+TopicEvidence submit transaction (LIB-T7), library UI (LIB-T8), user isolation (LIB-T9). 76 tests pass, build clean. |
 | 2026-10-23 | Antigravity | INT-T1..T11, EVD-T1 | DONE | Completed Gate G3 Adaptive Interview Lab: rubric templates (INT-T2), aggregateScore (INT-T3), session state machine (INT-T4), question generation with hallucination check (INT-T5), response persistence & validation (INT-T6), evaluation service with repair retry (INT-T7), evidence write (INT-T8, EVD-T1), follow-ups (INT-T9), interview UI (INT-T10), cross-user authz (INT-T11). 69 tests pass, build clean. |
 | 2026-10-23 | Antigravity | RES-T1..T8 | DONE | Completed Gate G2 Resume Intelligence: file validation/extraction (RES-T2), exact quote locating (RES-T3), LLM structuring & prompt-injection defense (RES-T4), topic/alias mapping (RES-T5), review workspace UI (RES-T6), ephemeral retention & cascade deletion (RES-T7), cross-user authz (RES-T8). 52 tests pass, build clean. |
