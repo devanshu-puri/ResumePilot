@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -461,6 +462,41 @@ export default function ResumePage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
+          </div>
+
+          {/* Module II: Quick Launch into Interactive Panels */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link
+              href="/drills"
+              className="p-4 rounded border border-interview/30 bg-interview-wash/20 hover:border-interview hover:bg-interview-wash/30 transition-all flex items-center justify-between group no-underline"
+            >
+              <div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="interview">MODULE II</Badge>
+                  <span className="text-xs font-mono font-medium text-ink">Skill Drills Runner</span>
+                </div>
+                <p className="text-xs text-ink-2 mt-1">
+                  Targeted technical drill questions tailored to your parsed tech stack.
+                </p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-interview transform group-hover:translate-x-0.5 transition-transform ml-3 flex-shrink-0" />
+            </Link>
+
+            <Link
+              href="/projects"
+              className="p-4 rounded border border-interview/30 bg-interview-wash/20 hover:border-interview hover:bg-interview-wash/30 transition-all flex items-center justify-between group no-underline"
+            >
+              <div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="interview">MODULE II</Badge>
+                  <span className="text-xs font-mono font-medium text-ink">Project Defense Panel</span>
+                </div>
+                <p className="text-xs text-ink-2 mt-1">
+                  Senior mock defense grounded in your resume projects & metrics.
+                </p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-interview transform group-hover:translate-x-0.5 transition-transform ml-3 flex-shrink-0" />
+            </Link>
           </div>
 
           {/* Main 2-Column Review Canvas */}

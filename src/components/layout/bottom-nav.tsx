@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
-import { MAIN_NAV_ITEMS, NavItem } from "./nav-rail";
+import { MOBILE_NAV_ITEMS, NavItem } from "./nav-rail";
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -14,7 +14,7 @@ export function BottomNav() {
       className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-paper-2 border-t border-line flex items-center justify-around h-14 px-2"
       aria-label="Mobile Navigation"
     >
-      {MAIN_NAV_ITEMS.map((item: NavItem) => {
+      {MOBILE_NAV_ITEMS.map((item: NavItem) => {
         const isActive = pathname.startsWith(item.href);
 
         let tickColor = "bg-ink";
