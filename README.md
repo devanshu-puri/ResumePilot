@@ -9,7 +9,7 @@
 [![Ollama Compatible](https://img.shields.io/badge/Runtime-Ollama%20%2F%20HF-orange?style=for-the-badge&logo=ollama)](https://docs.ollama.com/quickstart)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.2%20App%20Router-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5.6%20Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Tests Passing](https://img.shields.io/badge/Tests-114%2F114%20Passing-brightgreen?style=for-the-badge&logo=vitest)](https://vitest.dev)
+[![Tests Passing](https://img.shields.io/badge/Tests-115%2F115%20Passing-brightgreen?style=for-the-badge&logo=vitest)](https://vitest.dev)
 
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&duration=2500&pause=1000&color=2563EB&center=true&vCenter=true&multiline=true&width=650&height=75&lines=Know+what+your+resume+invites+an+interviewer+to+ask.;Defend+your+claims+with+adaptive+AI+evaluations.;Practice+skill+drills%2C+MCQs%2C+and+close+learning+gaps." alt="Typing SVG" />
@@ -65,7 +65,7 @@ The following table demonstrates how **ResumePilot** satisfies every evaluation 
 | **8. Deterministic Evaluation (No Fake Scores)** | Mathematical summation and ratio calculation executed in pure code (`aggregateScore`), never delegated to LLM hallucination. Bounded [0.0, 4.0] per criterion. Verbatim evidence substring check enforced. | [`src/modules/interview/domain/score-aggregator.ts`](file:///c:/Users/devis/Downloads/skillstack/src/modules/interview/domain/score-aggregator.ts), [`src/modules/interview/domain/rubrics.ts`](file:///c:/Users/devis/Downloads/skillstack/src/modules/interview/domain/rubrics.ts), Invariant I-04 | ✅ **100% Implemented** |
 | **9. Resume-Based MCQ Quizzes & Flashcards** | Personalized revision engine generating short MCQs and active recall flashcard decks across 8 categories grounded in candidate projects and verified skills. Server-side answer key validation. | [`src/modules/library/services/quiz-service.ts`](file:///c:/Users/devis/Downloads/skillstack/src/modules/library/services/quiz-service.ts), [`src/components/library/quick-quizzes-view.tsx`](file:///c:/Users/devis/Downloads/skillstack/src/components/library/quick-quizzes-view.tsx), [`tests/quizzes.test.ts`](file:///c:/Users/devis/Downloads/skillstack/tests/quizzes.test.ts) | ✅ **100% Implemented** |
 | **10. Privacy & Redacting Data Governance** | Zero content logging. Sensitive candidate resume text and interview answers are cryptographically redacted before log emission. Ephemeral memory parsing; zero stored binaries. | [`src/shared/logging/logger.ts`](file:///c:/Users/devis/Downloads/skillstack/src/shared/logging/logger.ts), [`tests/errors-logger.test.ts`](file:///c:/Users/devis/Downloads/skillstack/tests/errors-logger.test.ts), Invariant I-08 | ✅ **100% Implemented** |
-| **11. Test Coverage & Reproducibility** | **25 automated test suites with 114 passing unit, integration, and E2E tests**. Complete CI pipeline via GitHub Actions. Golden-set regression evals and multi-user synthetic isolation tests. | [`tests/`](file:///c:/Users/devis/Downloads/skillstack/tests), [`.github/workflows/ci.yml`](file:///c:/Users/devis/Downloads/skillstack/.github/workflows/ci.yml), [`evals/eval-harness.test.ts`](file:///c:/Users/devis/Downloads/skillstack/evals/eval-harness.test.ts) | ✅ **100% Implemented** |
+| **11. Test Coverage & Reproducibility** | **25 automated test suites with 115 passing unit, integration, and E2E tests**. Complete CI pipeline via GitHub Actions. Golden-set regression evals and multi-user synthetic isolation tests. | [`tests/`](file:///c:/Users/devis/Downloads/skillstack/tests), [`.github/workflows/ci.yml`](file:///c:/Users/devis/Downloads/skillstack/.github/workflows/ci.yml), [`evals/eval-harness.test.ts`](file:///c:/Users/devis/Downloads/skillstack/evals/eval-harness.test.ts) | ✅ **100% Implemented** |
 
 ---
 
@@ -152,8 +152,8 @@ flowchart LR
 ### Setup & Run
 ```bash
 # 1. Clone repository
-git clone https://github.com/devanshu-puri/skillstack.git
-cd skillstack
+git clone https://github.com/devanshu-puri/ResumePilot.git
+cd ResumePilot
 
 # 2. Install dependencies
 npm install
@@ -176,7 +176,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🧪 Comprehensive Test Suite (114/114 Tests)
+## 🧪 Comprehensive Test Suite (115/115 Tests)
 
 ResumePilot maintains complete automated test coverage:
 ```bash
