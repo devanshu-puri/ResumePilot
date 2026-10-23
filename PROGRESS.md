@@ -2,9 +2,9 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (Module II Skill Drills & Project Panel COMPLETE)
-**Current focus:** Module II delivered on branch `new-module`
-**Repo state:** Gates G1-G6 + Module II complete (24/24 test suites, 110/110 tests pass, 0 typecheck errors, 0 lint warnings)
+**Last updated:** 2026-10-23 (Track 1 Compliance + Animated README + Quizzes & Drills COMPLETE)
+**Current focus:** Production verification on `main`
+**Repo state:** Gates G1-G6 + Module II + Track 1 complete (25/25 test suites, 114/114 tests pass, 0 typecheck errors, 0 lint warnings)
 
 ## Phase gates
 | Gate | Condition | Status |
@@ -102,6 +102,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | TRACK-1-README | DONE | Overhauled README.md with animated typing SVG hero, Track 1 criteria implementation matrix covering all 11 evaluation dimensions, official links (MLH, AgentSkills, Ollama, Gemma, HF, OSI), closed-loop Mermaid diagram, and architecture overview. Merged origin/new-module (Drills & Project Interview Panel). 25 test suites (114 tests) pass, typecheck clean, pushed to origin/main. |
 | 2026-10-23 | Antigravity | LIB-MCQ-QUIZZES | DONE | Implemented Resume-Based MCQ Quizzes & Revision Flashcards in Library. Categorized across 8 spec domains, grounded in user resume projects (CasePilot, AQI Data Visualization). Built single-question MCQ player with progress tracking, hint toggle, server-side grading, and deep results review. Bidirectional integration between quizzes and flashcards (Test Your Knowledge -> Revise This Topic). 24 test suites (104 tests) pass, typecheck clean. |
 | 2026-10-23 | Antigravity | RES-T2..T4, INT-T5..T7 | DONE | Integrated live Google Gemini AI (`gemini-3.5-flash-lite`) via `GeminiLlmGateway`. Verified end-to-end PDF parsing on user resume (`Devisha_Resume.pdf`) extracting 5 verified claims (CasePilot, AQI Data Visualization) with exact offsets via kerning-tolerant `locateQuote`. Differentiated concept sets in `question-generator` to eliminate duplicate question validation errors. Tested live interview session and answer evaluation with Gemini scoring rubric criteria with authentic feedback and verbatim quotes. 22 test suites (96 tests) pass, typecheck clean. |
 | 2026-10-23 | Antigravity | QA-T1..T6 | DONE | Completed Phase Gate G6 (Quality & Hardening): Golden-set regression harness (`evals/eval-harness.test.ts`), synthetic 50-user isolation tests (`fixtures/synthetic-users.test.ts`), closed-loop E2E user journeys 1-5 (`tests/e2e-journeys.test.ts`), security & a11y verification (`tests/security-a11y.test.ts`), Hacktoberfest compliance (`RULES-HACKTOBERFEST`), and docs update (`README.md`). 22/22 test suites (96 tests) pass, typecheck clean, lint clean, build clean. |
