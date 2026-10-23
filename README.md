@@ -88,6 +88,23 @@ npm run build
 
 ---
 
+## Known Limitations (QA-T5)
+
+- **Scanned Resumes**: ResumePilot v1 does not perform OCR on flattened image-only PDF scans; resumes without extractable text transition to an explicit `failed_unreadable` state prompting the candidate to upload a text-based document.
+- **Code Answers**: Candidate code explanations and snippets are evaluated against versioned rubrics for correctness, structure, and trade-offs. Code is strictly *reviewed, not executed* in a sandbox (eliminating remote code execution risks).
+- **Authentication**: Single auth provider with session cookie; multi-tenant enterprise SSO is deferred to v2.
+- **Payload Limits**: Uploads capped at 5 MB; answer submissions capped at 8,000 characters.
+
+---
+
+## Privacy & Data Governance (ACC-1, RES-7, Invariant I-08)
+
+- **Zero Content Logging**: All application logging passes through `src/shared/logging/logger.ts`, which automatically and recursively redacts `resume`, `rawText`, `answer`, `responseText`, and `quoteText` before emission.
+- **Ephemeral Processing**: Resumes are parsed in-memory from ephemeral memory buffers; no raw resume binary files are saved to the server disk.
+- **Complete User Ownership**: Candidate records are strictly partitioned by `userId`. Users can trigger complete cascade deletion of their resume, questions, responses, and evidence ledger at any time.
+
+---
+
 ## License
 
 MIT License. See `LICENSE` for details.
