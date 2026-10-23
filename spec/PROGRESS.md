@@ -2,14 +2,14 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (FND-T4 complete)
-**Current focus:** FND-T5
-**Repo state:** scaffolded (Next.js 14, Tailwind, TypeScript strict, Vitest, ESLint)
+**Last updated:** 2026-10-23 (Gate G1 complete: FND-T1..T9 DONE)
+**Current focus:** RES-T1
+**Repo state:** Foundation phase complete (all tests passing, typecheck clean, lint clean, CI configured)
 
 ## Phase gates
 | Gate | Condition | Status |
 |---|---|---|
-| G1 Foundation | FND-T1…T9 DONE | TODO |
+| G1 Foundation | FND-T1…T9 DONE | DONE |
 | G2 Resume | RES-T1…T8 DONE | TODO |
 | G3 Interview | INT-T1…T11 DONE | TODO |
 | G4 Library | LIB-T1…T9 DONE | TODO |
@@ -25,11 +25,11 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | FND-T2 | 00 | Tokens + base components | T1 | DONE | `npm run test` (10 tests pass, tests/components.test.tsx), `/dev/ui` workbench with light/dark toggle |
 | FND-T3 | 00 | App shell + public pages | T2 | DONE | `npm run build` (13/13 routes static generated), `tests/layout.test.tsx` (NavRail, BottomNav, responsive tokens pass) |
 | FND-T4 | 00 | Prisma: Topic, User, auth | T1 | DONE | Prisma 5.22 schema generated, `prisma/migrations/0_init/migration.sql` created, 30 curated topics seed, `tests/taxonomy.test.ts` (4 passed) |
-| FND-T5 | 00 | Auth + ownership helper | T4 | TODO | |
-| FND-T6 | 00 | Errors + redacting logger | T1 | TODO | |
-| FND-T7 | 00 | LlmGateway + fake | T1 | TODO | |
-| FND-T8 | 00 | Rate limit util | T1 | TODO | |
-| FND-T9 | 00 | env example, README, CI | T1–T8 | TODO | |
+| FND-T5 | 00 | Auth + ownership helper | T4 | DONE | `tests/auth.test.ts` (4 passed: 401 unauthenticated, assertOwnership 404 cross-user, mandatory userId) |
+| FND-T6 | 00 | Errors + redacting logger | T1 | DONE | `tests/errors-logger.test.ts` (3 passed: safe error response, redacting logger rejects text/answer/resume) |
+| FND-T7 | 00 | LlmGateway + fake | T1 | DONE | `tests/llm-gateway.test.ts` (3 passed: contract tests, schema bounds validation, provider failure handling) |
+| FND-T8 | 00 | Rate limit util | T1 | DONE | `tests/rate-limit.test.ts` (3 passed: sliding window, per-route isolation, 429 enforcement) |
+| FND-T9 | 00 | env example, README, CI | T1–T8 | DONE | `.env.example`, `README.md`, `LICENSE` (MIT), `.github/workflows/ci.yml` created and verified |
 | RES-T1 | 01 | Resume schema | FND-T4 | TODO | |
 | RES-T2 | 01 | Validation + extraction | FND-T6 | TODO | |
 | RES-T3 | 01 | locateQuote | FND-T1 | TODO | |
@@ -86,6 +86,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | FND-T5..T9 | DONE | Completed Gate G1 Foundation: ownership assertions (FND-T5), error model & redacting logger (FND-T6), LlmGateway with open-weight & fake adapters (FND-T7), rate limiter (FND-T8), and CI/README/LICENSE (FND-T9). 29/29 tests pass. |
 | 2026-10-23 | Antigravity | FND-T4 | DONE | Implemented Prisma schema for User, Auth, Topic, TopicEvidence, and module entities. Created initial migration SQL, curated 30 canonical topics seed (`prisma/seed-topics.ts`), and verified with `tests/taxonomy.test.ts`. |
 | 2026-10-23 | Antigravity | FND-T3 | DONE | Built App shell (NavRail, BottomNav, TopBar), public pages (landing with animated evidence thread, privacy & retention, sign-in), and workspace shells (/home, /resume, /interview, /library, /history, /settings). `next build` 13/13 static routes passed, layout tests passed. |
 | 2026-10-23 | Antigravity | FND-T2 | DONE | Created DESIGN.md components (Button, Badge, ScoreBar, CriterionRow, EvidenceChip, GapMarker, Eyebrow, SourceHighlight, SegmentedControl, FramedPanel, CodeBox, EmptyState), dev workbench `/dev/ui` with theme toggle, and 9 component tests in `tests/components.test.tsx`. |
