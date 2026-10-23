@@ -232,18 +232,22 @@ function getDefaultPayloadForTask(task: string, input: any): unknown {
   if (task === "question_generation") {
     const topic = (input?.topic as string) || "System Architecture";
     const claim = (input?.claim as string) || "";
+    const cleanClaim = claim.replace(/^[-•*]\s*/, "").slice(0, 90);
+
     const prompt =
       claim && claim !== "No specific claim, conceptual inquiry."
-        ? `In your work with ${topic}, what architectural trade-offs, concurrency issues, and failure recovery mechanisms did you evaluate?`
-        : `Explain the internal architecture, lifecycle mechanics, and performance trade-offs of ${topic} in distributed systems.`;
+        ? `In your project work with ${topic} ("${cleanClaim}..."), how did you design the architecture to prevent failure modes, and what specific trade-offs did you make against alternatives?`
+        : `Explain the internal architecture, lifecycle mechanics, and performance trade-offs of ${topic} in production distributed systems.`;
+
+    const expectedConcepts = [
+      `${topic} architectural mechanics`,
+      claim ? `Trade-offs in "${cleanClaim.slice(0, 35)}"` : "Trade-off analysis against alternatives",
+      "Failure modes and recovery mechanisms",
+    ];
 
     return {
       prompt,
-      expectedConcepts: [
-        `${topic} internal mechanics`,
-        "Failure modes and recovery mechanisms",
-        "Performance trade-offs vs alternatives",
-      ],
+      expectedConcepts,
       questionType: claim ? "resume_defense" : "conceptual",
       estimatedDurationSeconds: 300,
     };

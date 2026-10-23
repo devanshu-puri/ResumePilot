@@ -137,13 +137,24 @@ export async function generateQuestion(
   // Post-check 1: Hallucinated technology
   validateNoHallucinatedTech(generated.prompt, allowedContext);
 
-  // Post-check 2: Duplicate concept set
+  // Post-check 2: Duplicate concept set resolution (INT-T5)
   if (input.existingQuestionsInSession) {
-    validateNoDuplicateQuestion(
-      input.topicSlug,
-      expectedConcepts,
-      input.existingQuestionsInSession
-    );
+    const isDuplicate = input.existingQuestionsInSession.some((prev) => {
+      if (prev.topicSlug !== input.topicSlug) return false;
+      const prevSet = new Set(prev.expectedConcepts.map((c) => c.toLowerCase().trim()));
+      return (
+        expectedConcepts.every((c) => prevSet.has(c.toLowerCase().trim())) &&
+        prevSet.size === expectedConcepts.length
+      );
+    });
+
+    if (isDuplicate) {
+      // Differentiate concepts with claim or subtopic specificity
+      const differentiator = input.claimText
+        ? `Implementation trade-offs: ${input.claimText.slice(0, 40)}`
+        : `Failure recovery & trade-offs in ${input.topicName}`;
+      expectedConcepts.push(differentiator);
+    }
   }
 
   const rubric = getRubricForQuestionType(qType);
