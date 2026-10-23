@@ -21,6 +21,8 @@ import {
   HelpCircle,
   Zap,
 } from "lucide-react";
+import { QuickQuizzesView } from "@/components/library/quick-quizzes-view";
+import { FlashcardsView } from "@/components/library/flashcards-view";
 
 interface Activity {
   id: string;
@@ -49,6 +51,8 @@ interface Resource {
 }
 
 export default function LibraryPage() {
+  const [libraryTab, setLibraryTab] = useState<"quizzes" | "flashcards" | "resources">("quizzes");
+  const [activeFlashcardDeckId, setActiveFlashcardDeckId] = useState<string | null>(null);
   const [resources, setResources] = useState<Resource[]>([]);
   const [facets, setFacets] = useState<{ topics: string[]; types: string[]; difficulties: string[] }>({
     topics: [],
@@ -183,6 +187,72 @@ export default function LibraryPage() {
           </Button>
         </Link>
       </div>
+
+      {/* Mode Selector Tabs (Quick Quizzes vs Flashcards vs Curated Guides) */}
+      <div className="flex border-b border-line gap-6 pt-2">
+        <button
+          type="button"
+          onClick={() => setLibraryTab("quizzes")}
+          className={`pb-3 text-sm font-sans font-medium transition-colors border-b-2 -mb-px flex items-center gap-2 ${
+            libraryTab === "quizzes"
+              ? "border-library text-ink font-semibold"
+              : "border-transparent text-ink-2 hover:text-ink"
+          }`}
+        >
+          <HelpCircle className="w-4 h-4 text-library" />
+          <span>Quick Quizzes (MCQs)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setLibraryTab("flashcards")}
+          className={`pb-3 text-sm font-sans font-medium transition-colors border-b-2 -mb-px flex items-center gap-2 ${
+            libraryTab === "flashcards"
+              ? "border-library text-ink font-semibold"
+              : "border-transparent text-ink-2 hover:text-ink"
+          }`}
+        >
+          <Sparkles className="w-4 h-4 text-library" />
+          <span>Revision Flashcards</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setLibraryTab("resources")}
+          className={`pb-3 text-sm font-sans font-medium transition-colors border-b-2 -mb-px flex items-center gap-2 ${
+            libraryTab === "resources"
+              ? "border-library text-ink font-semibold"
+              : "border-transparent text-ink-2 hover:text-ink"
+          }`}
+        >
+          <BookOpen className="w-4 h-4 text-library" />
+          <span>Curated Architectural Guides</span>
+        </button>
+      </div>
+
+      {/* Tab 1: Quick Quizzes (MCQs) */}
+      {libraryTab === "quizzes" && (
+        <QuickQuizzesView
+          onOpenFlashcardDeck={(deckId) => {
+            setActiveFlashcardDeckId(deckId);
+            setLibraryTab("flashcards");
+          }}
+        />
+      )}
+
+      {/* Tab 2: Revision Flashcards */}
+      {libraryTab === "flashcards" && (
+        <FlashcardsView
+          initialDeckId={activeFlashcardDeckId}
+          onLaunchQuiz={() => {
+            setLibraryTab("quizzes");
+          }}
+        />
+      )}
+
+      {/* Tab 3: Curated Guides & Practice Activities */}
+      {libraryTab === "resources" && (
+        <div className="space-y-6">
 
       {/* Filter & Search Bar */}
       <div className="p-4 rounded border border-line bg-card flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -498,6 +568,8 @@ export default function LibraryPage() {
           </div>
         ))}
       </div>
+        </div>
+      )}
     </div>
   );
 }
