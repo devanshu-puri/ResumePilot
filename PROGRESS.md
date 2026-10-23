@@ -2,9 +2,9 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (All Gates G1–G6 COMPLETE: 100% DONE)
-**Current focus:** Ready for ship
-**Repo state:** Gates G1, G2, G3, G4, G5, and G6 complete (22/22 test suites, 96/96 tests pass, 0 typecheck errors, 0 lint warnings, Next.js production build passes 16/16 routes)
+**Last updated:** 2026-10-23 (Module II Skill Drills & Project Panel COMPLETE)
+**Current focus:** Module II delivered on branch `new-module`
+**Repo state:** Gates G1-G6 + Module II complete (24/24 test suites, 110/110 tests pass, 0 typecheck errors, 0 lint warnings)
 
 ## Phase gates
 | Gate | Condition | Status |
@@ -49,6 +49,8 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | INT-T9 | 02 | Follow-ups | INT-T7 | DONE | `tests/interview-service.test.ts` (follow-up links to triggering response, max 2 per question) |
 | INT-T10 | 02 | Interview UI | INT-T4–T9 | DONE | `/interview` workspace (mode picker, framed prompt, answer editor, breakdown, session report) |
 | INT-T11 | 02 | Authz tests | INT-T1 | DONE | `tests/interview-service.test.ts` (cross-user session access blocked with 404) |
+| INT-T12 | 02 | Skill Drills runner | FND-T1, RES-T6 | DONE | `tests/module2-drills-projects.test.ts` (10 passed), responsive 2-column split runner, confidence gate, 5-part feedback, XP award |
+| INT-T13 | 02 | Project Interview Panel | INT-T12, RES-T1 | DONE | `tests/module2-drills-projects.test.ts` (10 passed), deterministic 10-question STAR generator, Study Mode & Mock Panel Mode |
 | LIB-T1 | 03 | Library schema | FND-T4 | DONE | Included in Prisma schema, unique progress and saved per user+resource |
 | LIB-T2 | 03 | Content seed + validation | LIB-T1 | DONE | `tests/library.test.ts` (schema validation passes on curated seed, fails on missing attribution) |
 | LIB-T3 | 03 | Filters/search | LIB-T2 | DONE | `tests/library.test.ts` (filtering by topic, type, difficulty, populated facets) |
