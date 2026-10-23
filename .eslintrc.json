@@ -1,0 +1,40 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["**/repositories/**", "@/server/db", "@prisma/client"],
+            "message": "UI components and routes outside repositories should not import repositories or database clients directly."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/modules/*/repositories/**", "src/shared/database/**"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": ["src/modules/*/services/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["src/modules/!(evidence)/repositories/**"],
+                "message": "Services must not directly import another module's repositories."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
