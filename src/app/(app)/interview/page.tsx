@@ -572,7 +572,7 @@ export default function InterviewLabPage() {
                   sourceType="Interview"
                   topicName={session.questions[0]?.topicId || "redis-caching"}
                   ratio={0.4}
-                  href="/library"
+                  href="/drills"
                 />
               </div>
             </div>
@@ -581,11 +581,11 @@ export default function InterviewLabPage() {
               <Button
                 variant="primary"
                 onClick={() => {
-                  window.location.href = "/library";
+                  window.location.href = "/drills";
                 }}
               >
-                <BookOpen className="w-4 h-4 mr-2" />
-                <span>Open Practice Studio</span>
+                <span>Launch Skill Drills</span>
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <Button variant="secondary" onClick={() => setSession(null)}>
                 <RotateCcw className="w-4 h-4 mr-2" />

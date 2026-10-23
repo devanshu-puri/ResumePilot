@@ -10,7 +10,7 @@ import { GapMarker } from "@/components/ui/gap-marker";
 import { EmptyState } from "@/components/ui/empty-state";
 import { computeNextBestAction, NextBestActionOutput } from "@/modules/evidence/domain/next-best-action";
 import { computeGaps, DerivedGap } from "@/modules/evidence/domain/gap-rules";
-import { ArrowRight, Play, BookOpen, FileText, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Play, Target, FileText, CheckCircle2 } from "lucide-react";
 
 export default function AppHomePage() {
   const [nba, setNba] = useState<NextBestActionOutput>({
@@ -121,13 +121,13 @@ export default function AppHomePage() {
                         sourceType="Interview"
                         topicName={g.topicId}
                         ratio={g.latestRatios[0]}
-                        href={`/library?topicSlug=${g.topicId}`}
+                        href={`/drills?skill=${g.topicId}`}
                       />
                     </div>
                   </div>
-                  <Link href={`/library?topicSlug=${g.topicId}`}>
+                  <Link href={`/drills?skill=${g.topicId}`}>
                     <Button size="sm" variant="secondary">
-                      Address Gap
+                      Practice Drill
                     </Button>
                   </Link>
                 </div>
@@ -172,14 +172,14 @@ export default function AppHomePage() {
             </Link>
 
             <Link
-              href="/library"
+              href="/drills"
               className="flex items-center justify-between p-3 rounded border border-line bg-paper hover:border-ink transition-colors no-underline text-ink"
             >
               <div className="flex items-center gap-3">
-                <BookOpen className="w-4 h-4 text-library" />
+                <Target className="w-4 h-4 text-interview" />
                 <div>
-                  <span className="text-sm font-medium block">Tech Library & Practice</span>
-                  <span className="text-xs text-ink-2">Guides and practice activities</span>
+                  <span className="text-sm font-medium block">Skill Drills Runner</span>
+                  <span className="text-xs text-ink-2">Adaptive questions & confidence calibration</span>
                 </div>
               </div>
               <ArrowRight className="w-4 h-4 text-ink-4" />

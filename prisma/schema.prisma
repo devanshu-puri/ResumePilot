@@ -25,9 +25,6 @@ model User {
   resumes            Resume[]
   questionSets       QuestionSet[]
   interviewSessions  InterviewSession[]
-  activityAttempts   ActivityAttempt[]
-  learningProgresses LearningProgress[]
-  savedResources     SavedResource[]
   topicEvidence      TopicEvidence[]
 
   @@map("users")
@@ -104,8 +101,6 @@ model Topic {
   questions          Question[]
   criterionResults   CriterionResult[]
   topicEvidence      TopicEvidence[]
-  resourceTopics     ResourceTopic[]
-  learningObjectives LearningObjective[]
 
   @@index([parentTopicId])
   @@index([category])
@@ -437,159 +432,6 @@ model FollowUp {
   @@index([parentQuestionId])
   @@index([triggeringResponseId])
   @@map("follow_ups")
-}
-
-// ----------------------------------------------------
-// TECH LIBRARY (LIB-T1)
-// ----------------------------------------------------
-
-enum ResourceType {
-  concept_guide
-  architecture_pattern
-  code_deep_dive
-  trade_off_analysis
-}
-
-enum ActivityType {
-  knowledge_check
-  short_answer
-}
-
-enum AttemptStatus {
-  in_progress
-  submitted
-  passed
-  needs_review
-  evaluation_failed
-}
-
-enum ProgressStatus {
-  not_started
-  in_progress
-  submitted
-  passed
-  needs_review
-  completed
-  evaluation_failed
-}
-
-model LearningResource {
-  id               String       @id @default(cuid())
-  slug             String       @unique
-  title            String
-  description      String       @db.Text
-  resourceType     ResourceType
-  canonicalUrl     String
-  attribution      String
-  internalNotes    String       @db.Text
-  difficulty       String       @default("intermediate")
-  estimatedMinutes Int          @default(15)
-  completionPolicy Json         @default("{\"requiredPassedActivities\": 1}")
-  createdAt        DateTime     @default(now())
-
-  topics             ResourceTopic[]
-  learningObjectives LearningObjective[]
-  practiceActivities PracticeActivity[]
-  learningProgresses LearningProgress[]
-  savedByUsers       SavedResource[]
-
-  @@map("learning_resources")
-}
-
-model ResourceTopic {
-  resourceId String
-  topicId    String
-
-  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-  topic    Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-
-  @@id([resourceId, topicId])
-  @@map("resource_topics")
-}
-
-model LearningObjective {
-  id          String   @id @default(cuid())
-  resourceId  String
-  topicId     String
-  description String   @db.Text
-  orderIndex  Int
-  createdAt   DateTime @default(now())
-
-  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-  topic    Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-
-  @@index([resourceId])
-  @@index([topicId])
-  @@map("learning_objectives")
-}
-
-model PracticeActivity {
-  id               String       @id @default(cuid())
-  resourceId       String
-  activityType     ActivityType
-  title            String
-  instructions     String       @db.Text
-  contentPayload   Json
-  completionPolicy Json         @default("{\"minRatio\": 0.8}")
-  orderIndex       Int
-  createdAt        DateTime     @default(now())
-
-  resource LearningResource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-  attempts ActivityAttempt[]
-
-  @@index([resourceId])
-  @@map("practice_activities")
-}
-
-model ActivityAttempt {
-  id              String        @id @default(cuid())
-  userId          String
-  activityId      String
-  attemptNumber   Int
-  responsePayload Json
-  score           Float?
-  maxScore        Float?
-  ratio           Float?
-  status          AttemptStatus @default(in_progress)
-  submittedAt     DateTime      @default(now())
-
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  activity PracticeActivity @relation(fields: [activityId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, activityId, attemptNumber])
-  @@index([userId])
-  @@index([activityId])
-  @@map("activity_attempts")
-}
-
-model LearningProgress {
-  id             String         @id @default(cuid())
-  userId         String
-  resourceId     String
-  status         ProgressStatus @default(not_started)
-  lastAccessedAt DateTime       @default(now())
-  completedAt    DateTime?
-
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, resourceId])
-  @@index([userId])
-  @@map("learning_progress")
-}
-
-model SavedResource {
-  id         String   @id @default(cuid())
-  userId     String
-  resourceId String
-  savedAt    DateTime @default(now())
-
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, resourceId])
-  @@index([userId])
-  @@map("saved_resources")
 }
 
 // ----------------------------------------------------

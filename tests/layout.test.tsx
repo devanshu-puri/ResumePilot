@@ -11,12 +11,13 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("App Shell Navigation", () => {
-  it("renders NavRail with 5 primary links and 2 foot links", () => {
+  it("renders NavRail with primary links and foot links", () => {
     render(<NavRail />);
     expect(screen.getByText("Home")).toBeDefined();
     expect(screen.getByText("Resume")).toBeDefined();
     expect(screen.getByText("Interview")).toBeDefined();
-    expect(screen.getByText("Library")).toBeDefined();
+    expect(screen.getByText("Skill Drills")).toBeDefined();
+    expect(screen.getByText("Project Panel")).toBeDefined();
     expect(screen.getByText("Tech Bites")).toBeDefined();
     expect(screen.getByText("History")).toBeDefined();
     expect(screen.getByText("Settings")).toBeDefined();
@@ -29,7 +30,7 @@ describe("App Shell Navigation", () => {
     expect(screen.getByText("Home")).toBeDefined();
     expect(screen.getByText("Resume")).toBeDefined();
     expect(screen.getByText("Interview")).toBeDefined();
-    expect(screen.getByText("Library")).toBeDefined();
+    expect(screen.getByText("Skill Drills")).toBeDefined();
     expect(screen.getByText("Tech Bites")).toBeDefined();
   });
 });

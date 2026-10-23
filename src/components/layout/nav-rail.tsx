@@ -30,7 +30,6 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
   { name: "Interview", href: "/interview", icon: MessageSquare, module: "interview" },
   { name: "Skill Drills", href: "/drills", icon: Target, module: "interview" },
   { name: "Project Panel", href: "/projects", icon: ShieldAlert, module: "interview" },
-  { name: "Library", href: "/library", icon: BookOpen, module: "library" },
   { name: "Tech Bites", href: "/tech-bites", icon: Zap, module: "library" },
 ];
 
@@ -38,7 +37,7 @@ export const MOBILE_NAV_ITEMS: NavItem[] = [
   { name: "Home", href: "/home", icon: Home, module: "neutral" },
   { name: "Resume", href: "/resume", icon: FileText, module: "resume" },
   { name: "Interview", href: "/interview", icon: MessageSquare, module: "interview" },
-  { name: "Library", href: "/library", icon: BookOpen, module: "library" },
+  { name: "Skill Drills", href: "/drills", icon: Target, module: "interview" },
   { name: "Tech Bites", href: "/tech-bites", icon: Zap, module: "library" },
 ];
 
