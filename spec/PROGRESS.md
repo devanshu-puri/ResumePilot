@@ -2,15 +2,15 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (Gate G1 complete: FND-T1..T9 DONE)
-**Current focus:** RES-T1
-**Repo state:** Foundation phase complete (all tests passing, typecheck clean, lint clean, CI configured)
+**Last updated:** 2026-10-23 (Gate G2 complete: RES-T1..T8 DONE)
+**Current focus:** INT-T1
+**Repo state:** Gates G1 and G2 complete (52/52 tests pass, Next.js build passes 14/14 routes)
 
 ## Phase gates
 | Gate | Condition | Status |
 |---|---|---|
 | G1 Foundation | FND-T1…T9 DONE | DONE |
-| G2 Resume | RES-T1…T8 DONE | TODO |
+| G2 Resume | RES-T1…T8 DONE | DONE |
 | G3 Interview | INT-T1…T11 DONE | TODO |
 | G4 Library | LIB-T1…T9 DONE | TODO |
 | G5 Loop | EVD-T1…T8 DONE | TODO |
@@ -30,14 +30,14 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | FND-T7 | 00 | LlmGateway + fake | T1 | DONE | `tests/llm-gateway.test.ts` (3 passed: contract tests, schema bounds validation, provider failure handling) |
 | FND-T8 | 00 | Rate limit util | T1 | DONE | `tests/rate-limit.test.ts` (3 passed: sliding window, per-route isolation, 429 enforcement) |
 | FND-T9 | 00 | env example, README, CI | T1–T8 | DONE | `.env.example`, `README.md`, `LICENSE` (MIT), `.github/workflows/ci.yml` created and verified |
-| RES-T1 | 01 | Resume schema | FND-T4 | TODO | |
-| RES-T2 | 01 | Validation + extraction | FND-T6 | TODO | |
-| RES-T3 | 01 | locateQuote | FND-T1 | TODO | |
-| RES-T4 | 01 | LLM structuring | FND-T7, RES-T3 | TODO | |
-| RES-T5 | 01 | Topic mapping | FND-T4 | TODO | |
-| RES-T6 | 01 | Review UI | RES-T1–T5, FND-T3 | TODO | |
-| RES-T7 | 01 | Deletion/retention | RES-T1 | TODO | |
-| RES-T8 | 01 | Authz tests | RES-T1, FND-T5 | TODO | |
+| RES-T1 | 01 | Resume schema | FND-T4 | DONE | Generated in Prisma schema (`prisma/schema.prisma`), unique active resume, unique claim offsets |
+| RES-T2 | 01 | Validation + extraction | FND-T6 | DONE | `tests/resume-extractor.test.ts` (8 passed: size cap, MIME/magic bytes, scanned-like heuristic) |
+| RES-T3 | 01 | locateQuote | FND-T1 | DONE | `tests/locate-quote.test.ts` (5 passed: exact, whitespace-tolerant, repeated occurrences, null on unverified) |
+| RES-T4 | 01 | LLM structuring | FND-T7, RES-T3 | DONE | `tests/resume-structuring.test.ts` (2 passed: schema validation, prompt injection defense, discarded quote counting) |
+| RES-T5 | 01 | Topic mapping | FND-T4 | DONE | `tests/topic-mapper.test.ts` (3 passed: alias dictionary, canonical resolution, candidate status) |
+| RES-T6 | 01 | Review UI | RES-T1–T5, FND-T3 | DONE | `/resume` interactive workspace, source highlight, claim confirm/edit/exclude, question set gating |
+| RES-T7 | 01 | Deletion/retention | RES-T1 | DONE | `tests/resume-api.test.ts` (cascade delete verified, memory buffer ephemeral, zero disk files) |
+| RES-T8 | 01 | Authz tests | RES-T1, FND-T5 | DONE | `tests/resume-api.test.ts` (cross-user access/edit blocked with 404) |
 | INT-T1 | 02 | Interview schema | RES-T1 | TODO | |
 | INT-T2 | 02 | Rubric templates | INT-T1 | TODO | |
 | INT-T3 | 02 | aggregateScore | FND-T1 | TODO | |
@@ -86,6 +86,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | RES-T1..T8 | DONE | Completed Gate G2 Resume Intelligence: file validation/extraction (RES-T2), exact quote locating (RES-T3), LLM structuring & prompt-injection defense (RES-T4), topic/alias mapping (RES-T5), review workspace UI (RES-T6), ephemeral retention & cascade deletion (RES-T7), cross-user authz (RES-T8). 52 tests pass, build clean. |
 | 2026-10-23 | Antigravity | FND-T5..T9 | DONE | Completed Gate G1 Foundation: ownership assertions (FND-T5), error model & redacting logger (FND-T6), LlmGateway with open-weight & fake adapters (FND-T7), rate limiter (FND-T8), and CI/README/LICENSE (FND-T9). 29/29 tests pass. |
 | 2026-10-23 | Antigravity | FND-T4 | DONE | Implemented Prisma schema for User, Auth, Topic, TopicEvidence, and module entities. Created initial migration SQL, curated 30 canonical topics seed (`prisma/seed-topics.ts`), and verified with `tests/taxonomy.test.ts`. |
 | 2026-10-23 | Antigravity | FND-T3 | DONE | Built App shell (NavRail, BottomNav, TopBar), public pages (landing with animated evidence thread, privacy & retention, sign-in), and workspace shells (/home, /resume, /interview, /library, /history, /settings). `next build` 13/13 static routes passed, layout tests passed. |
