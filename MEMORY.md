@@ -34,6 +34,8 @@ Read before every session. Append, don't rewrite history (strike through superse
 | D-011 | 2026-10-23 | Default LLM adapter should be open-weight (conservative reading of Hacktoberfest 2026 theme) | Proposed | Avoid disqualification; confirm via OQ-8; supersedes nothing |
 | D-010 | 2026-10-23 | Library content = curated notes + attributed links; knowledge checks deterministic | Accepted | Licensing; objective grading |
 | D-012 | 2026-10-23 | Google Gemini API integration with Gemini 3.5 Flash Lite | Accepted | Real-time live AI evaluation with sub-2s latency, high JSON fidelity, structured outputs, kerning tolerance for PDF text extraction |
+| D-013 | 2026-10-23 | Module II Skill Drills & Project Interview Panel built offline-first with deterministic generator & confidence calibration | Accepted | Zero LLM latency, deterministic scoring, offline playability |
+| D-014 | 2026-10-23 | Mobile BottomNav retains 5 primary anchors while desktop NavRail displays full suite (/drills, /projects) | Accepted | Responsive ergonomics without crowding touch screens |
 
 ## 3. Open questions
 - OQ-1 Which LLM provider/model for structuring, generation, evaluation? (Gateway keeps it swappable.)
