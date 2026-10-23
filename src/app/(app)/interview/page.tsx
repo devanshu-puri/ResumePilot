@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -237,6 +238,53 @@ export default function InterviewLabPage() {
         <div className="p-3 border border-weak rounded bg-weak-wash text-weak text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{error}</span>
+        </div>
+      )}
+
+      {/* Module II Quick Launch Cards */}
+      {!session && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div className="p-5 rounded border border-interview/40 bg-interview-wash/30 flex flex-col justify-between space-y-4">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <Badge variant="interview">SKILL DRILLS</Badge>
+                <span className="text-[11px] font-mono text-ink-4">+15 XP / Q</span>
+              </div>
+              <h3 className="text-base font-display font-medium text-ink">
+                Targeted Technical Drills
+              </h3>
+              <p className="text-xs text-ink-2 font-sans leading-relaxed">
+                Adaptive question runner with a confidence gate (Certain / Unsure / Guessing) and 5-part feedback tailored to your parsed skills.
+              </p>
+            </div>
+            <Link href="/drills">
+              <Button size="sm" variant="primary">
+                <span>Start Skill Drills</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="p-5 rounded border border-interview/40 bg-interview-wash/30 flex flex-col justify-between space-y-4">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <Badge variant="interview">PROJECT DEFENSE</Badge>
+                <span className="text-[11px] font-mono text-ink-4">STAR Rubric</span>
+              </div>
+              <h3 className="text-base font-display font-medium text-ink">
+                Project Interview Panel
+              </h3>
+              <p className="text-xs text-ink-2 font-sans leading-relaxed">
+                10 senior architectural defense questions with Study Mode and live 2-minute Mock Panel simulation.
+              </p>
+            </div>
+            <Link href="/projects">
+              <Button size="sm" variant="primary">
+                <span>Open Project Panel</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </Button>
+            </Link>
+          </div>
         </div>
       )}
 
