@@ -63,8 +63,48 @@ export function locateQuote(
       };
     }
   } catch {
-    // If regex fails for any reason, return null
-    return null;
+    // If regex fails for any reason, continue to fallback
+  }
+
+  // 3. Kerning/letter-spacing tolerant search
+  // PDF extractors often introduce intra-word spaces (e.g., "D e v e l o p e d")
+  try {
+    const kerningTokens = trimmedQuote
+      .split(/\s+/)
+      .map((token) =>
+        token
+          .split("")
+          .map((ch) => ch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          .join("\\s*")
+      );
+    if (kerningTokens.length > 0) {
+      const kerningPattern = kerningTokens.join("\\s+");
+      const kerningRegex = new RegExp(kerningPattern, "gi");
+      kerningRegex.lastIndex = startSearchFromOffset;
+      const kerningMatch = kerningRegex.exec(rawText);
+      if (kerningMatch) {
+        return {
+          startOffset: kerningMatch.index,
+          endOffset: kerningMatch.index + kerningMatch[0].length,
+        };
+      }
+    }
+  } catch {
+    // Continue to next fallback
+  }
+
+  // 4. Substring prefix match (first 30 characters) for slightly truncated quotes
+  if (trimmedQuote.length > 30) {
+    const prefix = trimmedQuote.slice(0, 30);
+    const prefixOffset = locateQuote(rawText, prefix, startSearchFromOffset);
+    if (prefixOffset) {
+      // Find approximate length bounded by raw text
+      const estimatedEnd = Math.min(rawText.length, prefixOffset.startOffset + trimmedQuote.length + 20);
+      return {
+        startOffset: prefixOffset.startOffset,
+        endOffset: estimatedEnd,
+      };
+    }
   }
 
   return null;

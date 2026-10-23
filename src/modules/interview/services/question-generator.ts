@@ -3,14 +3,35 @@ import { LlmGateway } from "@/shared/llm/gateway";
 import { getRubricForQuestionType } from "../domain/rubrics";
 import { AppError } from "@/shared/errors/app-error";
 
-export const QuestionGenerationOutputSchema = z.object({
-  prompt: z.string().min(10),
-  expectedConcepts: z.array(z.string()).min(1),
-  questionType: z.enum(["resume_defense", "conceptual", "code_explanation"]).default("resume_defense"),
-  estimatedDurationSeconds: z.number().default(300),
-});
+export const QuestionGenerationOutputSchema = z.preprocess(
+  (val: any) => {
+    if (typeof val === "object" && val !== null) {
+      const prompt = val.prompt ?? val.question ?? val.questionText ?? val.text ?? "";
+      const expectedConcepts =
+        val.expectedConcepts ?? val.concepts ?? val.keyConcepts ?? val.criteria ?? [];
+      const questionType = val.questionType ?? "resume_defense";
+      const estimatedDurationSeconds = val.estimatedDurationSeconds ?? 300;
+      return {
+        ...val,
+        prompt: String(prompt),
+        expectedConcepts: Array.isArray(expectedConcepts)
+          ? expectedConcepts.map(String)
+          : [String(expectedConcepts)],
+        questionType,
+        estimatedDurationSeconds: Number(estimatedDurationSeconds) || 300,
+      };
+    }
+    return val;
+  },
+  z.object({
+    prompt: z.string().min(10),
+    expectedConcepts: z.array(z.string()).min(1),
+    questionType: z.enum(["resume_defense", "conceptual", "code_explanation"]).default("resume_defense"),
+    estimatedDurationSeconds: z.number().default(300),
+  })
+);
 
-export type GeneratedQuestionOutput = z.infer<typeof QuestionGenerationOutputSchema>;
+export type GeneratedQuestionOutput = z.output<typeof QuestionGenerationOutputSchema>;
 
 export interface QuestionGenerationInput {
   topicSlug: string;
@@ -49,11 +70,11 @@ export function validateNoHallucinatedTech(
   prompt: string,
   allowedContext: string
 ): void {
-  const lowerPrompt = prompt.toLowerCase();
   const lowerContext = allowedContext.toLowerCase();
 
   for (const tech of KNOWN_TECHNOLOGIES) {
-    if (lowerPrompt.includes(tech) && !lowerContext.includes(tech)) {
+    const regex = new RegExp(`\\b${tech.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+    if (regex.test(prompt) && !lowerContext.includes(tech.toLowerCase())) {
       throw AppError.validation(
         `Generated question hallucinated technology '${tech}' not present in source claim or topic.`
       );
@@ -96,11 +117,20 @@ export function validateNoDuplicateQuestion(
 export const QUESTION_GENERATION_PROMPT = `
 You are an expert technical interviewer.
 Generate an authentic, challenging interview question strictly grounded in the candidate's verified claim.
+
+JSON format to return:
+{
+  "prompt": "Your detailed technical question here",
+  "expectedConcepts": ["concept 1", "concept 2", "concept 3"],
+  "questionType": "resume_defense",
+  "estimatedDurationSeconds": 300
+}
+
 Rules:
 1. Do NOT assume facts or technologies outside the provided claim text and topic.
 2. The question must test deep conceptual understanding, internal architecture, and trade-offs.
 3. List 2-4 specific expected concepts the candidate should address in their answer.
-4. Output schema-valid JSON only.
+4. Output valid JSON matching the schema above.
 `.trim();
 
 /**
@@ -112,7 +142,7 @@ export async function generateQuestion(
 ): Promise<PreparedQuestion> {
   const allowedContext = `${input.topicSlug} ${input.topicName} ${input.claimText ?? ""} ${input.targetRole}`;
 
-  const completion = await gateway.complete({
+  const completion = await gateway.complete<GeneratedQuestionOutput>({
     task: "question_generation",
     systemPrompt: QUESTION_GENERATION_PROMPT,
     input: {
@@ -121,7 +151,7 @@ export async function generateQuestion(
       targetRole: input.targetRole,
       difficulty: input.difficulty ?? "intermediate",
     },
-    schema: QuestionGenerationOutputSchema,
+    schema: QuestionGenerationOutputSchema as z.ZodType<GeneratedQuestionOutput>,
   });
 
   if (!completion.ok) {

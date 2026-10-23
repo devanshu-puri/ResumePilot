@@ -86,9 +86,11 @@ export default function InterviewLabPage() {
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.resume?.claims) {
-          const confirmed = data.resume.claims.filter((c: any) => c.userConfirmed && !c.excluded);
-          setActiveResumeClaims(confirmed);
-          if (confirmed.length > 0) {
+          const nonExcluded = data.resume.claims.filter((c: any) => !c.excluded);
+          const confirmed = nonExcluded.filter((c: any) => c.userConfirmed);
+          const availableClaims = confirmed.length > 0 ? confirmed : nonExcluded;
+          setActiveResumeClaims(availableClaims);
+          if (availableClaims.length > 0) {
             setSessionType("defense");
           }
         }

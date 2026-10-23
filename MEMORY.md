@@ -33,6 +33,7 @@ Read before every session. Append, don't rewrite history (strike through superse
 | D-009 | 2026-10-23 | Sponsor tools used only as dev/CI tooling (agentic-evals, great-generator) | Proposed | See `sponsors/INTEGRATIONS.md` |
 | D-011 | 2026-10-23 | Default LLM adapter should be open-weight (conservative reading of Hacktoberfest 2026 theme) | Proposed | Avoid disqualification; confirm via OQ-8; supersedes nothing |
 | D-010 | 2026-10-23 | Library content = curated notes + attributed links; knowledge checks deterministic | Accepted | Licensing; objective grading |
+| D-012 | 2026-10-23 | Google Gemini API integration with Gemini 3.5 Flash Lite | Accepted | Real-time live AI evaluation with sub-2s latency, high JSON fidelity, structured outputs, kerning tolerance for PDF text extraction |
 
 ## 3. Open questions
 - OQ-1 Which LLM provider/model for structuring, generation, evaluation? (Gateway keeps it swappable.)
@@ -56,4 +57,5 @@ Read before every session. Append, don't rewrite history (strike through superse
 _(none yet)_
 
 ## 6. Pitfalls found (append)
-_(none yet)_
+- **PDF character spacing (kerning):** Certain PDFs format text with intra-word spaces (e.g. `D e v e l o p e d`). Handled in `locateQuote` with a kerning-tolerant regex fallback.
+- **LLM JSON field variation:** Generative models like Gemini occasionally return synonymous field names (e.g., `question` for `prompt`, `claim` for `claimText`). Resilient Zod preprocessing handles these mappings automatically while preserving strict runtime type contracts.

@@ -12,7 +12,7 @@ export class GeminiLlmGateway implements LlmGateway {
 
   constructor(
     apiKey = process.env.GEMINI_API_KEY || "",
-    model = process.env.GEMINI_MODEL || "gemini-1.5-flash"
+    model = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite"
   ) {
     this.apiKey = apiKey.trim();
     this.model = model.trim();
@@ -121,6 +121,7 @@ export class GeminiLlmGateway implements LlmGateway {
       if (req.schema) {
         const validated = req.schema.safeParse(parsed);
         if (!validated.success) {
+          console.warn("Gemini output schema mismatch:", validated.error.message, "raw output:", JSON.stringify(parsed).slice(0, 500));
           logger.warn("Gemini output schema mismatch", {
             taskId: req.task,
             error: validated.error.message,

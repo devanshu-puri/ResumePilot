@@ -165,10 +165,15 @@ export async function extractResumeText(
     if (mimeType === "application/pdf" || lowerName.endsWith(".pdf")) {
       // First attempt parsing with pdf-parse library
       try {
-        const { PDFParse } = await import("pdf-parse");
-        const parser = new PDFParse({ data: buffer });
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const pdfModule = require("pdf-parse");
+        const PDFParseClass = pdfModule.PDFParse || pdfModule.default?.PDFParse || pdfModule;
+        const uint8 = new Uint8Array(buffer);
+        const parser = new PDFParseClass({ data: uint8 });
         const parsed = await parser.getText();
-        await parser.destroy();
+        if (typeof parser.destroy === "function") {
+          await parser.destroy();
+        }
         if (parsed?.text && parsed.text.trim().length > 20) {
           return assessReadability(parsed.text, buffer.length);
         }

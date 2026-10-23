@@ -100,6 +100,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | RES-T2..T4, INT-T5..T7 | DONE | Integrated live Google Gemini AI (`gemini-3.5-flash-lite`) via `GeminiLlmGateway`. Verified end-to-end PDF parsing on user resume (`Devisha_Resume.pdf`) extracting 5 verified claims (CasePilot, AQI Data Visualization) with exact offsets via kerning-tolerant `locateQuote`. Differentiated concept sets in `question-generator` to eliminate duplicate question validation errors. Tested live interview session and answer evaluation with Gemini scoring rubric criteria with authentic feedback and verbatim quotes. 22 test suites (96 tests) pass, typecheck clean. |
 | 2026-10-23 | Antigravity | QA-T1..T6 | DONE | Completed Phase Gate G6 (Quality & Hardening): Golden-set regression harness (`evals/eval-harness.test.ts`), synthetic 50-user isolation tests (`fixtures/synthetic-users.test.ts`), closed-loop E2E user journeys 1-5 (`tests/e2e-journeys.test.ts`), security & a11y verification (`tests/security-a11y.test.ts`), Hacktoberfest compliance (`RULES-HACKTOBERFEST`), and docs update (`README.md`). 22/22 test suites (96 tests) pass, typecheck clean, lint clean, build clean. |
 
 ## Session log (append, newest first)
