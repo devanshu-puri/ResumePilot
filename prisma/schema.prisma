@@ -1,0 +1,624 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ----------------------------------------------------
+// AUTH & USERS (FND-T4)
+// ----------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts           Account[]
+  sessions           Session[]
+  resumes            Resume[]
+  questionSets       QuestionSet[]
+  interviewSessions  InterviewSession[]
+  activityAttempts   ActivityAttempt[]
+  learningProgresses LearningProgress[]
+  savedResources     SavedResource[]
+  topicEvidence      TopicEvidence[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ----------------------------------------------------
+// TOPIC TAXONOMY (FND-T4)
+// Single taxonomy joining all modules (Invariant I-02)
+// ----------------------------------------------------
+
+enum TopicStatus {
+  canonical
+  candidate
+}
+
+model Topic {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  name          String
+  description   String      @db.Text
+  category      String
+  status        TopicStatus @default(canonical)
+  parentTopicId String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  parentTopic     Topic?              @relation("TopicHierarchy", fields: [parentTopicId], references: [id], onDelete: SetNull)
+  subTopics       Topic[]             @relation("TopicHierarchy")
+  prerequisites   TopicPrerequisite[] @relation("TopicPrerequisites")
+  prerequisiteFor TopicPrerequisite[] @relation("TopicPrerequisiteFor")
+
+  resumeTopics       ResumeTopic[]
+  resumeClaims       ResumeClaimTopic[]
+  questions          Question[]
+  criterionResults   CriterionResult[]
+  topicEvidence      TopicEvidence[]
+  resourceTopics     ResourceTopic[]
+  learningObjectives LearningObjective[]
+
+  @@index([parentTopicId])
+  @@index([category])
+  @@map("topics")
+}
+
+model TopicPrerequisite {
+  topicId             String
+  prerequisiteTopicId String
+
+  topic        Topic @relation("TopicPrerequisites", fields: [topicId], references: [id], onDelete: Cascade)
+  prerequisite Topic @relation("TopicPrerequisiteFor", fields: [prerequisiteTopicId], references: [id], onDelete: Cascade)
+
+  @@id([topicId, prerequisiteTopicId])
+  @@map("topic_prerequisites")
+}
+
+// ----------------------------------------------------
+// RESUME INTELLIGENCE (RES-T1)
+// ----------------------------------------------------
+
+enum ResumeStatus {
+  uploaded
+  extracting
+  extracted
+  failed_unreadable
+  failed_error
+  review_pending
+  confirmed
+}
+
+enum ClaimType {
+  project_implementation
+  technology_used
+  system_architecture
+  performance_optimization
+  domain_knowledge
+}
+
+model Resume {
+  id        String       @id @default(cuid())
+  userId    String
+  version   Int          @default(1)
+  isActive  Boolean      @default(true)
+  rawText   String       @db.Text
+  status    ResumeStatus @default(review_pending)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sections     ResumeSection[]
+  projects     ResumeProject[]
+  claims       ResumeClaim[]
+  resumeTopics ResumeTopic[]
+
+  @@unique([userId, version])
+  @@index([userId, isActive])
+  @@map("resumes")
+}
+
+model ResumeSection {
+  id          String   @id @default(cuid())
+  resumeId    String
+  sectionType String
+  title       String
+  rawContent  String   @db.Text
+  startOffset Int
+  endOffset   Int
+  createdAt   DateTime @default(now())
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId])
+  @@map("resume_sections")
+}
+
+model ResumeProject {
+  id          String   @id @default(cuid())
+  resumeId    String
+  title       String
+  role        String?
+  description String   @db.Text
+  startOffset Int
+  endOffset   Int
+  createdAt   DateTime @default(now())
+
+  resume Resume        @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  claims ResumeClaim[]
+
+  @@index([resumeId])
+  @@map("resume_projects")
+}
+
+model ResumeClaim {
+  id                String    @id @default(cuid())
+  resumeId          String
+  projectId         String?
+  claimType         ClaimType
+  claimText         String    @db.Text
+  quoteText         String    @db.Text
+  sourceStartOffset Int
+  sourceEndOffset   Int
+  userConfirmed     Boolean   @default(false)
+  excluded          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+
+  resume  Resume             @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  project ResumeProject?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  topics  ResumeClaimTopic[]
+
+  @@unique([resumeId, sourceStartOffset, sourceEndOffset, claimType])
+  @@index([resumeId])
+  @@map("resume_claims")
+}
+
+model ResumeClaimTopic {
+  claimId String
+  topicId String
+
+  claim ResumeClaim @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  topic Topic       @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@id([claimId, topicId])
+  @@map("resume_claim_topics")
+}
+
+model ResumeTopic {
+  id                  String   @id @default(cuid())
+  resumeId            String
+  topicId             String
+  sourceSectionId     String?
+  sourceClaimId       String?
+  proficiencyDeclared String?
+  userConfirmed       Boolean  @default(false)
+  createdAt           DateTime @default(now())
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  topic  Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([resumeId, topicId])
+  @@index([resumeId])
+  @@map("resume_topics")
+}
+
+// ----------------------------------------------------
+// INTERVIEW LAB (INT-T1)
+// ----------------------------------------------------
+
+enum SessionType {
+  defense
+  challenge
+  mock
+}
+
+enum SessionStatus {
+  draft
+  in_progress
+  paused
+  completed
+  abandoned
+}
+
+enum QuestionType {
+  resume_defense
+  conceptual
+  code_explanation
+}
+
+enum AnswerFormat {
+  text
+  code
+}
+
+enum EvaluationStatus {
+  submitted
+  pending
+  completed
+  failed
+  inconclusive
+}
+
+enum FollowUpType {
+  probe_unclear
+  justify_decision
+  edge_case
+  complexity
+  trade_off
+  prerequisite_simplify
+}
+
+model QuestionSet {
+  id         String   @id @default(cuid())
+  userId     String
+  targetRole String
+  difficulty String   @default("intermediate")
+  createdAt  DateTime @default(now())
+
+  user  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items QuestionSetItem[]
+
+  @@index([userId])
+  @@map("question_sets")
+}
+
+model QuestionSetItem {
+  id            String @id @default(cuid())
+  questionSetId String
+  questionId    String
+  orderIndex    Int
+
+  questionSet QuestionSet @relation(fields: [questionSetId], references: [id], onDelete: Cascade)
+  question    Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionSetId, orderIndex])
+  @@map("question_set_items")
+}
+
+model Question {
+  id                       String       @id @default(cuid())
+  topicId                  String
+  questionType             QuestionType
+  prompt                   String       @db.Text
+  expectedConcepts         Json         @default("[]")
+  rubricId                 String
+  rubricVersion            String       @default("v1")
+  comparabilityKey         String
+  claimTextSnapshot        String?      @db.Text
+  difficulty               String       @default("intermediate")
+  estimatedDurationSeconds Int          @default(300)
+  createdAt                DateTime     @default(now())
+
+  topic              Topic               @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  questionSetItems   QuestionSetItem[]
+  interviewResponses InterviewResponse[]
+  followUps          FollowUp[]
+
+  @@index([topicId])
+  @@index([comparabilityKey])
+  @@map("questions")
+}
+
+model InterviewSession {
+  id                   String        @id @default(cuid())
+  userId               String
+  sessionType          SessionType
+  status               SessionStatus @default(draft)
+  currentQuestionIndex Int           @default(0)
+  targetRole           String
+  startedAt            DateTime?
+  completedAt          DateTime?
+  pausedAt             DateTime?
+  createdAt            DateTime      @default(now())
+
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  responses InterviewResponse[]
+
+  @@index([userId, status])
+  @@map("interview_sessions")
+}
+
+model InterviewResponse {
+  id           String       @id @default(cuid())
+  sessionId    String
+  questionId   String
+  answerFormat AnswerFormat @default(text)
+  responseText String       @db.Text
+  submittedAt  DateTime     @default(now())
+
+  session     InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question    Question         @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  evaluation  Evaluation?
+  followUps   FollowUp[]
+
+  @@index([sessionId])
+  @@index([questionId])
+  @@map("interview_responses")
+}
+
+model Evaluation {
+  id               String           @id @default(cuid())
+  responseId       String           @unique
+  rubricVersion    String           @default("v1")
+  totalScore       Float?
+  maxScore         Float?
+  ratio            Float?
+  status           EvaluationStatus @default(pending)
+  explanation      String?          @db.Text
+  uncertaintyNotes String?          @db.Text
+  createdAt        DateTime         @default(now())
+
+  response         InterviewResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  criterionResults CriterionResult[]
+
+  @@map("evaluations")
+}
+
+model CriterionResult {
+  id            String   @id @default(cuid())
+  evaluationId  String
+  criterionId   String
+  topicId       String
+  objectiveId   String?
+  score         Float?
+  maxScore      Float    @default(4.0)
+  evidenceQuote String?  @db.Text
+  feedback      String   @db.Text
+  createdAt     DateTime @default(now())
+
+  evaluation Evaluation @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+  topic      Topic      @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([evaluationId])
+  @@index([topicId])
+  @@map("criterion_results")
+}
+
+model FollowUp {
+  id                   String       @id @default(cuid())
+  parentQuestionId     String
+  triggeringResponseId String
+  followUpType         FollowUpType
+  prompt               String       @db.Text
+  rationale            String       @db.Text
+  createdAt            DateTime     @default(now())
+
+  parentQuestion     Question          @relation(fields: [parentQuestionId], references: [id], onDelete: Cascade)
+  triggeringResponse InterviewResponse @relation(fields: [triggeringResponseId], references: [id], onDelete: Cascade)
+
+  @@index([parentQuestionId])
+  @@index([triggeringResponseId])
+  @@map("follow_ups")
+}
+
+// ----------------------------------------------------
+// TECH LIBRARY (LIB-T1)
+// ----------------------------------------------------
+
+enum ResourceType {
+  concept_guide
+  architecture_pattern
+  code_deep_dive
+  trade_off_analysis
+}
+
+enum ActivityType {
+  knowledge_check
+  short_answer
+}
+
+enum AttemptStatus {
+  in_progress
+  submitted
+  passed
+  needs_review
+  evaluation_failed
+}
+
+enum ProgressStatus {
+  not_started
+  in_progress
+  submitted
+  passed
+  needs_review
+  completed
+  evaluation_failed
+}
+
+model LearningResource {
+  id               String       @id @default(cuid())
+  slug             String       @unique
+  title            String
+  description      String       @db.Text
+  resourceType     ResourceType
+  canonicalUrl     String
+  attribution      String
+  internalNotes    String       @db.Text
+  difficulty       String       @default("intermediate")
+  estimatedMinutes Int          @default(15)
+  completionPolicy Json         @default("{\"requiredPassedActivities\": 1}")
+  createdAt        DateTime     @default(now())
+
+  topics             ResourceTopic[]
+  learningObjectives LearningObjective[]
+  practiceActivities PracticeActivity[]
+  learningProgresses LearningProgress[]
+  savedByUsers       SavedResource[]
+
+  @@map("learning_resources")
+}
+
+model ResourceTopic {
+  resourceId String
+  topicId    String
+
+  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  topic    Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@id([resourceId, topicId])
+  @@map("resource_topics")
+}
+
+model LearningObjective {
+  id          String   @id @default(cuid())
+  resourceId  String
+  topicId     String
+  description String   @db.Text
+  orderIndex  Int
+  createdAt   DateTime @default(now())
+
+  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  topic    Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([resourceId])
+  @@index([topicId])
+  @@map("learning_objectives")
+}
+
+model PracticeActivity {
+  id               String       @id @default(cuid())
+  resourceId       String
+  activityType     ActivityType
+  title            String
+  instructions     String       @db.Text
+  contentPayload   Json
+  completionPolicy Json         @default("{\"minRatio\": 0.8}")
+  orderIndex       Int
+  createdAt        DateTime     @default(now())
+
+  resource LearningResource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  attempts ActivityAttempt[]
+
+  @@index([resourceId])
+  @@map("practice_activities")
+}
+
+model ActivityAttempt {
+  id              String        @id @default(cuid())
+  userId          String
+  activityId      String
+  attemptNumber   Int
+  responsePayload Json
+  score           Float?
+  maxScore        Float?
+  ratio           Float?
+  status          AttemptStatus @default(in_progress)
+  submittedAt     DateTime      @default(now())
+
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity PracticeActivity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, activityId, attemptNumber])
+  @@index([userId])
+  @@index([activityId])
+  @@map("activity_attempts")
+}
+
+model LearningProgress {
+  id             String         @id @default(cuid())
+  userId         String
+  resourceId     String
+  status         ProgressStatus @default(not_started)
+  lastAccessedAt DateTime       @default(now())
+  completedAt    DateTime?
+
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+  @@map("learning_progress")
+}
+
+model SavedResource {
+  id         String   @id @default(cuid())
+  userId     String
+  resourceId String
+  savedAt    DateTime @default(now())
+
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource LearningResource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+  @@map("saved_resources")
+}
+
+// ----------------------------------------------------
+// EVIDENCE LOOP (EVD-T1)
+// Append-only TopicEvidence ledger (Invariants I-03, I-08)
+// ----------------------------------------------------
+
+enum EvidenceSourceType {
+  interview_criterion
+  activity_attempt
+}
+
+model TopicEvidence {
+  id               String             @id @default(cuid())
+  userId           String
+  topicId          String
+  sourceType       EvidenceSourceType
+  sourceId         String
+  criterionId      String?
+  ratio            Float
+  comparabilityKey String
+  rubricVersion    String             @default("v1")
+  observedAt       DateTime           @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic Topic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceType, sourceId, criterionId])
+  @@index([userId, topicId, observedAt(sort: Desc)])
+  @@index([topicId])
+  @@map("topic_evidence")
+}

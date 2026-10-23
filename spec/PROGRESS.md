@@ -2,8 +2,8 @@
 
 **Rules:** Status ∈ `TODO | IN_PROGRESS | PARTIAL | DONE | BLOCKED`. `DONE` requires the Evidence cell to hold a real command/test name + result. Empty Evidence ⇒ not done. Agents update this file at the end of every session.
 
-**Last updated:** 2026-10-23 (FND-T3 complete)
-**Current focus:** FND-T4
+**Last updated:** 2026-10-23 (FND-T4 complete)
+**Current focus:** FND-T5
 **Repo state:** scaffolded (Next.js 14, Tailwind, TypeScript strict, Vitest, ESLint)
 
 ## Phase gates
@@ -24,7 +24,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 | FND-T1 | 00 | Scaffold, lint, typecheck | — | DONE | `npm run typecheck` (clean), `npm run lint` (0 warnings/errors), `vitest run` (1 passed) |
 | FND-T2 | 00 | Tokens + base components | T1 | DONE | `npm run test` (10 tests pass, tests/components.test.tsx), `/dev/ui` workbench with light/dark toggle |
 | FND-T3 | 00 | App shell + public pages | T2 | DONE | `npm run build` (13/13 routes static generated), `tests/layout.test.tsx` (NavRail, BottomNav, responsive tokens pass) |
-| FND-T4 | 00 | Prisma: Topic, User, auth | T1 | TODO | |
+| FND-T4 | 00 | Prisma: Topic, User, auth | T1 | DONE | Prisma 5.22 schema generated, `prisma/migrations/0_init/migration.sql` created, 30 curated topics seed, `tests/taxonomy.test.ts` (4 passed) |
 | FND-T5 | 00 | Auth + ownership helper | T4 | TODO | |
 | FND-T6 | 00 | Errors + redacting logger | T1 | TODO | |
 | FND-T7 | 00 | LlmGateway + fake | T1 | TODO | |
@@ -86,6 +86,7 @@ Dependencies: 00 → 01 → 02; 00 → 03; (02, 03) → 04; all → 05. EVD-T1 (
 ## Session log (append, newest first)
 | Date | Agent/Person | Task IDs | Outcome | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Antigravity | FND-T4 | DONE | Implemented Prisma schema for User, Auth, Topic, TopicEvidence, and module entities. Created initial migration SQL, curated 30 canonical topics seed (`prisma/seed-topics.ts`), and verified with `tests/taxonomy.test.ts`. |
 | 2026-10-23 | Antigravity | FND-T3 | DONE | Built App shell (NavRail, BottomNav, TopBar), public pages (landing with animated evidence thread, privacy & retention, sign-in), and workspace shells (/home, /resume, /interview, /library, /history, /settings). `next build` 13/13 static routes passed, layout tests passed. |
 | 2026-10-23 | Antigravity | FND-T2 | DONE | Created DESIGN.md components (Button, Badge, ScoreBar, CriterionRow, EvidenceChip, GapMarker, Eyebrow, SourceHighlight, SegmentedControl, FramedPanel, CodeBox, EmptyState), dev workbench `/dev/ui` with theme toggle, and 9 component tests in `tests/components.test.tsx`. |
 | 2026-10-23 | Antigravity | FND-T1 | DONE | Scaffolded Next.js 14, strict TS, Tailwind tokens, ESLint import restrictions, Vitest. Typecheck, lint, and test pass clean. |
