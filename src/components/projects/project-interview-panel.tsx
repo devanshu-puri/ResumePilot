@@ -8,7 +8,7 @@ import {
 } from "@/content/projects/project-panel-schema";
 import { DEFAULT_SAMPLE_PROJECT } from "@/content/projects/sample-project-data";
 import { generateProjectQuestions } from "@/content/projects/project-question-generator";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -158,9 +158,10 @@ export function ProjectInterviewPanel({
       <div className="border-b border-line pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <Eyebrow module="interview">MODULE II · PROJECT INTERVIEW PANEL</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
             Senior Project Defense Simulator
           </h1>
+          <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
             10 rigorous STAR architecture and trade-off questions grounded directly in your resume projects.
           </p>

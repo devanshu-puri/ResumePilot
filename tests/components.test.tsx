@@ -8,7 +8,7 @@ import { ScoreBar } from "@/components/ui/score-bar";
 import { CriterionRow } from "@/components/ui/criterion-row";
 import { EvidenceChip } from "@/components/ui/evidence-chip";
 import { GapMarker } from "@/components/ui/gap-marker";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { SourceHighlight } from "@/components/ui/source-highlight";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 
@@ -129,5 +129,13 @@ describe("DESIGN.md Component Primitives", () => {
     const claimsTab = screen.getByRole("tab", { name: "Claims" });
     fireEvent.click(claimsTab);
     expect(current).toBe("claims");
+  });
+
+  it("renders HeroEyebrowRule 40x4px gold ornament per DESIGN.md", () => {
+    const { container } = render(<HeroEyebrowRule />);
+    const rule = container.querySelector(".bg-accent-gold");
+    expect(rule).toBeDefined();
+    expect(rule?.classList.contains("w-10")).toBe(true);
+    expect(rule?.classList.contains("h-1")).toBe(true);
   });
 });

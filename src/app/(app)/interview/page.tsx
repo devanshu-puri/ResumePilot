@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FramedPanel } from "@/components/ui/framed-panel";
@@ -217,9 +217,10 @@ export default function InterviewLabPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
         <div>
           <Eyebrow module="interview">MODULE 02 · INTERVIEW LAB</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
             Adaptive Technical Interview
           </h1>
+          <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
             Defense against your confirmed resume claims and conceptual deep dives.
           </p>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { getAllLessons } from "@/content/tech-bites/lessons";
 import { LessonPath } from "@/content/tech-bites/lesson-schema";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -52,9 +52,10 @@ export default function TechBitesHubPage() {
       {/* Page Header */}
       <div className="border-b border-line pb-4">
         <Eyebrow module="library">MODULE 03 · TECH BITES (LEARN IN 15 MINUTES)</Eyebrow>
-        <h1 className="text-2xl sm:text-3xl font-display font-medium text-ink mt-2">
+        <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
           15-Minute Architectural Mental Models
         </h1>
+        <HeroEyebrowRule className="my-3" />
         <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
           Go from unfamiliar to a rock-solid mental model through 5 interactive stages: Why → Mental Model → See It → Try It → Active Recall.
         </p>
