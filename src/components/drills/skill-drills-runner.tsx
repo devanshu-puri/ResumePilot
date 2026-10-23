@@ -12,6 +12,8 @@ import { Eyebrow, HeroEyebrowRule } from "@/components/ui/eyebrow";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBox } from "@/components/ui/code-box";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { Reveal } from "@/components/ui/reveal";
 import {
   Clock,
   Sparkles,
@@ -217,11 +219,11 @@ export function SkillDrillsRunner({
   // ----------------------------------------------------
   if (!drillActive) {
     return (
-      <div className="space-y-6">
+      <Reveal direction="up" delay={50} className="space-y-6">
         <div className="border-b border-line pb-4">
           <Eyebrow module="interview">MODULE II · SKILL DRILLS</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
-            Targeted Technical Drills
+          <h1 className="text-3xl sm:text-4xl font-sans font-medium text-ink mt-2">
+            Targeted Technical <span className="font-serif italic text-accent-indigo">Drills.</span>
           </h1>
           <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
@@ -229,7 +231,7 @@ export function SkillDrillsRunner({
           </p>
         </div>
 
-        <div className="framed p-6 sm:p-8 rounded-md bg-canvas space-y-6 max-w-3xl">
+        <SpotlightCard className="p-6 sm:p-8 rounded-lg bg-canvas/90 backdrop-blur-sm space-y-6 max-w-3xl border-hairline">
           {/* Skill Picker */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -326,8 +328,8 @@ export function SkillDrillsRunner({
               <ArrowRight className="w-4 h-4 ml-1.5" />
             </Button>
           </div>
-        </div>
-      </div>
+        </SpotlightCard>
+      </Reveal>
     );
   }
 
@@ -336,11 +338,11 @@ export function SkillDrillsRunner({
   // ----------------------------------------------------
   if (roundComplete) {
     return (
-      <div className="space-y-6 max-w-3xl">
+      <Reveal direction="up" delay={50} className="space-y-6 max-w-3xl">
         <div className="border-b border-line pb-4">
           <Eyebrow module="interview">DRILL COMPLETED</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
-            Skill Drill Summary
+          <h1 className="text-3xl sm:text-4xl font-sans font-medium text-ink mt-2">
+            Skill Drill <span className="font-serif italic text-accent-indigo">Summary.</span>
           </h1>
           <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
@@ -348,7 +350,7 @@ export function SkillDrillsRunner({
           </p>
         </div>
 
-        <div className="framed p-6 sm:p-8 rounded-md bg-canvas space-y-6">
+        <SpotlightCard className="p-6 sm:p-8 rounded-lg bg-canvas/90 backdrop-blur-sm space-y-6 border-hairline">
           {/* Score Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="p-4 rounded border border-line bg-card text-center space-y-1">
@@ -455,8 +457,8 @@ export function SkillDrillsRunner({
               <ArrowRight className="w-4 h-4 ml-1.5" />
             </Button>
           </div>
-        </div>
-      </div>
+        </SpotlightCard>
+      </Reveal>
     );
   }
 

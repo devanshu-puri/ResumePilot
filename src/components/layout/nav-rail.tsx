@@ -83,7 +83,7 @@ export function NavRail() {
   };
 
   return (
-    <aside className="hidden sm:flex flex-col justify-between w-14 lg:w-[220px] border-r border-hairline bg-canvas-soft min-h-screen p-3 flex-shrink-0">
+    <aside className="hidden sm:flex flex-col justify-between w-14 lg:w-[220px] border-r border-hairline bg-canvas-soft/80 backdrop-blur-md min-h-screen p-3 flex-shrink-0">
       <div className="space-y-6">
         {/* Oracle Wordmark: brand red #c74634 exclusively on the wordmark */}
         <Link

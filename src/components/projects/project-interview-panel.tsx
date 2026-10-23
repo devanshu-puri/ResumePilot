@@ -31,6 +31,8 @@ import {
   Filter,
 } from "lucide-react";
 import { clsx } from "clsx";
+import { Reveal } from "@/components/ui/reveal";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 export interface ProjectInterviewPanelProps {
   projects?: ParsedProject[];
@@ -155,11 +157,11 @@ export function ProjectInterviewPanel({
   return (
     <div className="space-y-6 pb-20 lg:pb-12">
       {/* Header */}
-      <div className="border-b border-line pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <Reveal direction="up" delay={50} className="border-b border-line pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <Eyebrow module="interview">MODULE II · PROJECT INTERVIEW PANEL</Eyebrow>
-          <h1 className="text-2xl sm:text-3xl font-serif font-normal text-ink mt-2">
-            Senior Project Defense Simulator
+          <h1 className="text-3xl sm:text-4xl font-sans font-medium text-ink mt-2">
+            Senior Project <span className="font-serif italic text-accent-indigo">Defense.</span>
           </h1>
           <HeroEyebrowRule className="my-3" />
           <p className="text-xs sm:text-sm text-ink-2 font-sans mt-0.5">
@@ -205,7 +207,7 @@ export function ProjectInterviewPanel({
             <span>Mock Simulation</span>
           </button>
         </div>
-      </div>
+      </Reveal>
 
       {/* 1. PROJECT SELECTOR & METADATA HERO */}
       <div className="space-y-4">
@@ -235,67 +237,69 @@ export function ProjectInterviewPanel({
         )}
 
         {/* Project Snapshot Card */}
-        <div className="framed p-6 rounded bg-paper space-y-4 shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2">
-                <Badge variant="interview">GROUNDED IN RESUME</Badge>
-                {activeProject.role && (
-                  <span className="text-xs font-mono text-ink-2">
-                    Role: {activeProject.role}
-                  </span>
-                )}
+        <Reveal direction="up" delay={100}>
+          <SpotlightCard className="p-6 rounded-lg bg-canvas/90 backdrop-blur-sm space-y-4 border-hairline">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="interview">GROUNDED IN RESUME</Badge>
+                  {activeProject.role && (
+                    <span className="text-xs font-mono text-ink-2">
+                      Role: {activeProject.role}
+                    </span>
+                  )}
+                </div>
+                <h2 className="text-xl sm:text-2xl font-display font-medium text-ink mt-2">
+                  {activeProject.name}
+                </h2>
               </div>
-              <h2 className="text-xl sm:text-2xl font-display font-medium text-ink mt-2">
-                {activeProject.name}
-              </h2>
+
+              {/* Quick Defense Readiness Score */}
+              <div className="flex items-center gap-2 text-xs font-mono">
+                <span className="px-2.5 py-1 rounded bg-strong-wash text-strong font-medium">
+                  ✓ {stats.gotIt} Got It
+                </span>
+                <span className="px-2.5 py-1 rounded bg-partial-wash text-partial font-medium">
+                  ⚠️ {stats.needReview} Review
+                </span>
+              </div>
             </div>
 
-            {/* Quick Defense Readiness Score */}
-            <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="px-2.5 py-1 rounded bg-strong-wash text-strong font-medium">
-                ✓ {stats.gotIt} Got It
+            {/* Resume Summary Quote in Book Serif */}
+            <p className="font-book italic text-xs sm:text-sm text-ink-2 leading-relaxed border-l-2 border-interview/40 pl-3.5">
+              &ldquo;{activeProject.summary}&rdquo;
+            </p>
+
+            {/* Tech Stack & Key Metrics Chips */}
+            <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-line">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-ink-4 mr-1">
+                Stack:
               </span>
-              <span className="px-2.5 py-1 rounded bg-partial-wash text-partial font-medium">
-                ⚠️ {stats.needReview} Review
-              </span>
+              {activeProject.techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2 py-0.5 rounded text-[11px] font-mono bg-wash border border-line-3 text-ink"
+                >
+                  {tech}
+                </span>
+              ))}
+
+              {activeProject.metrics && activeProject.metrics.length > 0 && (
+                <>
+                  <span className="text-ink-4 mx-1">•</span>
+                  {activeProject.metrics.map((m, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-interview-wash text-interview border border-interview/30 font-medium"
+                    >
+                      ⚡ {m}
+                    </span>
+                  ))}
+                </>
+              )}
             </div>
-          </div>
-
-          {/* Resume Summary Quote in Book Serif */}
-          <p className="font-book italic text-xs sm:text-sm text-ink-2 leading-relaxed border-l-2 border-interview/40 pl-3.5">
-            &ldquo;{activeProject.summary}&rdquo;
-          </p>
-
-          {/* Tech Stack & Key Metrics Chips */}
-          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-line">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-ink-4 mr-1">
-              Stack:
-            </span>
-            {activeProject.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-0.5 rounded text-[11px] font-mono bg-wash border border-line-3 text-ink"
-              >
-                {tech}
-              </span>
-            ))}
-
-            {activeProject.metrics && activeProject.metrics.length > 0 && (
-              <>
-                <span className="text-ink-4 mx-1">•</span>
-                {activeProject.metrics.map((m, i) => (
-                  <span
-                    key={i}
-                    className="px-2 py-0.5 rounded text-[11px] font-mono bg-interview-wash text-interview border border-interview/30 font-medium"
-                  >
-                    ⚡ {m}
-                  </span>
-                ))}
-              </>
-            )}
-          </div>
-        </div>
+          </SpotlightCard>
+        </Reveal>
       </div>
 
       {/* 2. MODE 1: STUDY MODE (Deep Review) */}
