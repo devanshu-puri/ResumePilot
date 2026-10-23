@@ -78,6 +78,7 @@ export default function InterviewLabPage() {
   const [currentEvaluation, setCurrentEvaluation] = useState<Evaluation | null>(null);
   const [currentFollowUp, setCurrentFollowUp] = useState<FollowUp | null>(null);
   const [sessionType, setSessionType] = useState<"defense" | "challenge" | "mock">("challenge");
+  const [difficulty, setDifficulty] = useState<"beginner" | "intermediate" | "advanced">("beginner");
   const [targetRole, setTargetRole] = useState("Full-Stack Software Engineer");
   const [activeResumeClaims, setActiveResumeClaims] = useState<any[]>([]);
 
@@ -111,6 +112,7 @@ export default function InterviewLabPage() {
       const payload: any = {
         sessionType,
         targetRole,
+        difficulty,
       };
 
       if (sessionType === "defense" && activeResumeClaims.length > 0) {
@@ -338,6 +340,34 @@ export default function InterviewLabPage() {
                 Ordered sequence of defense and conceptual items.
               </span>
             </button>
+          </div>
+
+          {/* Difficulty Level Selector */}
+          <div className="space-y-2 pt-2 border-t border-line/60">
+            <label className="text-xs font-mono uppercase tracking-wider text-ink-2 block">
+              Interview Difficulty Level
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {[
+                { id: "beginner", label: "Beginner / Practical", sub: "Clear & conversational, focused on project implementation" },
+                { id: "intermediate", label: "Intermediate", sub: "Architectural flow, data structures & common trade-offs" },
+                { id: "advanced", label: "Advanced", sub: "Deep failure modes, high scale & distributed edge cases" },
+              ].map((lvl) => (
+                <button
+                  key={lvl.id}
+                  type="button"
+                  onClick={() => setDifficulty(lvl.id as any)}
+                  className={`p-3 rounded border text-left transition-colors ${
+                    difficulty === lvl.id
+                      ? "border-interview bg-interview-wash/40 font-medium ring-1 ring-interview"
+                      : "border-line bg-card hover:border-ink-2"
+                  }`}
+                >
+                  <span className="text-xs font-medium text-ink block">{lvl.label}</span>
+                  <span className="text-[10px] text-ink-2 mt-0.5 block leading-tight">{lvl.sub}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           {sessionType === "defense" && activeResumeClaims.length === 0 && (
